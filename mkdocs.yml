@@ -1,0 +1,47 @@
+# Project information
+site_name: 'User documentation'
+site_description: 'REANA user documentation web site'
+site_url: 'https://docs.reana.io'
+
+# Repository
+repo_name: 'reanahub/docs.reana.io'
+repo_url: 'https://github.com/reanahub/reanahub/docs.reana.io'
+
+# Copyright
+copyright: 'Copyright &copy; 2019 CERN'
+
+# Configuration
+theme:
+  name: 'material'
+  custom_dir: 'theme'
+  palette:
+    primary: 'white'
+  font:
+    text: 'Open Sans'
+    code: 'Roboto Mono'
+  logo: 'images/logo-reana.svg'
+  favicon: 'images/favicon.ico'
+  feature:
+    tabs: true
+
+# Customization
+extra:
+  social:
+  - type: 'github'
+    link: 'https://github.com/reanahub'
+  - type: 'twitter'
+    link: 'https://twitter.com/reanahub'
+  - type: 'comments'
+    link: 'https://forum.reana.io'
+  - type: 'globe'
+    link: 'http://www.reana.io'
+extra_css:
+  - stylesheets/extra.css
+
+# Extensions
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - toc:
+      permalink: true
