@@ -1,0 +1,19 @@
+notifications:
+  email: false
+
+sudo: true
+
+language: python
+
+python:
+  - "3.6"
+
+services:
+  - docker
+
+before_script:
+  - gem install awesome_bot
+  - pip install mkdocs mkdocs-material
+
+script:
+  - ./run-tests.sh
