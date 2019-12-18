@@ -13,7 +13,6 @@ services:
 
 before_script:
   - gem install awesome_bot
-  - pip install mkdocs mkdocs-material
 
 script:
   - ./run-tests.sh
