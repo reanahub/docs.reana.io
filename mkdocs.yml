@@ -5,7 +5,7 @@ site_url: 'https://docs.reana.io'
 
 # Repository
 repo_name: 'reanahub/docs.reana.io'
-repo_url: 'https://github.com/reanahub/reanahub/docs.reana.io'
+repo_url: 'https://github.com/reanahub/docs.reana.io'
 
 # Copyright
 copyright: 'Copyright &copy; 2019 CERN'
