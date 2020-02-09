@@ -1,6 +1,6 @@
 # Project information
-site_name: 'User documentation'
-site_description: 'REANA user documentation web site'
+site_name: 'Documentation'
+site_description: 'REANA documentation web site'
 site_url: 'https://docs.reana.io'
 
 # Repository
@@ -8,7 +8,7 @@ repo_name: 'reanahub/docs.reana.io'
 repo_url: 'https://github.com/reanahub/docs.reana.io'
 
 # Copyright
-copyright: 'Copyright &copy; 2019 CERN'
+copyright: 'Copyright &copy; 2019, 2020 CERN'
 
 # Configuration
 theme:
@@ -45,3 +45,9 @@ markdown_extensions:
       guess_lang: false
   - toc:
       permalink: true
+
+# Plugins
+plugins:
+  - search
+  - awesome-pages:
+      collapse_single_pages: true

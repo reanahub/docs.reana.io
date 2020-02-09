@@ -1,0 +1,8 @@
+arrange:
+    - index.md
+    - getting-started
+    - running-workflows
+    - running-notebooks
+    - advanced-usage
+    - development
+    - reference
