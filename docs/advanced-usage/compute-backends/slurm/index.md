@@ -4,9 +4,15 @@ Slurm is a specialized workload management system for high performance
 computing jobs and it is supported by REANA alongside primary job execution
 backend Kubernetes and HTCondor.
 
-First, make sure you have [generated and uploaded CERN username and keytab secrets to REANA](../htcondor/index.md#Authentication).
+## Authentication
 
-In order to execute the certain steps of a workflow on the CERN Slurm cluster
+In order to use CERN Slurm cluster you need to be authenticated using
+Kerberos. [Generate keytab file](../../access-control/kerberos/index.md#generating-keytab-file)
+and [upload it and your CERN username as secrets to REANA](../../access-control/kerberos/index.md#uploading-secrets).
+
+## Specifying compute backend
+
+In order to execute certain steps of a workflow on the CERN Slurm cluster
 you must specify ``slurmcern`` as the step's execution backend in the
 workflow specification.
 
