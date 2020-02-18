@@ -107,3 +107,7 @@ html .md-footer-meta .md-footer-meta__inner a {
 .md-typeset h6[id]:target .headerlink {
     color: #ff5555;
 }
+
+.codehilite .hll, .md-typeset .highlight .hll {
+    background-color: #ffc6c7;
+}
