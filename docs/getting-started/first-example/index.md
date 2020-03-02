@@ -9,7 +9,7 @@ $ firefox https://reana.cern.ch
 Second, install and activate the REANA command-line client [reana-client](https://pypi.org/project/reana-client/). For example, at CERN, login to LXPLUS and activate it as follows:
 
 ```console
-$ source ~simko/public/reana/bin/activate
+$ source /afs/cern.ch/user/r/reana/public/reana/bin/activate
 ```
 
 Third, set REANA environment variables for the client (using the access token obtained in the first step) and test your connection:
