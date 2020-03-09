@@ -8,7 +8,7 @@ AFS or EOS you could use Kerberos authentication.
 First, generate a Kerberos keytab file for passwordless authentication.
 
 ```console
-# login to lxplus and generate keybab file
+# login to lxplus and generate keytab file
 $ ssh johndoe@lxplus.cern.ch
 $ ktutil
 ktutil:  add_entry -password -p johndoe@CERN.CH -k 1 -e aes256-cts-hmac-sha1-96
