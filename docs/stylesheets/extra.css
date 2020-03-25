@@ -1,3 +1,17 @@
+/*
+Palette
+-------
+$sepia: #f5ecec;
+$dark-sepia: #c8aeae;
+$red: #d71217;
+$light-red: #ff5555;
+$reana-blue: #2c3e4f;
+$light-reana-blue: #6082a7;
+$apple-blossom: #a15555;
+$gray: #888888;
+*/
+
+
 body {
     font-family: "Helvetica Neue", "Open Sans", Helvetica, Arial, sans-serif;
 }
@@ -108,6 +122,34 @@ html .md-footer-meta .md-footer-meta__inner a {
     color: #ff5555;
 }
 
+/* codehilite customization */
 .codehilite .hll, .md-typeset .highlight .hll {
-    background-color: #ffc6c7;
+    background-color: #f5ecec;
+}
+
+.codehilite .nt, .codehilite .k, .codehilite .kn  {
+    color: #a15555;
+}
+
+.codehilite .s {
+    color: #6082a7;
+}
+
+.codehilite .sd,
+.codehilite .c1,
+.codehilite .ch,
+.codehilite .cs {
+    color: #888888;
+}
+/* admonition notes customization */
+.md-typeset .admonition.note {
+    border-color: #c8aeae;
+}
+
+.md-typeset .admonition.note .admonition-title {
+    background-color: #f5ecec;
+}
+
+.md-typeset .admonition.note .admonition-title::before {
+    color: #c8aeae;
 }
