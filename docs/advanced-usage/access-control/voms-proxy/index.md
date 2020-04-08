@@ -39,13 +39,13 @@ $ echo 'mygridpassphrase' | base64
 bXlncmlkcGFzc3BocmFzZQo=
 ```
 
-Upload these three secrets to REANA. In addition REANA needs information about your VO. This is communicated by the environment variable `VOMSPROXY_VO` and can also be added to the secrets:
+Upload these three secrets to REANA. In addition REANA needs information about your VO. This is communicated by the environment variable `VONAME` and can also be added to the secrets:
 
 ```console
 $ reana-client secrets-add --file userkey.pem \
                            --file usercert.pem \
                            --env VOMSPROXY_PASS=bXlncmlkcGFzc3BocmFzZQo= \
-                           --env VOMSPROXY_VO=cms
+                           --env VONAME=cms
 ```
 
 ## Setting voms-proxy requirement
