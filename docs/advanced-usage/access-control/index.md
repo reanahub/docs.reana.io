@@ -1,3 +1,4 @@
 # Access control
 
-- [Kerberos](access-control/kerberos) to access restricted resources
+- [Kerberos](kerberos) to access restricted resources
+- [VOMS-proxy](voms-proxy) to authenticate with a VOMS proxy certificate

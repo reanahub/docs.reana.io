@@ -19,3 +19,4 @@
 **Access control**
 
 - [Kerberos](access-control/kerberos) to access restricted resources
+- [VOMS-proxy](access-control/voms-proxy) to authenticate with a VOMS proxy certificate
