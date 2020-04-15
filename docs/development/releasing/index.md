@@ -2,14 +2,14 @@
 
 ## Helm charts
 
-#### 1. Clone the repository
+### 1. Clone the repository
 
 ```console
 $ git clone https://github.com/reanahub/reana.git
 $ cd reana/
 ```
 
-#### 2. Upgrade chart version
+### 2. Upgrade chart version
 
 Upgrade the version in the `helm/reana/Chart.yaml` file:
 
@@ -27,7 +27,7 @@ $ helm package helm/reana -d .deploy
 !!! note
     The `.deploy` folder will be created but not commited since it is part of the `.gitignore` file.
 
-#### 3. Upload the release to GitHub
+### 3. Upload the release to GitHub
 
 The next step is to upload the release to GitHub, for that we will use the [chart-releaser](https://github.com/helm/chart-releaser) command-line tool. You can use it via docker, by mounting the `reana` repository folder:
 

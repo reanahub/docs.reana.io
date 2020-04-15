@@ -90,7 +90,6 @@ workflow specification languages
 [Yadage](/running-workflows/supported-systems/yadage)). Each workflow
 specification language expresses the computational steps differently.
 
-
 The **workflow** property is composed of:
 
 | Property      | Type         | Mandatory?                                         | Description                                 |

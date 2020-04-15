@@ -6,7 +6,6 @@ HTCondor and Slurm.
 If `step` does not contain `compute_backend` specification, it will be executed
 on the default backend.
 
-
 ```yaml hl_lines="6"
 
    # Serial example

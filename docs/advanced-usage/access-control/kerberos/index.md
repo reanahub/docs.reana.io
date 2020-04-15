@@ -27,11 +27,11 @@ Default principal: johndoe@CERN.CH
 
 Valid starting       Expires              Service principal
 04/29/2019 11:24:12  04/30/2019 12:23:52  krbtgt/CERN.CH@CERN.CH
-	renew until 05/04/2019 11:23:52
+  renew until 05/04/2019 11:23:52
 04/29/2019 11:24:49  04/30/2019 12:23:52  host/tweetybird04.cern.ch@CERN.CH
-	renew until 05/04/2019 11:23:52
+  renew until 05/04/2019 11:23:52
 04/29/2019 11:25:00  04/30/2019 12:23:52  host/bigbird14.cern.ch@CERN.CH
-	renew until 05/04/2019 11:23:52
+  renew until 05/04/2019 11:23:52
 ```
 
 ## Uploading secrets
@@ -79,13 +79,13 @@ CWL example:
           reana:
             kerberos: true
         run: helloworld.tool
-   	    in:
-   	      helloworld: helloworld
+        in:
+          helloworld: helloworld
 
-   	      inputfile: inputfile
-   	      sleeptime: sleeptime
-   	      outputfile: outputfile
-   	    out: [result]
+          inputfile: inputfile
+          sleeptime: sleeptime
+          outputfile: outputfile
+        out: [result]
 ```
 
 Yadage example:
