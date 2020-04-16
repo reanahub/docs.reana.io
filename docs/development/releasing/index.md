@@ -1,60 +1,35 @@
 # Releasing
 
-## Helm charts
+## Helm Charts
 
-### 1. Clone the repository
+### 1. Build and test locally:
 
 ```console
-$ git clone https://github.com/reanahub/reana.git
-$ cd reana/
+$ DEMO=r-d-r-roofit EXCLUDE_COMPONENTS=r-ui,r-m-broker make ci
 ```
 
-### 2. Upgrade chart version
-
-Upgrade the version in the `helm/reana/Chart.yaml` file:
+### 2. Build and test using the images to be released:
 
 ```yaml
-# Chart version.
-version: 0.7.0
+$ BUILD_TYPE=release make ci
 ```
 
-And create the new package:
+### 3. Upgrade chart version and commit:
+
+If everything goes well you will see that the REANA components images in `helm/reana/values.yaml` are updated. Now you can upgrade the version in the `helm/reana/Chart.yaml` file, push your changes and create a pull request.
+
+```diff
+$ git diff helm/reana/Chart.yaml
+-version: 0.7.0-dev20200416
++version: 0.7.0
+$ git commit
+```
+
+!!! info
+    The release will be created and added to the [REANA releases](https://github.com/reanahub/reana/releases) once the pull request is merged using the GitHub action [Helm Chart Releaser](https://github.com/marketplace/actions/helm-chart-releaser) in [`helm-releaser.yaml`](https://github.com/reanahub/reana/blob/master/.github/workflows/helm-releaser.yaml).
+
+### 4. Push the images to DockerHub
 
 ```console
-$ helm package helm/reana -d .deploy
+$ reana-dev docker-push -t auto -u reanahub
 ```
-
-!!! note
-    The `.deploy` folder will be created but not commited since it is part of the `.gitignore` file.
-
-### 3. Upload the release to GitHub
-
-The next step is to upload the release to GitHub, for that we will use the [chart-releaser](https://github.com/helm/chart-releaser) command-line tool. You can use it via docker, by mounting the `reana` repository folder:
-
-``` console
-$ docker run -v /absolute/path/to/reana:/tmp/reana/ -it \
-             quay.io/helmpack/chart-releaser:v0.2.3 /bin/sh
-```
-
-Before proceeding we need to generate a new personal token with access to the repository (*repo* group). You can do so in [here](https://github.com/settings/tokens).
-
-In the following examples, `cr` is the [Chart Releaser](https://github.com/helm/chart-releaser) command-line utility allowing to create GitHub releases from Helm charts.
-
-```console
-$ read -s GITHUB_TOKEN
-$ cr upload -o reanahub -r reana -p .deploy -t  $GITHUB_TOKEN
-```
-
-!!! warning
-    The `.deploy` folder should only contain new releases, otherwise chart-releaser will try to push them all and will fail due to "already existing" versions.
-
-And finally we should update the chart `index.yaml` file, that will be served to `helm`:
-
-```console
-$ cr index -i ./index.yaml -p .deploy/ -o reanahub -c https://github.com/reanahub/reana -r reana --token $GITHUB_TOKEN
-$ git add index.yaml
-$ git commit -m 'release: v0.1.0'
-```
-
-!!! warning
-    The `index.yaml` file should be appended with the new versions, however chart-releaser overwrites it. There is an open issue to remedy that situation.
