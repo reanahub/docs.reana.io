@@ -9,3 +9,11 @@
 
 - [Debugging](debugging) with live code changes and reloads
 - [Testing](testing) and code coverage
+
+**Managing users in REANA?**
+
+- [Managing users](managing-users)
+
+**Releasing new versions of REANA platform?**
+
+- [Releasing](releasing)
