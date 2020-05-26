@@ -33,7 +33,7 @@ Update Complete. ⎈ Happy Helming!⎈
 **2.** Deploy REANA (note that you can pass any of the [supported values](https://github.com/reanahub/reana/blob/master/helm/reana/README.md)):
 
 ```console
-$ helm install reana reanahub/reana --wait
+$ helm install --devel reana reanahub/reana --wait
 NAME: reana
 LAST DEPLOYED: Wed Mar 18 10:27:06 2020
 NAMESPACE: default
