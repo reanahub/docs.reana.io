@@ -11,6 +11,9 @@ python:
 services:
   - docker
 
+before_install:
+  - nvm install 13
+
 before_script:
   - gem install awesome_bot
 
