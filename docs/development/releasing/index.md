@@ -11,7 +11,7 @@ $ DEMO=r-d-r-roofit EXCLUDE_COMPONENTS=r-ui,r-m-broker make ci
 ### 2. Build and test using the images to be released:
 
 ```yaml
-$ BUILD_TYPE=release make ci
+$ GITHUB_USER=reanahub BUILD_TYPE=release make ci
 ```
 
 ### 3. Upgrade chart version and commit:
