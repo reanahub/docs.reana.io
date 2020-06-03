@@ -28,12 +28,12 @@ The `reana.yaml` file describes the analysis as a computational workflow with
 its inputs, workflow specification, and its outputs.  The overall structure of
 `reana.yaml` looks as follows:
 
-| Property | Type         | Mandatory?  | Description                                                                                                   |
-| -------- | ----         | ----------  | -----------                                                                                                   |
-| version  | *string*     | *optional*  | Specifies REANA version to which the analysis was written for. For example, "0.6.0".                          |
-| inputs   | *dictionary* | *optional*  | Specifies all the high-level inputs to the workflow. Can be composed of "files", "directories", "parameters". |
-| workflow | *dictionary* | *mandatory* | Defines computational workflow, using CWL, Serial or Yadage specifications.                                   |
-| outputs  | *dictionary* | *optional*  | Specifies all the high-level outputs of the workflow.  Can be composed of "files".                            |
+| Property | Type         | Mandatory?  | Description                                                                                                              |
+| -------- | ----         | ----------  | -----------                                                                                                              |
+| version  | *string*     | *optional*  | Specifies REANA version to which the analysis was written for. For example, "0.6.0".                                     |
+| inputs   | *dictionary* | *optional*  | Specifies all the high-level inputs to the workflow. Can be composed of "files", "directories", "parameters", "options". |
+| workflow | *dictionary* | *mandatory* | Defines computational workflow, using CWL, Serial or Yadage specifications.                                              |
+| outputs  | *dictionary* | *optional*  | Specifies all the high-level outputs of the workflow.  Can be composed of "files".                                       |
 
 Each property will be described in detail in the following sections.
 
@@ -64,6 +64,18 @@ The **inputs** property is composed of:
 | directories | *list*       | *optional* | Lists all the input directories to the workflow. Will be seeded to the workspace before running.                                 |
 | files       | *list*       | *optional* | Lists all the input files to the workflow.  Will be seeded to the workspace before running.                                      |
 | parameters  | *dictionary* | *optional* | Specifies all the input parameters to the workflow. It is a dictionary of parameter names and their values expressed as strings. |
+| options     | *dictionary* | *optional* | Specifies operational options for each workflow engine, see below.                                                               |
+
+The **inputs.options** property describes operational options that can be used for the different workflow engines. The available options are:
+
+| Property | Type     | Mandatory?  | Workflow engine | Description                            |
+| -------- | ----     | ----------  | ----------------|                                        |
+| CACHE    | *string* | *optional*  | Serial          | Whether the workflow engine should cache the results of each step for faster execution of subsequent workflow runs. Disabled by default. Can be `on` or `off`. |
+| FROM     | *string* | *optional*  | Serial          | Allows partial execution of a workflow starting from the beginning of a desired step. The value is the name of the desired starting step.  Note that the `FROM` option be combined with the `TARGET` option. |
+| TARGET   | *string* | *optional*  | Serial, CWL     | Allows partial execution of a workflow until the end of a desired step. The value is the name of the desired target step. Note that the `TARGET` option can be combined with the `FROM` option. |
+| toplevel | *string* | *optional*  | Yadage          | Yadage `toplevel` argument. It represents the working directory or remote repository where the workflow should be pulled from. [More info](https://yadage.readthedocs.io/en/latest/definingworkflows.html?highlight=toplevel#using-json-references). It supports GitHub as remote repository `github:<username/repo[@branch]>[:subpath]` |
+| initdir  | *string* | *optional*  | Yadage          | Yadage `initdir` argument. It represents the initial directory for workflows running locally. |
+| initfiles  | *list* | *optional*  | Yadage          | Yadage `initfiles` argument. A list of YAML files that passes initial parameters as the workflow inputs. |
 
 The **inputs** property example:
 
@@ -78,6 +90,8 @@ inputs:
   parameters:
     myparam1: myvalue1
     myparam2: myvalue2
+  options:
+    CACHE: off
 ```
 
 ### reana.yaml workflow
