@@ -4,7 +4,7 @@ REANA can be easily deployed on large Kubernetes clusters using Helm. Useful for
 
 ## Pre-requisites
 
-- A Kubernetes `v1.16.3` cluster is required as well as Helm `v3.0.x`.
+- A Kubernetes `v1.16.3` cluster is required as well as Helm `v3.2.x`.
 
 - A shared file system to host all analyses workspaces when running in a multinode deployment setup. Therefore, you should create an [`StorageClass`](https://kubernetes.io/docs/concepts/storage/storage-classes/#the-storageclass-resource) pointing to your storage backend. The `StorageClass` should meet the following requirements:
     - be named `<helm-release-prefix>-shared-volume-storage-class`;
@@ -43,3 +43,6 @@ TEST SUITE: None
 NOTES:
 Thanks for flying REANA 🚀
 ```
+
+!!! note
+    Note that you can deploy REANA in different namespaces by passing `--namespace` to `helm install`. Remember to pass `--create-namespace` if the namespace you want to use does not exist yet. For more information on how to work with namespaces see the [official documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/).
