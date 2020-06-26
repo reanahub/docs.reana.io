@@ -1,7 +1,7 @@
 # Kerberos
 
 If your workflow needs to access external services from within the job such as
-AFS or EOS you could use Kerberos authentication.
+EOS you could use Kerberos authentication.
 
 ## Generating keytab file
 

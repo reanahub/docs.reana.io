@@ -56,7 +56,7 @@ should have the VOMS client installed for the command `voms-proxy-info` to work.
 
 Serial example:
 
-```yaml hl_lines="9"
+```yaml hl_lines="6"
     workflow:
       type: serial
       specification:
@@ -65,4 +65,41 @@ Serial example:
             voms_proxy: true
             commands:
             - voms-proxy-info
+```
+
+CWL example:
+
+```yaml hl_lines="5"
+    steps:
+      first:
+        hints:
+          reana:
+            voms_proxy: true
+        run: helloworld.tool
+        in:
+          helloworld: helloworld
+
+          inputfile: inputfile
+          sleeptime: sleeptime
+          outputfile: outputfile
+        out: [result]
+```
+
+Yadage example:
+
+```yaml hl_lines="14"
+    step:
+      process:
+        process_type: 'string-interpolated-cmd'
+        cmd: 'python "{helloworld}" --sleeptime {sleeptime} --inputfile "{inputfile}" --outputfile "{outputfile}"'
+      publisher:
+        publisher_type: 'frompar-pub'
+        outputmap:
+          outputfile: outputfile
+      environment:
+        environment_type: 'docker-encapsulated'
+        image: 'python'
+        imagetag: '2.7-slim'
+        resources:
+          - voms_proxy: true
 ```
