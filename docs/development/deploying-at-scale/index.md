@@ -46,3 +46,36 @@ Thanks for flying REANA 🚀
 
 !!! note
     Note that you can deploy REANA in different namespaces by passing `--namespace` to `helm install`. Remember to pass `--create-namespace` if the namespace you want to use does not exist yet. For more information on how to work with namespaces see the [official documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/).
+
+## Advanced deployment scenarios
+
+### High availability
+
+REANA infrastructure services are critical for the platform to properly work, therefore it is a good technique to deploy them in dedicated nodes different from ones used to run user workflows. To achieve this:
+
+**1.** Create a multi-node Kubernetes cluster and check your nodes:
+
+```console
+$ kubectl get nodes
+NAME    STATUS   ROLES    AGE   VERSION
+node1   Ready    master   97m   v1.18.2
+node2   Ready    <none>   97m   v1.18.2
+node3   Ready    <none>   97m   v1.18.2
+node4   Ready    <none>   97m   v1.18.2
+```
+
+**2.** Label your nodes according to the responsibility they should take; `reana.io/system: infrastructure` for infrastructure nodes and `reana.io/system: runtime` for runtime nodes. For example:
+
+```console
+$ kubectl label nodes node2 reana.io/system=infrastructure
+$ kubectl label nodes node3 node4 reana.io/system=runtime
+```
+
+**3.** Configure REANA's `values.yaml` to specify the labels for runtime and infrastructure nodes:
+
+```diff
++node_label_infrastructure: reana.io/system=infrastructure
++node_label_runtime: reana.io/system=runtime
+```
+
+**4.** Deploy REANA.
