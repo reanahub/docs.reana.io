@@ -1,5 +1,9 @@
 # reana-client CLI API
 
+The complete `reana-client` CLI API reference guide is available here:
+
+- [https://reana-client.readthedocs.io/en/latest/#cli-api](https://reana-client.readthedocs.io/en/latest/#cli-api)
+
 ```console
 Usage:  [OPTIONS] COMMAND [ARGS]...
 

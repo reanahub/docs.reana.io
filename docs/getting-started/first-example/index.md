@@ -12,6 +12,16 @@ Second, install and activate the REANA command-line client [reana-client](https:
 $ source /afs/cern.ch/user/r/reana/public/reana/bin/activate
 ```
 
+Alternatively, you can install it via [pip](https://pip.pypa.io/en/stable/), ideally in a new virtual environment:
+
+```console
+$ # create new virtual environment
+$ virtualenv ~/.virtualenvs/reana
+$ source ~/.virtualenvs/reana/bin/activate
+$ # install reana-client
+$ pip install reana-client
+```
+
 Third, set REANA environment variables for the client (using the access token obtained in the first step) and test your connection:
 
 ```console
