@@ -25,6 +25,6 @@
 **Get in touch**
 
 - Discuss [on Forum](https://forum.reana.io/)
-- Chat [on Mattermost](https://mattermost.web.cern.ch/it-dep/channels/reana)  or [on Gitter](https://gitter.im/reanahub/reana)
+- Chat [on Mattermost](https://mattermost.web.cern.ch/it-dep/channels/reana) or [on Gitter](https://gitter.im/reanahub/reana)
 - Follow us [on Twitter](https://twitter.com/reanahub)
 - Collaborate [on GitHub](https://github.com/reanahub)
