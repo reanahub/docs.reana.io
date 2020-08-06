@@ -12,7 +12,7 @@ First, we have to let the REANA platform know your Kerberos keytab so that the
 writing is authorised. We can do this by [uploading keytab and CERN username](../../access-control/kerberos/index.md).
 
 Second, once we have the secrets, we can use a Kerberos-aware container
-image (such as `[reanahub/krb5](https://hub.docker.com/r/reanahub/krb5)`) in the final publishing step of the workflow:
+image (such as [`reanahub/krb5`](https://hub.docker.com/r/reanahub/krb5)) in the final publishing step of the workflow:
 
 ```yaml
 workflow:
