@@ -5,13 +5,20 @@
 ### 1. Build and test locally:
 
 ```console
-$ DEMO=r-d-r-roofit EXCLUDE_COMPONENTS=r-ui,r-m-broker make ci
+$ reana-dev run-ci \
+    --admin-email john.doe@example.org \
+    --admin-password 123456 \
+    --component r-d-r-roofit \
+    --exclude-components=r-ui,r-m-broker
 ```
 
 ### 2. Build and test using the images to be released:
 
-```yaml
-$ GITHUB_USER=reanahub BUILD_TYPE=release make ci
+```console
+$ reana-dev run-ci \
+    --admin-email john.doe@example.org \
+    --admin-password 123456 \
+    --mode releasehelm  # FIXME
 ```
 
 ### 3. Upgrade chart version and commit:

@@ -2,7 +2,7 @@
 
 **Deploying REANA on your premises?**
 
-- [Deploying locally](deploying-locally) on your laptop using Minikube
+- [Deploying locally](deploying-locally) on your laptop using _Kubernetes in Docker_
 - [Deploying at scale](deploying-at-scale) on Kubernetes clusters using Helm
 
 **Developing REANA platform?**
