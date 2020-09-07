@@ -11,7 +11,7 @@ $ git clone git clone git@github.com:johndoe/reana
 $ cd reana
 $ virtualenv ~/.virtualenvs/reana
 $ source ~/.virtualenvs/reana/bin/activate
-(reana) $pip install . --upgrade
+(reana) $ pip install . --upgrade
 ```
 
 **2.** Fork and clone all REANA cluster components repositories:
