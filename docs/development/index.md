@@ -13,7 +13,3 @@
 **Managing users in REANA?**
 
 - [Managing users](managing-users)
-
-**Releasing new versions of REANA platform?**
-
-- [Releasing](releasing)
