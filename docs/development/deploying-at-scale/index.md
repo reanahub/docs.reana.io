@@ -44,6 +44,10 @@ NOTES:
 Thanks for flying REANA 🚀
 ```
 
+!!! warning
+
+    Note that the above `helm install` command used `reana` as the Helm release name. You can choose any other name provided that it is less than 13 characters long. (This is due to current limitation on the length of generated pod names.)
+
 !!! note
     Note that you can deploy REANA in different namespaces by passing `--namespace` to `helm install`. Remember to pass `--create-namespace` if the namespace you want to use does not exist yet. For more information on how to work with namespaces see the [official documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/).
 
