@@ -14,6 +14,9 @@ Options:
                                   Sets log level
   --help                          Show this message and exit.
 
+Quota commands:
+  quota-show  Show user quota.
+
 Configuration commands:
   ping     Check connection to REANA server.
   version  Show version.
@@ -50,6 +53,24 @@ Secret management commands:
   secrets-delete  Delete user secrets by name.
   secrets-list    List user secrets.
 ```
+
+## Quota commands
+
+### quota-show
+
+Show user quota.
+
+The `quota-show` command displays quota usage for the user.
+
+Examples:
+
+     $ reana-client quota-show --resource disk --report limit
+
+     $ reana-client quota-show --resource disk --report usage
+
+     $ reana-client quota-show --resource disk
+
+     $ reana-client quota-show --resources
 
 ## Configuration commands
 
