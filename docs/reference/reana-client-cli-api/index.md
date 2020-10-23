@@ -145,7 +145,9 @@ Example:
 
      $ reana-client delete -w myanalysis.42
 
-     $ reana-client delete -w myanalysis.42 --include-records
+     $ reana-client delete -w myanalysis.42 --include-all-runs
+
+     $ reana-client delete -w myanalysis.42 --include-workspace
 
 ### diff
 
