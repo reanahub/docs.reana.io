@@ -16,8 +16,10 @@ $ firefox https://helm.sh/docs/intro/install/
 **2.** Deploy REANA cluster:
 
 ```console
-$ wget https://raw.githubusercontent.com/reanahub/reana/0.7.0/etc/kind-localhost-30443.yaml
+$ wget https://raw.githubusercontent.com/reanahub/reana/maint-0.7/etc/kind-localhost-30443.yaml
 $ kind create cluster --config kind-localhost-30443.yaml
+$ wget https://raw.githubusercontent.com/reanahub/reana/maint-0.7/scripts/prefetch-images.sh
+$ sh prefetch-images.sh
 $ helm repo add reanahub https://reanahub.github.io/reana
 $ helm repo update
 $ helm install reana reanahub/reana --namespace reana --create-namespace --wait
@@ -27,7 +29,7 @@ $ kubectl -n reana get pods  # wait for pods to be in Running state
 **3.** Create REANA admin user:
 
 ```console
-$ wget https://raw.githubusercontent.com/reanahub/reana/0.7.0/scripts/create-admin-user.sh
+$ wget https://raw.githubusercontent.com/reanahub/reana/maint-0.7/scripts/create-admin-user.sh
 $ sh create-admin-user.sh reana reana john.doe@example.org mysecretpassword
 ```
 
