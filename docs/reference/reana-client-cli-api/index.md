@@ -172,7 +172,7 @@ Start previously created workflow.
 The `start` command allows to start previously created workflow. The
 workflow execution can be further influenced by passing input prameters
 using `-p` or `--parameters` flag and by setting additional operational
-options using `-o` or `--options`.  The input parameters and operational
+options using `-o` or `--options`. The input parameters and operational
 options can be repetitive. For example, to disable caching for the Serial
 workflow engine, you can set `-o CACHE=off`.
 
@@ -190,12 +190,12 @@ The `restart` command allows to restart a previous workflow on the same
 workspace.
 
 Note that workflow restarting can be used in a combination with operational
-options ``FROM`` and ``TARGET``. You can also pass a modified workflow
-specification with ``-f`` or `--file`` flag.
+options `FROM` and `TARGET`. You can also pass a modified workflow
+specification with `-f` or `--file`` flag.
 
 You can furthermore use modified input prameters using `-p` or
 `--parameters` flag and by setting additional operational options using
-`-o` or `--options`.  The input parameters and operational options can be
+`-o` or `--options`. The input parameters and operational options can be
 repetitive.
 
 Examples:
@@ -224,7 +224,7 @@ Examples:
 
 ### logs
 
-Get  workflow logs.
+Get workflow logs.
 
 The `logs` command allows to retrieve logs of running workflow. Note that
 only finished steps of the workflow are returned, the logs of the currently
@@ -314,6 +314,8 @@ Examples:
 
      $ reana-client ls --workflow myanalysis.42
 
+     $ reana-client ls --workflow myanalysis.42 --human-readable
+
 ### download
 
 Download workspace files.
@@ -378,7 +380,7 @@ Examples:
 
      $ reana-client du -w myanalysis.42 -s
 
-     $ reana-client du -w myanalysis.42 --bytes
+     $ reana-client du -w myanalysis.42 -s --human-readable
 
 ## Secret management commands
 
