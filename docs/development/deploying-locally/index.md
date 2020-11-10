@@ -23,7 +23,6 @@ $ sh prefetch-images.sh
 $ helm repo add reanahub https://reanahub.github.io/reana
 $ helm repo update
 $ helm install reana reanahub/reana --namespace reana --create-namespace --wait
-$ kubectl -n reana get pods  # wait for pods to be in Running state
 ```
 
 **3.** Create REANA admin user:
