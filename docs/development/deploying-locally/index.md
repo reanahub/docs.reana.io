@@ -44,24 +44,6 @@ $ firefox https://localhost:30443
 
 If you are a developer and would like to work with REANA cluster source code, you can proceed as follows.
 
-[Fork the REANA main repository](https://github.com/reanahub/reana/fork) and clone it to install the `reana-dev` helper script:
-
-```console
-$ git clone git clone git@github.com:johndoe/reana
-$ cd reana
-$ virtualenv ~/.virtualenvs/reana
-$ source ~/.virtualenvs/reana/bin/activate
-(reana) $ pip install . --upgrade
-```
-
-Fork and clone all REANA cluster components repositories:
-
-```console
-(reana) $ reana-dev git-fork --help
-(reana) $ eval "$(reana-dev git-fork -c ALL)"
-(reana) $ reana-dev git-clone -c ALL -u johndoe
-```
-
 Set up virtual environment and install `reana-dev` helper script:
 
 ```console
