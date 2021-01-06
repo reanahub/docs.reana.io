@@ -1,6 +1,6 @@
 # NFS
 
-As described in the [deploying at scale documentation](../../../development/deploying-at-scale/index.md), REANA needs a shared file system.
+As described in the [deploying at scale documentation](../../../administration/deployment/deploying-at-scale/index.md), REANA needs a shared file system.
 
 You can deploy an NFS file system inside your cluster using the official [NFS Server Provisioner](https://github.com/helm/charts/tree/master/stable/nfs-server-provisioner) Helm chart.
 

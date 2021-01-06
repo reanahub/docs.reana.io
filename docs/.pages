@@ -4,5 +4,5 @@ arrange:
     - running-workflows
     - running-notebooks
     - advanced-usage
-    - development
+    - administration
     - reference

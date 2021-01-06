@@ -1,6 +1,0 @@
-arrange:
-    - index.md
-    - deploying-locally
-    - deploying-at-scale
-    - debugging
-    - testing
