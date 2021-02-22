@@ -21,3 +21,7 @@
 - [Kerberos](access-control/kerberos) to access restricted resources
 - [VOMS-proxy](access-control/voms-proxy) to authenticate with a VOMS proxy certificate
 - [Private Docker registries](access-control/private-docker-registries) to access private images
+
+**Containers**
+
+- [Docker](containers/docker) useful tips for Docker containerised environments
