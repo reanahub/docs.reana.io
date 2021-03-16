@@ -201,7 +201,10 @@ You can use `reana-client validate` command to make sure that your `reana.yaml`
 
 ```console
 $ reana-client validate
-File my-analysis/reana.yaml is a valid REANA specification file.
+==> Verifying REANA specification file... my-analysis/reana.yaml
+  -> SUCCESS: Valid REANA specification file.
+==> Verifying workflow parameters and commands...
+  -> SUCCESS: Workflow parameters and commands appear valid.
 ```
 
 If your workflow specification file is not named `reana.yaml` (or `reana.yml`),
@@ -210,11 +213,109 @@ the validation:
 
 ```console
 $ reana-client validate -f reana-debug.yaml
-File my-analysis/reana-debug.yaml is a valid REANA specification file.
+==> Verifying REANA specification file... my-analysis/reana-debug.yaml
+  -> SUCCESS: Valid REANA specification file.
+==> Verifying workflow parameters and commands...
+  -> SUCCESS: Workflow parameters and commands appear valid.
 ```
 
 The `reana-client validate` command will warn you about any errors or problems
 in your `reana.yaml` files.
+
+### Validation of workflow input parameters
+
+The `reana-client validate` command will also verify that all the defined input
+parameters are being used in the workflow step commands.
+
+For instance, if an input parameter called `myparam` is defined but it is not
+used in the step commands, a warning will be displayed:
+
+```console
+$ reana-client validate
+==> Verifying REANA specification file... my-analysis/reana.yaml
+  -> SUCCESS: Valid REANA specification file.
+==> Verifying workflow parameters and commands...
+  -> WARNING: REANA input parameter "myparam" does not seem to be used.
+```
+
+Similarly, it will also check that all the input parameters referenced in the step
+commands are properly defined in the input parameters section:
+
+```console
+$ reana-client validate
+==> Verifying REANA specification file... my-analysis/reana.yaml
+  -> SUCCESS: Valid REANA specification file.
+==> Verifying workflow parameters and commands...
+  -> WARNING: Serial parameter "myparam" found on step "gendata" is not defined in input parameters.
+```
+
+This validation is compatible with [Serial](/running-workflows/supported-systems/serial),
+[Yadage](/running-workflows/supported-systems/yadage) and
+[CWL](/running-workflows/supported-systems/cwl) workflows.
+
+### Validation of workflow environment images
+
+The `reana-client validate` command has an option `--environments` to perform
+a validation of the environment images specified in the workflows steps. It will
+check that the referenced images have a valid format and point at a valid tag.
+It also verifies the image existence locally and remotely (Docker Hub, GitLab registry).
+
+```console
+$ reana-client validate --environments
+==> Verifying REANA specification file... my-analysis/reana.yaml
+  -> SUCCESS: Valid REANA specification file.
+==> Verifying workflow parameters and commands...
+  -> SUCCESS: Workflow parameters and commands appear valid.
+==> Verifying environments in REANA specification file...
+  -> SUCCESS: Environment image python:2.7-slim has the correct format.
+  -> SUCCESS: Environment image python:2.7-slim exists locally.
+  -> SUCCESS: Environment image python:2.7-slim exists in Docker Hub.
+
+$ reana-client validate --environments
+==> Verifying REANA specification file... my-analysis/reana.yaml
+  -> SUCCESS: Valid REANA specification file.
+==> Verifying workflow parameters and commands...
+  -> SUCCESS: Workflow parameters and commands appear valid.
+==> Verifying environments in REANA specification file...
+  -> WARNING: Using 'latest' tag is not recommended in python environment image.
+  -> SUCCESS: Environment image python:latest exists locally.
+  -> SUCCESS: Environment image python:latest exists in Docker Hub.
+```
+
+If the image is available locally, it will perform some checks to verify that
+the image user ID and group IDs are the expected. If it is not available locally
+but it publicly available remotely, it is possible to pass the `--pull` option
+to download the image and carry out these checks.
+
+```console
+$ reana-client validate --environments
+==> Verifying REANA specification file... my-analysis/reana.yaml
+  -> SUCCESS: Valid REANA specification file.
+==> Verifying workflow parameters and commands...
+  -> SUCCESS: Workflow parameters and commands appear valid.
+==> Verifying environments in REANA specification file...
+  -> WARNING: Environment image gitlab-registry.cern.ch/jdoe/my-analysis:1.0 does not exist locally.
+  -> SUCCESS: Environment image gitlab-registry.cern.ch/jdoe/my-analysis:1.0 exists in GitLab CERN.
+  -> WARNING: UID/GIDs validation skipped, specify `--pull` to enable it.
+
+$ reana-client validate --environments --pull
+==> Verifying REANA specification file... my-analysis/reana.yaml
+  -> SUCCESS: Valid REANA specification file.
+==> Verifying workflow parameters and commands...
+  -> SUCCESS: Workflow parameters and commands appear valid.
+==> Verifying environments in REANA specification file...
+  -> WARNING: Environment image gitlab-registry.cern.ch/jdoe/my-analysis:1.0 does not exist locally.
+  -> SUCCESS: Environment image gitlab-registry.cern.ch/jdoe/my-analysis:1.0 exists in GitLab CERN.
+Unable to find image 'gitlab-registry.cern.ch/jdoe/my-analysis:1.0' locally
+latest: Pulling from jdoe/my-analysis
+89d9c30c1d48: Pulling fs layer
+...
+...
+  -> INFO: Environment image uses UID 1000 but will run as UID 0.
+```
+
+For concrete hands-on examples of REANA workflow validation in practice, please
+see our [blog post](https://blog.reana.io/posts/2021/reana-0.7.3/) describing REANA 0.7.3 release.
 
 ## Examples
 
