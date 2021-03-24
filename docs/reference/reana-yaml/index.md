@@ -311,7 +311,7 @@ latest: Pulling from jdoe/my-analysis
 89d9c30c1d48: Pulling fs layer
 ...
 ...
-  -> INFO: Environment image uses UID 1000 but will run as UID 0.
+  -> INFO: Environment image uses UID 0 but will run as UID 1000.
 ```
 
 For concrete hands-on examples of REANA workflow validation in practice, please
