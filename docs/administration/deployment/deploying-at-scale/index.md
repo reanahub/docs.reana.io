@@ -55,7 +55,7 @@ Thanks for flying REANA 🚀
 
 ### High availability
 
-REANA infrastructure services are critical for the platform to properly work, therefore it is a good technique to deploy them in dedicated nodes different from ones used to run user workflows. To achieve this:
+REANA infrastructure services are critical for the platform to properly work, therefore it is a good technique to deploy them in dedicated nodes different from ones used to run user workflows and user jobs. To achieve this:
 
 **1.** Create a multi-node Kubernetes cluster and check your nodes:
 
@@ -68,18 +68,20 @@ node3   Ready    <none>   97m   v1.18.2
 node4   Ready    <none>   97m   v1.18.2
 ```
 
-**2.** Label your nodes according to the responsibility they should take; `reana.io/system: infrastructure` for infrastructure nodes and `reana.io/system: runtime` for runtime nodes. For example:
+**2.** Label your nodes according to the responsibility they should take; `reana.io/system: infrastructure` for infrastructure nodes, `reana.io/system: runtimebatch` for runtime batch workflow nodes and `reana.io/system: runtimejobs` for runtime job nodes (additionally you can use `reana.io/system: runtimesessions` to split interactive sessions too). For example:
 
 ```console
 $ kubectl label nodes node2 reana.io/system=infrastructure
-$ kubectl label nodes node3 node4 reana.io/system=runtime
+$ kubectl label nodes node3 reana.io/system=runtimebatch
+$ kubectl label nodes node4 reana.io/system=runtimejobs
 ```
 
 **3.** Configure REANA's `values.yaml` to specify the labels for runtime and infrastructure nodes:
 
 ```diff
 +node_label_infrastructure: reana.io/system=infrastructure
-+node_label_runtime: reana.io/system=runtime
++node_label_runtimebatch: reana.io/system=runtimebatch
++node_label_runtimejobs: reana.io/system=runtimejobs
 ```
 
 **4.** Deploy REANA.
