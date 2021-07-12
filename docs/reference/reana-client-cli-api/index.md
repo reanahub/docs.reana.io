@@ -320,10 +320,10 @@ Examples:
 
 Download workspace files.
 
-The `download` command allows to download workspace files. By default, the
-files specified in the workflow specification as outputs are downloaded.
-You can also specify the individual files you would like to download, see
-examples below. Note that downloading directories is not yet supported.
+The `download` command allows to download workspace files and directories.
+By default, the files specified in the workflow specification as outputs
+are downloaded. You can also specify the individual files you would like
+to download, see examples below.
 
 Examples:
 
