@@ -33,7 +33,7 @@ its inputs, workflow specification, and its outputs.  The overall structure of
 | version  | *string*     | *optional*  | Specifies REANA version to which the analysis was written for. For example, "0.6.0".                                     |
 | inputs   | *dictionary* | *optional*  | Specifies all the high-level inputs to the workflow. Can be composed of "files", "directories", "parameters", "options". |
 | workflow | *dictionary* | *mandatory* | Defines computational workflow, using CWL, Serial or Yadage specifications.                                              |
-| outputs  | *dictionary* | *optional*  | Specifies all the high-level outputs of the workflow.  Can be composed of "files".                                       |
+| outputs  | *dictionary* | *optional*  | Specifies all the high-level outputs of the workflow.  Can be composed of "files" and "directories".                                       |
 
 Each property will be described in detail in the following sections.
 
@@ -170,15 +170,16 @@ corresponding [CWL](/running-workflows/supported-systems/cwl),
 ### reana.yaml outputs
 
 The **outputs** property of `reana.yaml` specifies all the workflow high-level
-outputs, consisting of a list of files. The `reana-client download` command
-will download all the specified files from the workflow workspace to the local
-filesystem. Note that the property is optional.
+outputs, consisting of a list of files and directories. The `reana-client download`
+command will download all the specified files and directories from the workflow
+workspace to the local filesystem. Note that the property is optional.
 
 The **output** property is composed of:
 
-| Property    | Type         | Mandatory? | Description                                 |
-| --------    | ----         | ---------- | -----------                                 |
-| files       | *list*       | *optional* | Lists all the output files of the workflow. |
+| Property    | Type         | Mandatory? | Description                                       |
+| --------    | ----         | ---------- | -----------                                       |
+| files       | *list*       | *optional* | Lists all the output files of the workflow.       |
+| directories | *list*       | *optional* | Lists all the output directories of the workflow. |
 
 The **outputs** property example:
 
@@ -187,12 +188,9 @@ outputs:
   files:
     - myplot.png
     - mysubdirs/myotherdir/myotherplot.pdf
+  directories:
+    - mydir
 ```
-
-!!! note
-
-    Unlike `inputs` property, the `outputs` propertly cannot specify
-    directories, only files. Moreover, the wildcards are not supported.
 
 ## Validating `reana.yaml`
 
