@@ -26,7 +26,7 @@ To set the memory limit of a job you can specify `kubernetes_memory_limit` in th
 
 Read more about the expected memory values on [Kubernetes official documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory)
 
-You can configure the `steps` in the respective `yaml` specifications for Serial, Yadage, and CWL workflow engines.
+You can configure the `steps` in the respective specifications for Serial, Yadage, CWL and Snakemake workflow engines.
 
 ### Serial workflow
 
@@ -85,4 +85,26 @@ You can set `kubernetes_memory_limit` in every `step` under `hints.reana`.
       in:
         helloworld: helloworld_memory_limit
       out: [result]
+```
+
+### Snakemake workflow
+
+You can set `kubernetes_memory_limit` in every `rule` under `resources`.
+
+```yaml hl_lines="12"
+  ...
+  rule helloworld:
+    input:
+        helloworld=config["helloworld"],
+        inputfile=config["inputfile"],
+    params:
+        sleeptime=config["sleeptime"]
+    output:
+        "results/greetings.txt"
+    resources:
+        compute_backend="kubernetes",
+        kubernetes_memory_limit="8Gi"
+    container:
+        "docker://python:2.7-slim"
+    ...
 ```
