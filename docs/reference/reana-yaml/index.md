@@ -76,6 +76,7 @@ The **inputs.options** property describes operational options that can be used f
 | toplevel | *string* | *optional*  | Yadage          | Yadage `toplevel` argument. It represents the working directory or remote repository where the workflow should be pulled from. [More info](https://yadage.readthedocs.io/en/latest/definingworkflows.html?highlight=toplevel#using-json-references). It supports GitHub as remote repository `github:<username/repo[@branch]>[:subpath]` |
 | initdir  | *string* | *optional*  | Yadage          | Yadage `initdir` argument. It represents the initial directory for workflows running locally. |
 | initfiles  | *list* | *optional*  | Yadage          | Yadage `initfiles` argument. A list of YAML files that passes initial parameters as the workflow inputs. |
+| report   | *string* | *optional*  | Snakemake       | Snakemake `--report` argument. Allows customising the filename of the generated report, by default `report.html`. |
 
 The **inputs** property example:
 
