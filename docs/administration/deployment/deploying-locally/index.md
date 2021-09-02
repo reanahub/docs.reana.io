@@ -2,7 +2,8 @@
 
 ## For researchers
 
-If you are a researcher and would like to try out deploying a small REANA cluster on your laptop, you can proceed as follows.
+If you are a researcher and would like to try out deploying a small REANA cluster on your laptop,
+you can proceed as follows.
 
 **1.** Install `docker`, `kubectl`, `kind`, and `helm` dependencies:
 
@@ -44,7 +45,11 @@ $ firefox https://localhost:30443
 
 If you are a developer and would like to work with REANA cluster source code, you can proceed as follows.
 
-Set up virtual environment and install `reana-dev` helper script:
+**1.** Find what Python version is currently used for development
+by checking the base image Python version in the `Dockerfile` of one of the REANA cluster components
+(e.g. [REANA server Dockerfile](https://github.com/reanahub/reana-server/blob/master/Dockerfile)).
+Set up a virtual environment with the proper Python version
+and install the `reana-dev` helper script:
 
 ```console
 $ mkdir ~/src && cd ~/src
@@ -53,7 +58,13 @@ $ source ~/.virtualenvs/reana/bin/activate
 (reana) $ pip install git+git://github.com/reanahub/reana.git#egg=reana
 ```
 
-Fork and clone all REANA source code repositories:
+In addition, for **conda** users, set `VIRTUAL_ENV` environment variable:
+
+```console
+(reana) $ export VIRTUAL_ENV=/<path_to_conda>/miniconda3/envs/reana/bin/python
+```
+
+**2.** Fork and clone all REANA source code repositories:
 
 ```console
 (reana) $ reana-dev git-fork --help
@@ -61,19 +72,25 @@ Fork and clone all REANA source code repositories:
 (reana) $ reana-dev git-clone -c ALL -u johndoe
 ```
 
-Create a new REANA cluster:
+You can customize the browser by adding the `-b` flag, e.g. **macOS** users can run:
+
+```console
+(reana) $ eval "$(reana-dev git-fork -c ALL -b open)"
+```
+
+**3.** Create a new REANA cluster:
 
 ```console
 (reana) $ reana-dev cluster-create
 ```
 
-Build all components:
+**4.** Build all components:
 
 ```console
 (reana) $ reana-dev cluster-build
 ```
 
-Deploy REANA:
+**5.** Deploy REANA:
 
 ```console
 (reana) $ reana-dev cluster-deploy \
@@ -81,8 +98,10 @@ Deploy REANA:
             --admin-password mysecretpassword
 ```
 
-Run an example:
+**6.** Run an example by using helper script:
 
 ```console
 (reana) $ reana-dev run-example -c reana-demo-helloworld
 ```
+
+or use `reana-client`. For this, check [First Example](/getting-started/first-example) page.

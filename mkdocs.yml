@@ -8,7 +8,7 @@ repo_name: 'reanahub/docs.reana.io'
 repo_url: 'https://github.com/reanahub/docs.reana.io'
 
 # Copyright
-copyright: 'Copyright &copy; 2019, 2020 CERN'
+copyright: 'Copyright &copy; 2019-2021 CERN'
 
 # Configuration
 theme:
