@@ -48,7 +48,7 @@ The sequential workflow pattern will usually cover only simple computational wor
 
 ## Complex workflows
 
-For advanced workflow needs we may want to run certain commands in parallel in a sort of map-reduce fashion. There are [many workflow systems](https://github.com/common-workflow-language/common-workflow-language/wiki/Existing-Workflow-systems) that are dedicated to expressing complex computational schemata in a structured manner. REANA supports several, such as [CWL](../supported-systems/cwl) and [Yadage](../supported-systems/yadage).
+For advanced workflow needs we may want to run certain commands in parallel in a sort of map-reduce fashion. There are [many workflow systems](https://github.com/common-workflow-language/common-workflow-language/wiki/Existing-Workflow-systems) that are dedicated to expressing complex computational schemata in a structured manner. REANA supports several, such as [CWL](../supported-systems/cwl), [Yadage](../supported-systems/yadage) and [Snakemake](../supported-systems/snakemake).
 
 The workflow systems enable to express the computational steps in the form of [Directed Acyclic Graph (DAG)](https://en.wikipedia.org/wiki/Directed_acyclic_graph) permitting advanced computational scenarios.
 
