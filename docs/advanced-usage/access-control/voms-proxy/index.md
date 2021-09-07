@@ -1,6 +1,6 @@
 # VOMS-proxy
 
-If your workflow needs special permissions that your Virtual Organization (VO) entitles you to, you can use VOMS  authentication. VOMS (Virtual Organization Membership Service) provides information on the user's relationship with their VO. VOs administer users and grant them permissions according to their group, role and capability. At CERN the different experiments such as ALICE, ATLAS, CMS and LHCb all have their own VO. Being part of a VO can give you access to globally distributed data analysis infrastructure.
+If your workflow needs special permissions that your Virtual Organization (VO) entitles you to, you can use VOMS authentication. VOMS (Virtual Organization Membership Service) provides information on the user's relationship with their VO. VOs administer users and grant them permissions according to their group, role and capability. At CERN the different experiments such as ALICE, ATLAS, CMS and LHCb all have their own VO. Being part of a VO can give you access to globally distributed data analysis infrastructure.
 
 If you do not already have a user certificate create one at [ca.cern.ch/ca](https://ca.cern.ch/ca/).
 
@@ -51,55 +51,71 @@ $ reana-client secrets-add --file userkey.pem \
 ## Setting voms-proxy requirement
 
 Set `voms_proxy: true` for the steps that need a proxy certificate in the workflow specification.
-Please note that step's docker image (e.g ``environment: 'reanahub/reana-auth-vomsproxy'``)
+Please note that step's docker image (e.g `environment: 'reanahub/reana-auth-vomsproxy'`)
 should have the VOMS client installed for the command `voms-proxy-info` to work.
 
 Serial example:
 
 ```yaml hl_lines="6"
-    workflow:
-      type: serial
-      specification:
-        steps:
-          - environment: 'reanahub/reana-auth-vomsproxy'
-            voms_proxy: true
-            commands:
-            - voms-proxy-info
+workflow:
+  type: serial
+  specification:
+    steps:
+      - environment: "reanahub/reana-auth-vomsproxy"
+        voms_proxy: true
+        commands:
+          - voms-proxy-info
 ```
 
 CWL example:
 
 ```yaml hl_lines="5"
-    steps:
-      first:
-        hints:
-          reana:
-            voms_proxy: true
-        run: helloworld.tool
-        in:
-          helloworld: helloworld
+steps:
+  first:
+    hints:
+      reana:
+        voms_proxy: true
+    run: helloworld.tool
+    in:
+      helloworld: helloworld
 
-          inputfile: inputfile
-          sleeptime: sleeptime
-          outputfile: outputfile
-        out: [result]
+      inputfile: inputfile
+      sleeptime: sleeptime
+      outputfile: outputfile
+    out: [result]
 ```
 
 Yadage example:
 
 ```yaml hl_lines="14"
-    step:
-      process:
-        process_type: 'string-interpolated-cmd'
-        cmd: 'python "{helloworld}" --sleeptime {sleeptime} --inputfile "{inputfile}" --outputfile "{outputfile}"'
-      publisher:
-        publisher_type: 'frompar-pub'
-        outputmap:
-          outputfile: outputfile
-      environment:
-        environment_type: 'docker-encapsulated'
-        image: 'python'
-        imagetag: '2.7-slim'
-        resources:
-          - voms_proxy: true
+step:
+  process:
+    process_type: "string-interpolated-cmd"
+    cmd: 'python "{helloworld}" --sleeptime {sleeptime} --inputfile "{inputfile}" --outputfile "{outputfile}"'
+  publisher:
+    publisher_type: "frompar-pub"
+    outputmap:
+      outputfile: outputfile
+  environment:
+    environment_type: "docker-encapsulated"
+    image: "python"
+    imagetag: "2.7-slim"
+    resources:
+      - voms_proxy: true
+```
+
+Snakemake example:
+
+```yaml hl_lines="10"
+rule helloworld:
+  input: 
+    helloworld=config["helloworld"],
+    inputfile=config["inputfile"],
+  params: 
+    sleeptime=config["sleeptime"]
+  output: 
+    "results/greetings.txt"
+  resources:
+    voms_proxy: true
+  container: "docker://python:2.7-slim"
 ```
