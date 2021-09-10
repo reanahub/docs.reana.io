@@ -43,7 +43,8 @@ $ firefox https://localhost:30443
 
 ## For developers
 
-If you are a developer and would like to work with REANA cluster source code, you can proceed as follows.
+If you are a developer and would like to work with REANA cluster source code,
+we recommend that you follow the guide below:
 
 **1.** Find what Python version is currently used for development
 by checking the base image Python version in the `Dockerfile` of one of the REANA cluster components
@@ -56,12 +57,6 @@ $ mkdir ~/src && cd ~/src
 $ virtualenv ~/.virtualenvs/reana
 $ source ~/.virtualenvs/reana/bin/activate
 (reana) $ pip install git+git://github.com/reanahub/reana.git#egg=reana
-```
-
-In addition, for **conda** users, set `VIRTUAL_ENV` environment variable:
-
-```console
-(reana) $ export VIRTUAL_ENV=/<path_to_conda>/miniconda3/envs/reana/bin/python
 ```
 
 **2.** Fork and clone all REANA source code repositories:
