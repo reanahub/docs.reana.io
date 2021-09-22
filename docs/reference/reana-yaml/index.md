@@ -25,7 +25,7 @@ This reference guide describes how the Four Questions are transcribed into
 ## Understanding `reana.yaml`
 
 The `reana.yaml` file describes the analysis as a computational workflow with
-its inputs, workflow specification, and its outputs.  The overall structure of
+its inputs, workflow specification, workspace ,and its outputs.  The overall structure of
 `reana.yaml` looks as follows:
 
 | Property | Type         | Mandatory?  | Description                                                                                                              |
@@ -34,6 +34,7 @@ its inputs, workflow specification, and its outputs.  The overall structure of
 | inputs   | *dictionary* | *optional*  | Specifies all the high-level inputs to the workflow. Can be composed of "files", "directories", "parameters", "options". |
 | workflow | *dictionary* | *mandatory* | Defines computational workflow, using CWL, Serial or Yadage specifications.                                              |
 | outputs  | *dictionary* | *optional*  | Specifies all the high-level outputs of the workflow.  Can be composed of "files" and "directories".                                       |
+| workspace| *dictionary* | *optional*  | Specifies the workspace in which the workflow run.                             |
 
 Each property will be described in detail in the following sections.
 
@@ -193,6 +194,27 @@ outputs:
     - mydir
 ```
 
+### reana.yaml workspace
+
+The **workspace** property of `reana.yaml` specifies the workspace path in which
+the workflow will run. REANA currently supports POSIX files systems mounted by the
+administrator. The `reana-client workspaces` command will list all the available
+workspaces and the default workspace used if this property is not specified.
+Note that the property is optional.
+
+The **workspace** property is composed of:
+
+| Property    | Type         | Mandatory? | Description                                       |
+| --------    | ----         | ---------- | -----------                                       |
+| root_path   | *string*     | *optional* | Full path of the desired workspace.               |
+
+The **workspace** property example:
+
+```yaml
+workspace:
+  root_path: /eos/myworkflows
+```
+
 ## Validating `reana.yaml`
 
 You can use `reana-client validate` command to make sure that your `reana.yaml`
@@ -204,6 +226,8 @@ $ reana-client validate
   -> SUCCESS: Valid REANA specification file.
 ==> Verifying workflow parameters and commands...
   -> SUCCESS: Workflow parameters and commands appear valid.
+==> Verifying workspace in REANA specification file...
+  -> SUCCESS: REANA workspace appear valid.
 ```
 
 If your workflow specification file is not named `reana.yaml` (or `reana.yml`),
@@ -216,6 +240,8 @@ $ reana-client validate -f reana-debug.yaml
   -> SUCCESS: Valid REANA specification file.
 ==> Verifying workflow parameters and commands...
   -> SUCCESS: Workflow parameters and commands appear valid.
+==> Verifying workspace in REANA specification file...
+  -> SUCCESS: REANA workspace appear valid.
 ```
 
 The `reana-client validate` command will warn you about any errors or problems
