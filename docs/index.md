@@ -22,6 +22,10 @@
 - [Deploy locally](administration/deployment/deploying-locally) using _Kubernetes in Docker_
 - [Deploy at scale](administration/deployment/deploying-at-scale) using Helm
 
+**Developing REANA?**
+
+- See [developer wiki](https://github.com/reanahub/reana/wiki)
+
 **Get in touch**
 
 - Discuss [on Forum](https://forum.reana.io/)
