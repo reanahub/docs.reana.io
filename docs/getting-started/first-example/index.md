@@ -18,6 +18,8 @@ Alternatively, you can install it via [pip](https://pip.pypa.io/en/stable/), ide
 $ # create new virtual environment
 $ virtualenv ~/.virtualenvs/reana
 $ source ~/.virtualenvs/reana/bin/activate
+$ # upgrade pip
+$ pip install --upgrade pip
 $ # install reana-client
 $ pip install reana-client
 ```
