@@ -15,7 +15,7 @@
 
 - Choose one of supported workflow systems: [CWL](running-workflows/supported-systems/cwl), [Serial](running-workflows/supported-systems/serial), [Yadage](running-workflows/supported-systems/yadage), [Snakemake](running-workflows/supported-systems/snakemake)
 - Choose one of supported compute backends: [HTCondor](advanced-usage/compute-backends/htcondor), [Kubernetes](advanced-usage/compute-backends/kubernetes), [Slurm](advanced-usage/compute-backends/slurm)
-- Integrate with one of supported storage systems: [GitLab](advanced-usage/code-repositories/gitlab), [CVMFS](advanced-usage/code-repositories/cvmfs), [EOS](advanced-usage/storage-backends/eos), [NFS](advanced-usage/storage-backends/nfs)
+- Integrate with one of supported storage systems: [GitLab](advanced-usage/code-repositories/gitlab), [CVMFS](advanced-usage/code-repositories/cvmfs), [EOS](advanced-usage/storage-backends/eos), [NFS](advanced-usage/storage-backends/nfs/)
 
 **Deploying REANA on your premises?**
 
