@@ -3,7 +3,7 @@
 ## About `reana.yaml`
 
 The REANA reproducible analysis platform requires to have `reana.yaml` file
-present in your analysis source code.  This is a so called REANA specification
+present in your analysis source code. This is a so called REANA specification
 file. Its purpose is to answer the Four Questions:
 
 1. What is your input data?
@@ -25,27 +25,27 @@ This reference guide describes how the Four Questions are transcribed into
 ## Understanding `reana.yaml`
 
 The `reana.yaml` file describes the analysis as a computational workflow with
-its inputs, workflow specification, and its outputs.  The overall structure of
+its inputs, workflow specification, and its outputs. The overall structure of
 `reana.yaml` looks as follows:
 
 | Property | Type         | Mandatory?  | Description                                                                                                              |
-| -------- | ----         | ----------  | -----------                                                                                                              |
-| version  | *string*     | *optional*  | Specifies REANA version to which the analysis was written for. For example, "0.6.0".                                     |
-| inputs   | *dictionary* | *optional*  | Specifies all the high-level inputs to the workflow. Can be composed of "files", "directories", "parameters", "options". |
-| workflow | *dictionary* | *mandatory* | Defines computational workflow, using CWL, Serial or Yadage specifications.                                              |
-| outputs  | *dictionary* | *optional*  | Specifies all the high-level outputs of the workflow.  Can be composed of "files" and "directories".                                       |
+| -------- | ------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------ |
+| version  | _string_     | _optional_  | Specifies REANA version to which the analysis was written for. For example, "0.6.0".                                     |
+| inputs   | _dictionary_ | _optional_  | Specifies all the high-level inputs to the workflow. Can be composed of "files", "directories", "parameters", "options". |
+| workflow | _dictionary_ | _mandatory_ | Defines computational workflow, using CWL, Serial, Yadage or Snakemake specifications.                                   |
+| outputs  | _dictionary_ | _optional_  | Specifies all the high-level outputs of the workflow. Can be composed of "files" and "directories".                      |
 
 Each property will be described in detail in the following sections.
 
 ### reana.yaml version
 
-The **version** property of `reana.yaml` specifies REANA platform version to which the analysis was written for.  It can be useful for long-term preservation in case the REANA specification file structure may change in the future. The property is optional.
+The **version** property of `reana.yaml` specifies REANA platform version to which the analysis was written for. It can be useful for long-term preservation in case the REANA specification file structure may change in the future. The property is optional.
 
 The **version** property value is a string:
 
 | Property | Type     | Mandatory? | Description                                                                          |
-| -------- | ----     | ---------- | -----------                                                                          |
-| version  | *string* | *optional* | Specifies REANA version to which the analysis was written for. For example, "0.6.0". |
+| -------- | -------- | ---------- | ------------------------------------------------------------------------------------ |
+| version  | _string_ | _optional_ | Specifies REANA version to which the analysis was written for. For example, "0.6.0". |
 
 The **version** property example:
 
@@ -55,28 +55,28 @@ version: 0.6.0
 
 ### reana.yaml inputs
 
-The **inputs** property of `reana.yaml` specifies all the workflow high-level inputs, be they files, directories, or parameters with values. The property serves to document all the initial inputs to the workflow.  The `reana-client upload` command will seed the inputs to the workflow workspace before running the workflow. Note that the property is optional.
+The **inputs** property of `reana.yaml` specifies all the workflow high-level inputs, be they files, directories, or parameters with values. The property serves to document all the initial inputs to the workflow. The `reana-client upload` command will seed the inputs to the workflow workspace before running the workflow. Note that the property is optional.
 
 The **inputs** property is composed of:
 
 | Property    | Type         | Mandatory? | Description                                                                                                                      |
-| --------    | ----         | ---------- | -----------                                                                                                                      |
-| directories | *list*       | *optional* | Lists all the input directories to the workflow. Will be seeded to the workspace before running.                                 |
-| files       | *list*       | *optional* | Lists all the input files to the workflow.  Will be seeded to the workspace before running.                                      |
-| parameters  | *dictionary* | *optional* | Specifies all the input parameters to the workflow. It is a dictionary of parameter names and their values expressed as strings. |
-| options     | *dictionary* | *optional* | Specifies operational options for each workflow engine, see below.                                                               |
+| ----------- | ------------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| directories | _list_       | _optional_ | Lists all the input directories to the workflow. Will be seeded to the workspace before running.                                 |
+| files       | _list_       | _optional_ | Lists all the input files to the workflow. Will be seeded to the workspace before running.                                       |
+| parameters  | _dictionary_ | _optional_ | Specifies all the input parameters to the workflow. It is a dictionary of parameter names and their values expressed as strings. |
+| options     | _dictionary_ | _optional_ | Specifies operational options for each workflow engine, see below.                                                               |
 
 The **inputs.options** property describes operational options that can be used for the different workflow engines. The available options are:
 
-| Property | Type     | Mandatory?  | Workflow engine | Description                            |
-| -------- | ----     | ----------  | ----------------|                                        |
-| CACHE    | *string* | *optional*  | Serial          | Whether the workflow engine should cache the results of each step for faster execution of subsequent workflow runs. Disabled by default. Can be `on` or `off`. |
-| FROM     | *string* | *optional*  | Serial          | Allows partial execution of a workflow starting from the beginning of a desired step. The value is the name of the desired starting step.  Note that the `FROM` option be combined with the `TARGET` option. |
-| TARGET   | *string* | *optional*  | Serial, CWL     | Allows partial execution of a workflow until the end of a desired step. The value is the name of the desired target step. Note that the `TARGET` option can be combined with the `FROM` option. |
-| toplevel | *string* | *optional*  | Yadage          | Yadage `toplevel` argument. It represents the working directory or remote repository where the workflow should be pulled from. [More info](https://yadage.readthedocs.io/en/latest/definingworkflows.html?highlight=toplevel#using-json-references). It supports GitHub as remote repository `github:<username/repo[@branch]>[:subpath]` |
-| initdir  | *string* | *optional*  | Yadage          | Yadage `initdir` argument. It represents the initial directory for workflows running locally. |
-| initfiles  | *list* | *optional*  | Yadage          | Yadage `initfiles` argument. A list of YAML files that passes initial parameters as the workflow inputs. |
-| report   | *string* | *optional*  | Snakemake       | Snakemake `--report` argument. Allows customising the filename of the generated report, by default `report.html`. |
+| Property  | Type     | Mandatory? | Workflow engine | Description                                                                                                                                                                                                                                                                                                                              |
+| --------- | -------- | ---------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CACHE     | _string_ | _optional_ | Serial          | Whether the workflow engine should cache the results of each step for faster execution of subsequent workflow runs. Disabled by default. Can be `on` or `off`.                                                                                                                                                                           |
+| FROM      | _string_ | _optional_ | Serial          | Allows partial execution of a workflow starting from the beginning of a desired step. The value is the name of the desired starting step. Note that the `FROM` option be combined with the `TARGET` option.                                                                                                                              |
+| TARGET    | _string_ | _optional_ | Serial, CWL     | Allows partial execution of a workflow until the end of a desired step. The value is the name of the desired target step. Note that the `TARGET` option can be combined with the `FROM` option.                                                                                                                                          |
+| toplevel  | _string_ | _optional_ | Yadage          | Yadage `toplevel` argument. It represents the working directory or remote repository where the workflow should be pulled from. [More info](https://yadage.readthedocs.io/en/latest/definingworkflows.html?highlight=toplevel#using-json-references). It supports GitHub as remote repository `github:<username/repo[@branch]>[:subpath]` |
+| initdir   | _string_ | _optional_ | Yadage          | Yadage `initdir` argument. It represents the initial directory for workflows running locally.                                                                                                                                                                                                                                            |
+| initfiles | _list_   | _optional_ | Yadage          | Yadage `initfiles` argument. A list of YAML files that passes initial parameters as the workflow inputs.                                                                                                                                                                                                                                 |
+| report    | _string_ | _optional_ | Snakemake       | Snakemake `--report` argument. Allows customising the filename of the generated report, by default `report.html`.                                                                                                                                                                                                                        |
 
 The **inputs** property example:
 
@@ -102,30 +102,31 @@ that are necessary to take to get the results. REANA supports three different
 workflow specification languages
 ([CWL](/running-workflows/supported-systems/cwl),
 [Serial](/running-workflows/supported-systems/serial),
-[Yadage](/running-workflows/supported-systems/yadage)). Each workflow
+[Yadage](/running-workflows/supported-systems/yadage),
+[Snakemake](/running-workflows/supported-systems/snakemake)). Each workflow
 specification language expresses the computational steps differently.
 
 The **workflow** property is composed of:
 
-| Property      | Type         | Mandatory?                                         | Description                                 |
-| --------      | ----         | ----------                                         | -----------                                 |
-| type          | *string*     | *mandatory*                                        | Specifies workflow language type. Can be `cwl`, `serial`, `yadage`. |
-| file          | *string*     | *mandatory if property `specification` is missing* | For CWL and Yadage workflows, specifies workflow steps in an external file, using their respective workflow definition languages.  |
-| specification | *dictionary* | *mandatory if property `file` is missing*          | For Serial workflows, specifies workflow steps internally in `reana.yaml`, see below.  |
+| Property      | Type         | Mandatory?                                         | Description                                                                                                                                  |
+| ------------- | ------------ | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| type          | _string_     | _mandatory_                                        | Specifies workflow language type. Can be `cwl`, `serial`, `yadage`, `snakemake`.                                                             |
+| file          | _string_     | _mandatory if property `specification` is missing_ | For CWL, Yadage and Snakemake workflows, specifies workflow steps in an external file, using their respective workflow definition languages. |
+| specification | _dictionary_ | _mandatory if property `file` is missing_          | For Serial workflows, specifies workflow steps internally in `reana.yaml`, see below.                                                        |
 
 The **workflow.specification** property is used in Serial workflows and is further composed of:
 
-| Property | Type   | Mandatory?  | Description                                        |
-| -------- | ----   | ----------  | -----------                                        |
-| steps    | *list* | *mandatory* | Lists all workflow steps that are to be run sequentially to obtain workflow results. |
+| Property | Type   | Mandatory?  | Description                                                                          |
+| -------- | ------ | ----------- | ------------------------------------------------------------------------------------ |
+| steps    | _list_ | _mandatory_ | Lists all workflow steps that are to be run sequentially to obtain workflow results. |
 
 The **workflow.specification.steps** property describes each individual computational step of the Serial workflow and is further composed of:
 
-| Property | Type   | Mandatory?  | Description                                        |
-| -------- | ----   | ----------  | -----------                                        |
-| name    | *string* | *optional* | Provides name of the given workflow step. |
-| environment  | *string*  | *mandatory*  | Specifies runtime environment container image where the given workflow step commands will be run.  |
-| commands  | *list*  | *mandatory*  | Lists all commands to be run in the runtime environment container image when the given workflow step is executed. Note that each command is executed as a separate containerised job. |
+| Property    | Type     | Mandatory?  | Description                                                                                                                                                                           |
+| ----------- | -------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name        | _string_ | _optional_  | Provides name of the given workflow step.                                                                                                                                             |
+| environment | _string_ | _mandatory_ | Specifies runtime environment container image where the given workflow step commands will be run.                                                                                     |
+| commands    | _list_   | _mandatory_ | Lists all commands to be run in the runtime environment container image when the given workflow step is executed. Note that each command is executed as a separate containerised job. |
 
 The **workflow** property examples:
 
@@ -147,12 +148,12 @@ workflow:
       - name: gendata
         environment: mydockerhuborganisation/mygendockerimage:1.1
         commands:
-        - ./mygencommand "${mygenparam}" > mydata.txt
-        - ./mygenothercommand mydata.txt > mydata.csv
+          - ./mygencommand "${mygenparam}" > mydata.txt
+          - ./mygenothercommand mydata.txt > mydata.csv
       - name: fitdata
         environment: mydockerhuborganisation/myfitdockerimage:42.1
         commands:
-        - ./myfitcommand mydata.csv "${myfitparam}" > myplot.png
+          - ./myfitcommand mydata.csv "${myfitparam}" > myplot.png
 ```
 
 - For [Yadage](/running-workflows/supported-systems/yadage) workflows:
@@ -163,10 +164,19 @@ workflow:
   file: myworkflow.yaml
 ```
 
+- For [Snakemake](/running-workflows/supported-systems/snakemake) workflows:
+
+```yaml
+workflow:
+  type: snakemake
+  file: Snakefile
+```
+
 A more detailed information on workflow specification languages is available in
 corresponding [CWL](/running-workflows/supported-systems/cwl),
-[Serial](/running-workflows/supported-systems/serial) and
-[Yadage](/running-workflows/supported-systems/yadage) pages.
+[Serial](/running-workflows/supported-systems/serial),
+[Yadage](/running-workflows/supported-systems/yadage) and
+[Snakemake](/running-workflows/supported-systems/snakemake) pages.
 
 ### reana.yaml outputs
 
@@ -177,10 +187,10 @@ workspace to the local filesystem. Note that the property is optional.
 
 The **output** property is composed of:
 
-| Property    | Type         | Mandatory? | Description                                       |
-| --------    | ----         | ---------- | -----------                                       |
-| files       | *list*       | *optional* | Lists all the output files of the workflow.       |
-| directories | *list*       | *optional* | Lists all the output directories of the workflow. |
+| Property    | Type   | Mandatory? | Description                                       |
+| ----------- | ------ | ---------- | ------------------------------------------------- |
+| files       | _list_ | _optional_ | Lists all the output files of the workflow.       |
+| directories | _list_ | _optional_ | Lists all the output directories of the workflow. |
 
 The **outputs** property example:
 
@@ -249,8 +259,9 @@ $ reana-client validate
 ```
 
 This validation is compatible with [Serial](/running-workflows/supported-systems/serial),
-[Yadage](/running-workflows/supported-systems/yadage) and
-[CWL](/running-workflows/supported-systems/cwl) workflows.
+[Yadage](/running-workflows/supported-systems/yadage),
+[CWL](/running-workflows/supported-systems/cwl) and
+[Snakemake](/running-workflows/supported-systems/snakemake) workflows.
 
 ### Validation of workflow environment images
 

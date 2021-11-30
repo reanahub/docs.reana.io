@@ -8,4 +8,4 @@
 
 - [Executing workflows](executing-workflows) to learn about running workflows on the REANA platform
 
-- [Supported systems](supported-systems) to learn more about [CWL](supported-systems/cwl), [Serial](supported-systems/serial), [Yadage](supported-systems/yadage)
+- [Supported systems](supported-systems) to learn more about [CWL](supported-systems/cwl), [Serial](supported-systems/serial), [Yadage](supported-systems/yadage), [Snakemake](supported-systems/snakemake)

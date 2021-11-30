@@ -13,7 +13,7 @@ REANA can be easily deployed on large Kubernetes clusters using Helm. Useful for
     For example, [CERN uses CephFS](https://clouddocs.web.cern.ch/containers/tutorials/cephfs.html) as the default storage backend.
 
 !!! note
-    If you do not have any particular distributed file system in your Kubernetes cluster, you can easily [deploy an NFS network file system following our documentation](../../advanced-usage/storage-backends/nfs).
+    If you do not have any particular distributed file system in your Kubernetes cluster, you can easily [deploy an NFS network file system following our documentation](../../../advanced-usage/storage-backends/nfs/).
 
 ## Deploy
 
