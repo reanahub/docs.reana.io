@@ -7,15 +7,14 @@ If `step` does not contain `compute_backend` specification, it will be executed
 on the default backend.
 
 ```yaml hl_lines="6"
-
-   # Serial example
-   ...
-   steps:
-      - name: reana_demo_helloworld_htcondorcern
-        environment: 'python:2.7-slim'
-        compute_backend: kubernetes
-        commands:
-            - python "${helloworld}"
+  # Serial example
+  ...
+  steps:
+    - name: reana_demo_helloworld_htcondorcern
+      environment: 'python:2.7-slim'
+      compute_backend: kubernetes
+      commands:
+        - python "${helloworld}"
 ```
 
 ## Custom memory limit
@@ -28,29 +27,25 @@ Read more about the expected memory values on [Kubernetes official documentation
 
 You can configure the `steps` in the respective specifications for Serial, Yadage, CWL and Snakemake workflow engines.
 
-### Serial workflow
-
-You can set `kubernetes_memory_limit` in every `step` of workflow specification.
+For **Serial**, you can set `kubernetes_memory_limit` in every `step` of workflow specification:
 
 ```yaml hl_lines="6"
-   ...
-   steps:
-      - name: reana_demo_helloworld_memory_limit
-        environment: 'python:2.7-slim'
-        compute_backend: kubernetes
-        kubernetes_memory_limit: '8Gi'
-        commands:
-            - python helloworld.py
+  ...
+  steps:
+    - name: reana_demo_helloworld_memory_limit
+      environment: 'python:2.7-slim'
+      compute_backend: kubernetes
+      kubernetes_memory_limit: '8Gi'
+      commands:
+        - python helloworld.py
 ```
 
-### Yadage workflow
-
-You can set `kubernetes_memory_limit` in every `step` under `environment.resources`.
+For **Yadage**, you can set `kubernetes_memory_limit` in every `step` under `environment.resources`:
 
 ```yaml hl_lines="19"
-   ...
-   stages:
-   - name: reana_demo_helloworld_memory_limit
+  ...
+  stages:
+    - name: reana_demo_helloworld_memory_limit
       dependencies: [init]
       scheduler:
         scheduler_type: 'singlestep-stage'
@@ -69,13 +64,11 @@ You can set `kubernetes_memory_limit` in every `step` under `environment.resourc
               - kubernetes_memory_limit: '8Gi'
 ```
 
-### CWL workflow
-
-You can set `kubernetes_memory_limit` in every `step` under `hints.reana`.
+For **CWL**, you can set `kubernetes_memory_limit` in every `step` under `hints.reana`:
 
 ```yaml hl_lines="7"
-   ...
-   steps:
+  ...
+  steps:
     first:
       hints:
         reana:
@@ -87,9 +80,7 @@ You can set `kubernetes_memory_limit` in every `step` under `hints.reana`.
       out: [result]
 ```
 
-### Snakemake workflow
-
-You can set `kubernetes_memory_limit` in every `rule` under `resources`.
+For **Snakemake**, you can set `kubernetes_memory_limit` in every `rule` under `resources`:
 
 ```yaml hl_lines="12"
   ...
@@ -106,5 +97,89 @@ You can set `kubernetes_memory_limit` in every `rule` under `resources`.
         kubernetes_memory_limit="8Gi"
     container:
         "docker://python:2.7-slim"
-    ...
+  ...
+```
+
+## Custom job timeouts
+
+When a job exceeds the specified time limit, it will be terminated by Kubernetes and marked as failed.
+
+To set the job timeout, you can declare `kubernetes_job_timeout` in the specification of **each workflow step**.
+Time is measured in **seconds**.
+
+Read more about the job run time deadline limits in the [Kubernetes official documentation](https://kubernetes.io/docs/concepts/workloads/controllers/job/#job-termination-and-cleanup).
+
+You can configure the `steps` in the respective specifications for Serial, Yadage, CWL and Snakemake workflow engines.
+
+For **Serial**, you can set `kubernetes_job_timeout` in every `step` of workflow specification:
+
+```yaml hl_lines="6"
+  ...
+  steps:
+    - name: reana_demo_helloworld_job_timeout
+      environment: 'python:2.7-slim'
+      compute_backend: kubernetes
+      kubernetes_job_timeout: 60
+      commands:
+        - python helloworld.py
+```
+
+For **Yadage**, you can set `kubernetes_job_timeout` in every `step` under `environment.resources`:
+
+```yaml hl_lines="19"
+  ...
+  stages:
+    - name: reana_demo_helloworld_job_timeout
+      dependencies: [init]
+      scheduler:
+        scheduler_type: 'singlestep-stage'
+        parameters:
+          helloworld: {step: init, output: helloworld}
+        step:
+          process:
+            process_type: 'string-interpolated-cmd'
+            cmd: 'python "{helloworld}"'
+          environment:
+            environment_type: 'docker-encapsulated'
+            image: 'python'
+            imagetag: '2.7-slim'
+            resources:
+              - compute_backend: kubernetes
+              - kubernetes_job_timeout: 60
+```
+
+For **CWL**, you can set `kubernetes_job_timeout` in every `step` under `hints.reana`:
+
+```yaml hl_lines="7"
+  ...
+  steps:
+    first:
+      hints:
+        reana:
+          compute_backend: kubernetes
+          kubernetes_job_timeout: 60
+      run: helloworld_job_timeout.tool
+      in:
+        helloworld: helloworld_job_timeout
+      out: [result]
+```
+
+For **Snakemake**, you can set `kubernetes_job_timeout` in every `rule` under `resources`:
+
+```yaml hl_lines="12"
+  ...
+  rule helloworld:
+    input:
+        helloworld=config["helloworld"],
+        inputfile=config["inputfile"],
+    params:
+        sleeptime=config["sleeptime"]
+    output:
+        "results/greetings.txt"
+    resources:
+        compute_backend="kubernetes",
+        kubernetes_job_timeout=60
+    container:
+        "docker://python:2.7-slim"
+  ...
 ```
