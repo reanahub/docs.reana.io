@@ -18,6 +18,7 @@ Quota commands:
   quota-show  Show user quota.
 
 Configuration commands:
+  info     List cluster general information.
   ping     Check connection to REANA server.
   version  Show version.
 
@@ -60,7 +61,7 @@ Secret management commands:
 
 Show user quota.
 
-The `quota-show` command displays quota usage for the user.
+The ``quota-show`` command displays quota usage for the user.
 
 Examples:
 
@@ -78,7 +79,7 @@ Examples:
 
 Check connection to REANA server.
 
-The `ping` command allows to test connection to REANA server.
+The ``ping`` command allows to test connection to REANA server.
 
 Examples:
 
@@ -88,11 +89,24 @@ Examples:
 
 Show version.
 
-The `version` command shows REANA client version.
+The ``version`` command shows REANA client version.
 
 Examples:
 
      $ reana-client version
+
+### info
+
+List cluster general information.
+
+The ``info`` command lists general information about the cluster.
+
+Lists all the available workspaces. It also returns the default workspace
+defined by the admin.
+
+Examples:
+
+     $ reana-client info
 
 ## Workflow management commands
 
@@ -100,9 +114,9 @@ Examples:
 
 List all workflows and sessions.
 
-The `list` command lists workflows and sessions. By default, the list of
+The ``list`` command lists workflows and sessions. By default, the list of
 workflows is returned. If you would like to see the list of your open
-interactive sessions, you need to pass the `--sessions` command-line
+interactive sessions, you need to pass the ``--sessions`` command-line
 option.
 
 Example:
@@ -117,7 +131,7 @@ Example:
 
 Create a new workflow.
 
-The `create` command allows to create a new workflow from reana.yaml
+The ``create`` command allows to create a new workflow from reana.yaml
 specifications file. The file is expected to be located in the current
 working directory, or supplied via command-line -f option, see examples
 below.
@@ -134,12 +148,12 @@ Examples:
 
 Delete a workflow.
 
-The `delete` command allows to remove workflow runs from the database and
+The ``delete`` command allows to remove workflow runs from the database and
 the workspace. By default, the command removes the workflow and all its
 cached information and hides the workflow from the workflow list. Note that
 workflow workspace will still be accessible until you use
-`--include-workspace` flag. Note also that you can remove all past runs of
-a workflow by specifying `--include-all-runs` flag.
+``--include-workspace`` flag. Note also that you can remove all past runs of
+a workflow by specifying ``--include-all-runs`` flag.
 
 Example:
 
@@ -153,7 +167,7 @@ Example:
 
 Show diff between two workflows.
 
-The `diff` command allows to compare two workflows, the workflow_a and
+The ``diff`` command allows to compare two workflows, the workflow_a and
 workflow_b, which must be provided as arguments. The output will show the
 difference in workflow run parameters, the generated files, the logs, etc.
 
@@ -169,12 +183,12 @@ Examples:
 
 Start previously created workflow.
 
-The `start` command allows to start previously created workflow. The
+The ``start`` command allows to start previously created workflow. The
 workflow execution can be further influenced by passing input prameters
-using `-p` or `--parameters` flag and by setting additional operational
-options using `-o` or `--options`. The input parameters and operational
+using ``-p`` or ``--parameters`` flag and by setting additional operational
+options using ``-o`` or ``--options``.  The input parameters and operational
 options can be repetitive. For example, to disable caching for the Serial
-workflow engine, you can set `-o CACHE=off`.
+workflow engine, you can set ``-o CACHE=off``.
 
 Examples:
 
@@ -186,16 +200,16 @@ Examples:
 
 Restart previously run workflow.
 
-The `restart` command allows to restart a previous workflow on the same
+The ``restart`` command allows to restart a previous workflow on the same
 workspace.
 
 Note that workflow restarting can be used in a combination with operational
-options `FROM` and `TARGET`. You can also pass a modified workflow
-specification with `-f` or `--file`` flag.
+options ``FROM`` and ``TARGET``. You can also pass a modified workflow
+specification with ``-f`` or ``--file`` flag.
 
-You can furthermore use modified input prameters using `-p` or
-`--parameters` flag and by setting additional operational options using
-`-o` or `--options`. The input parameters and operational options can be
+You can furthermore use modified input prameters using ``-p`` or
+``--parameters`` flag and by setting additional operational options using
+``-o`` or ``--options``.  The input parameters and operational options can be
 repetitive.
 
 Examples:
@@ -212,7 +226,7 @@ Examples:
 
 Get status of a workflow.
 
-The `status` command allow to retrieve status of a workflow. The status can
+The ``status`` command allow to retrieve status of a workflow. The status can
 be created, queued, running, failed, etc. You can increase verbosity or
 filter retrieved information by passing appropriate command-line options.
 
@@ -226,7 +240,7 @@ Examples:
 
 Get workflow logs.
 
-The `logs` command allows to retrieve logs of running workflow. Note that
+The ``logs`` command allows to retrieve logs of running workflow. Note that
 only finished steps of the workflow are returned, the logs of the currently
 processed step is not returned until it is finished.
 
@@ -239,7 +253,7 @@ Examples:
 
 Validate workflow specification file.
 
-The `validate` command allows to check syntax and validate the reana.yaml
+The ``validate`` command allows to check syntax and validate the reana.yaml
 workflow specification file.
 
 Examples:
@@ -250,7 +264,7 @@ Examples:
 
 Stop a running workflow.
 
-The `stop` command allows to hard-stop the running workflow process. Note
+The ``stop`` command allows to hard-stop the running workflow process. Note
 that soft-stopping of the workflow is currently not supported. This command
 should be therefore used with care, only if you are absolutely sure that
 there is no point in continuing the running the workflow.
@@ -263,7 +277,7 @@ Example:
 
 Shortcut to create, upload, start a new workflow.
 
-The `run` command allows to create a new workflow, upload its input files
+The ``run`` command allows to create a new workflow, upload its input files
 and start it in one command.
 
 Examples:
@@ -278,7 +292,7 @@ Examples:
 
 Open an interactive session inside the workspace.
 
-The `open` command allows to open interactive session processes on top of
+The ``open`` command allows to open interactive session processes on top of
 the workflow workspace, such as Jupyter notebooks. This is useful to
 quickly inspect and analyse the produced files while the workflow is stlil
 running.
@@ -291,7 +305,7 @@ Examples:
 
 Close an interactive session.
 
-The `close` command allows to shut down any interactive sessions that you
+The ``close`` command allows to shut down any interactive sessions that you
 may have running. You would typically use this command after you finished
 exploring data in the Jupyter notebook and after you have transferred any
 code created in your interactive session.
@@ -306,9 +320,10 @@ Examples:
 
 List workspace files.
 
-The `ls` command lists workspace files of a workflow specified by the
+The ``ls`` command lists workspace files of a workflow specified by the
 environment variable REANA_WORKON or provided as a command-line flag
-`--workflow` or `-w`.
+``--workflow`` or ``-w``. The SOURCE argument is optional and specifies a
+pattern matching files and directories.
 
 Examples:
 
@@ -316,11 +331,15 @@ Examples:
 
      $ reana-client ls --workflow myanalysis.42 --human-readable
 
+     $ reana-client ls --workflow myanalysis.42 'data/*root*'
+
+     $ reana-client ls --workflow myanalysis.42 --filter name=hello
+
 ### download
 
 Download workspace files.
 
-The `download` command allows to download workspace files and directories.
+The ``download`` command allows to download workspace files and directories.
 By default, the files specified in the workflow specification as outputs
 are downloaded. You can also specify the individual files you would like
 to download, see examples below.
@@ -335,7 +354,7 @@ Examples:
 
 Upload files and directories to workspace.
 
-The `upload` command allows to upload workflow input files and
+The ``upload`` command allows to upload workflow input files and
 directories. The SOURCES argument can be repeated and specifies which files
 and directories are to be uploaded, see examples below. The default
 behaviour is to upload all input files and directories specified in the
@@ -351,20 +370,20 @@ Examples:
 
 Delete files from workspace.
 
-The `rm` command allow to delete files and directories from workspace.
+The ``rm`` command allow to delete files and directories from workspace.
 Note that you can use glob to remove similar files.
 
 Examples:
 
      $ reana-client rm -w myanalysis.42 data/mydata.csv
 
-     $ reana-client rm -w myanalysis.42 'code/\*'
+     $ reana-client rm -w myanalysis.42 'data/*root*'
 
 ### mv
 
 Move files within workspace.
 
-The `mv` command allow to move the files within workspace.
+The ``mv`` command allow to move the files within workspace.
 
 Examples:
 
@@ -374,13 +393,15 @@ Examples:
 
 Get workspace disk usage.
 
-The `du` command allows to chech the disk usage of given workspace.
+The ``du`` command allows to chech the disk usage of given workspace.
 
 Examples:
 
      $ reana-client du -w myanalysis.42 -s
 
      $ reana-client du -w myanalysis.42 -s --human-readable
+
+     $ reana-client du -w myanalysis.42 --filter name=data/
 
 ## Secret management commands
 
