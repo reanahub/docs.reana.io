@@ -2,3 +2,6 @@ title: Running notebooks
 arrange:
     - index.md
     - what-is-session
+    - opening-sessions
+    - listing-active-sessions
+    - closing-active-sessions
