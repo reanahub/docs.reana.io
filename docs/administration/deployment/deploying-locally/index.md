@@ -44,4 +44,4 @@ $ firefox https://localhost:30443
 ## For developers
 
 If you are a developer and would like to install REANA locally and contribute to the REANA cluster code,
-please see the [REANA wiki on GitHub](https://github.com/reanahub/reana/wiki/Development-installation).
+please see the [REANA wiki on GitHub](https://github.com/reanahub/reana/wiki).
