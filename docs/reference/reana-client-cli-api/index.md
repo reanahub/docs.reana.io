@@ -350,6 +350,8 @@ Examples:
 
      $ reana-client download mydata.tmp outputs/myplot.png
 
+     $ reana-client download -o - data.txt # write data.txt to stdout
+
 ### upload
 
 Upload files and directories to workspace.
