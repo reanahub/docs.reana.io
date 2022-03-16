@@ -4,4 +4,5 @@ arrange:
     - what-is-workflow
     - defining-workflows
     - executing-workflows
+    - launching-workflows
     - supported-systems

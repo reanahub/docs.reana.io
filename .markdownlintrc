@@ -4,5 +4,6 @@
   "line-length": false,
   "no-emphasis-as-heading": false,
   "no-trailing-punctuation": false,
-  "ul-indent": false
+  "ul-indent": false,
+  "no-inline-html": false
 }
