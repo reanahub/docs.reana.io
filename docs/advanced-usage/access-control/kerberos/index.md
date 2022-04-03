@@ -117,7 +117,7 @@ rule helloworld:
   output:
     "results/greetings.txt"
   resources:
-    kerberos: true
+    kerberos=True
   container: "docker://python:2.7-slim"
 ```
 
