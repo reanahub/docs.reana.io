@@ -153,3 +153,14 @@ html .md-footer-meta .md-footer-meta__inner a {
 .md-typeset .admonition.note .admonition-title::before {
     color: #c8aeae;
 }
+
+/* show the copy-to-clipboard button only if .copy-to-clipboard is specified */
+.codehilite:not(.copy-to-clipboard) .md-clipboard {
+    display: none;
+}
+
+/* do not copy the terminal prompt `$` */
+pre > code > .gp {
+    -webkit-user-select: none;
+    user-select: none;
+}

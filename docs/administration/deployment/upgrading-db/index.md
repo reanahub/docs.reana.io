@@ -20,7 +20,7 @@ upgrade.
 After you upgrade REANA by running `helm upgrade` successfully, run the
 following command:
 
-```console
+```{ .console .copy-to-clipboard }
 $ kubectl exec -i -t deployment/reana-server -c rest-api -- reana-db alembic upgrade
 ```
 

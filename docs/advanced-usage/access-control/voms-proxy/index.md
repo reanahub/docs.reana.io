@@ -9,15 +9,15 @@ If you do not already have a user certificate create one at [ca.cern.ch/ca](http
 Before moving to REANA, check that your credentials are in order.
 
 ```console
-# Login to lxplus
+$ # Login to lxplus
 $ ssh johndoe@lxplus.cern.ch
 
-# Make sure userkey.pem is read/write only by the owner
+$ # Make sure userkey.pem is read/write only by the owner
 $ ls -l ~/.globus
 -rw-r--r--. usercert.pem
 -r--------. userkey.pem
 
-# Let us create a proxy certificate with the VO cms
+$ # Let us create a proxy certificate with the VO cms
 $ voms-proxy-init --voms cms
 Enter GRID pass phrase for this identity:
 
@@ -41,7 +41,7 @@ bXlncmlkcGFzc3BocmFzZQo=
 
 Upload these three secrets to REANA. In addition REANA needs information about your VO. This is communicated by the environment variable `VONAME` and can also be added to the secrets:
 
-```console
+```{ .console .copy-to-clipboard }
 $ reana-client secrets-add --file userkey.pem \
                            --file usercert.pem \
                            --env VOMSPROXY_PASS=bXlncmlkcGFzc3BocmFzZQo= \

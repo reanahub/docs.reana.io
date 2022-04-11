@@ -14,13 +14,13 @@ storageClass:
 
 - **2.** Install the NFS Server Provisioner:
 
-```console
+```{ .console .copy-to-clipboard }
 $ helm install reana-dev-storage stable/nfs-server-provisioner \
                -f nfs-provisioner-values.yaml
 ```
 
 - **3.** Install REANA with NFS support:
 
-```console
+```{ .console .copy-to-clipboard }
 $ helm install reana reanahub/reana --set shared_storage.backend=nfs
 ```

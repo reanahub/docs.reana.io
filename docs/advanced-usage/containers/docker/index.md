@@ -18,7 +18,7 @@ This is usually the case when your code needs to be compiled, for example C++ an
 
 If you need to create your own environment, this can be achieved by means of providing a particular `Dockerfile`:
 
-```Dockerfile
+```{ .Dockerfile .copy-to-clipboard }
 # Start from the Python 2.7 base image:
 FROM python:2.7
 
@@ -38,13 +38,13 @@ WORKDIR /code
 
 You can build this customised analysis environment image and give it some name, for example `johndoe/myenv`:
 
-```console
+```{ .console .copy-to-clipboard }
 $ docker build -f environment/myenv/Dockerfile -t johndoe/myenv .
 ```
 
 and push the created image to the DockerHub image registry:
 
-```console
+```{ .console .copy-to-clipboard }
 $ docker push johndoe/myenv
 ```
 
@@ -61,7 +61,7 @@ This will ensure the writable access to workspace directories managed by the REA
 
 For example, you can create the user `johndoe` with `UID=501` and add the user to `GID=0` by adding the following commands at the end of the previous `Dockerfile`:
 
-```Dockerfile
+```{ .Dockerfile .copy-to-clipboard }
 # Setup user and permissions
 RUN adduser johndoe -u 501 --disabled-password --gecos ""
 RUN usermod -a -G 0 johndoe

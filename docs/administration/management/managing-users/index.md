@@ -4,7 +4,7 @@
 
 To manage users you will need to obtain administration credentials:
 
-```console
+```{ .console .copy-to-clipboard }
 $ export KUBECONFIG=~/mycluster/config
 $ export REANA_ACCESS_TOKEN=$(kubectl get secret reana-admin-access-token -o json | jq -r '.data | map_values(@base64d) | .ADMIN_ACCESS_TOKEN')
 ```
@@ -49,13 +49,13 @@ User token c0fa47fa00ae4013a13fd7n (new.web.user@example.org) was successfully r
 
 ### Export users
 
-```console
+```{ .console .copy-to-clipboard }
 $ kubectl exec -i -t deployment/reana-server -- flask reana-admin user-export --admin-access-token $REANA_ACCESS_TOKEN > myusers.csv
 ```
 
 ### Import users
 
-```console
+```{ .console .copy-to-clipboard }
 $ # put myusers.csv onto the node in the /var/reana directory and run:
 $ kubectl exec -i -t deployment/reana-server -- flask reana-admin user-import --admin-access-token $REANA_ACCESS_TOKEN --file /var/reana/myusers.csv
 ```

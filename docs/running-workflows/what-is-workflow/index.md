@@ -6,7 +6,7 @@ Workflows describe which computational steps were taken to run an analysis.
 
 Let us assume that our analysis is run in two stages, firstly a data filtering stage and secondly a data plotting stage. A hypothetical example:
 
-```console
+```{ .console .copy-to-clipboard }
 $ python ./code/mycode.py \
     < ./data/mydata.csv > ./workspace/mydata.tmp
 $ python ./code/mycode.py --plot myparameter=myvalue \
@@ -15,13 +15,13 @@ $ python ./code/mycode.py --plot myparameter=myvalue \
 
 Note how we call a given sequence of commands to produce our desired output plots. In order to capture this sequence of commands in a “runnable” or “actionable” manner, we can write a short shell script `run.sh` and make it parametrisable:
 
-```console
+```{ .console .copy-to-clipboard }
 $ ./run.sh --myparameter myvalue
 ```
 
 In this case you will want to use the [Serial](../supported-systems/serial) workflow engine of REANA. The engine permits to express the workflow as a sequence of commands:
 
-```console
+```text
     START
      |
      |
@@ -52,7 +52,7 @@ For advanced workflow needs we may want to run certain commands in parallel in a
 
 The workflow systems enable to express the computational steps in the form of [Directed Acyclic Graph (DAG)](https://en.wikipedia.org/wiki/Directed_acyclic_graph) permitting advanced computational scenarios.
 
-```console
+```text
               START
                |
                |

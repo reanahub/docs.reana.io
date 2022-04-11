@@ -2,19 +2,19 @@
 
 First, obtain your new REANA command-line access token. For example, at CERN, do:
 
-```console
+```{ .console .copy-to-clipboard }
 $ firefox https://reana.cern.ch
 ```
 
 Second, install and activate the REANA command-line client [reana-client](https://pypi.org/project/reana-client/). For example, at CERN, login to LXPLUS and activate it as follows:
 
-```console
+```{ .console .copy-to-clipboard }
 $ source /afs/cern.ch/user/r/reana/public/reana/bin/activate
 ```
 
 Alternatively, you can install it via [pip](https://pip.pypa.io/en/stable/), ideally in a new virtual environment:
 
-```console
+```{ .console .copy-to-clipboard }
 $ # create new virtual environment
 $ virtualenv ~/.virtualenvs/reana
 $ source ~/.virtualenvs/reana/bin/activate
@@ -26,7 +26,7 @@ $ pip install reana-client
 
 Third, set REANA environment variables for the client (using the access token obtained in the first step) and test your connection:
 
-```console
+```{ .console .copy-to-clipboard }
 $ export REANA_SERVER_URL=https://reana.cern.ch
 $ export REANA_ACCESS_TOKEN=xxxxxxxxxxxxxxxxxxx
 $ reana-client ping

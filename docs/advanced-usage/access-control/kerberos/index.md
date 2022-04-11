@@ -8,7 +8,7 @@ EOS you could use Kerberos authentication.
 First, generate a Kerberos keytab file for passwordless authentication.
 
 ```console
-# login to lxplus and generate keytab file
+$ # login to lxplus and generate keytab file
 $ ssh johndoe@lxplus.cern.ch
 $ ktutil
 ktutil:  add_entry -password -p johndoe@CERN.CH -k 1 -e aes256-cts-hmac-sha1-96
@@ -18,7 +18,7 @@ Password for johndoe@CERN.CH:
 ktutil:  write_kt .keytab
 ktutil:  exit
 
-# Let's test generated keytab file by trying to generate Kerberos ticket
+$ # Let's test generated keytab file by trying to generate Kerberos ticket
 $ scp johndoe@lxplus.cern.ch:~/.keytab .
 $ kinit -kt ~/.keytab johndoe@CERN.CH
 $ klist
@@ -39,7 +39,7 @@ Valid starting       Expires              Service principal
 Once you have a working keytab file, you need to upload your CERN username
 and keytab secrets to REANA:
 
-```console
+```{ .console .copy-to-clipboard }
 $ reana-client secrets-add --env CERN_USER=johndoe \
                            --env CERN_KEYTAB=.keytab \
                            --file ~/.keytab
