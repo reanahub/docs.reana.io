@@ -59,12 +59,12 @@ The **inputs** property of `reana.yaml` specifies all the workflow high-level in
 
 The **inputs** property is composed of:
 
-| Property    | Type         | Mandatory? | Description                                                                                                                      |
-| ----------- | ------------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| directories | _list_       | _optional_ | Lists all the input directories to the workflow. Will be seeded to the workspace before running.                                 |
-| files       | _list_       | _optional_ | Lists all the input files to the workflow. Will be seeded to the workspace before running.                                       |
-| parameters  | _dictionary_ | _optional_ | Specifies all the input parameters to the workflow. It is a dictionary of parameter names and their values expressed as strings. |
-| options     | _dictionary_ | _optional_ | Specifies operational options for each workflow engine, see below.                                                               |
+| Property    | Type         | Mandatory? | Description                                                                                                                                                |
+| ----------- | ------------ | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| directories | _list_       | _optional_ | Lists all the input directories to the workflow. Will be seeded to the workspace before running. Note that only non-empty directories will be transferred. |
+| files       | _list_       | _optional_ | Lists all the input files to the workflow. Will be seeded to the workspace before running.                                                                 |
+| parameters  | _dictionary_ | _optional_ | Specifies all the input parameters to the workflow. It is a dictionary of parameter names and their values expressed as strings.                           |
+| options     | _dictionary_ | _optional_ | Specifies operational options for each workflow engine, see below.                                                                                         |
 
 The **inputs.options** property describes operational options that can be used for the different workflow engines. The available options are:
 
