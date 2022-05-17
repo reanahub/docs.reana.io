@@ -113,6 +113,7 @@ The **workflow** property is composed of:
 | type          | _string_     | _mandatory_                                        | Specifies workflow language type. Can be `cwl`, `serial`, `yadage`, `snakemake`.                                                             |
 | file          | _string_     | _mandatory if property `specification` is missing_ | For CWL, Yadage and Snakemake workflows, specifies workflow steps in an external file, using their respective workflow definition languages. |
 | specification | _dictionary_ | _mandatory if property `file` is missing_          | For Serial workflows, specifies workflow steps internally in `reana.yaml`, see below.                                                        |
+| resources     | _dictionary_ | _optional_                                         | Specifies additional resources needed by the workflow, see below.                                                                            |
 
 The **workflow.specification** property is used in Serial workflows and is further composed of:
 
@@ -127,6 +128,12 @@ The **workflow.specification.steps** property describes each individual computat
 | name        | _string_ | _optional_  | Provides name of the given workflow step.                                                                                                                                             |
 | environment | _string_ | _mandatory_ | Specifies runtime environment container image where the given workflow step commands will be run.                                                                                     |
 | commands    | _list_   | _mandatory_ | Lists all commands to be run in the runtime environment container image when the given workflow step is executed. Note that each command is executed as a separate containerised job. |
+
+The **workflow.resources** property is used to describe additional resources
+needed by the workflow. For example, you can use it to set up
+[CVMFS](/advanced-usage/code-repositories/cvmfs) volume provisioning or
+[Kerberos](/advanced-usage/access-control/kerberos/#setting-kerberos-requirement)
+authentication support for the workflow orchestration.
 
 The **workflow** property examples:
 

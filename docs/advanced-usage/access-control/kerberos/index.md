@@ -47,10 +47,30 @@ $ reana-client secrets-add --env CERN_USER=johndoe \
 
 ## Setting Kerberos requirement
 
-Set `kerberos: true` for the steps in need in the workflow specification.
-Please note that step's docker image (e.g `environment: 'cern/slc6-base'`)
-should have Kerberos client installed and you have to for the Kerberos
-authentication to work.
+### Setting Kerberos requirement for whole workflow
+
+If the workflow engine you are using needs Kerberos to parse and validate the
+workflow specification, then you can enable it globally for the whole workflow
+orchestration in the `reana.yaml` file. For example, this may be needed if you
+are using the Snakemake workflow engine with data objects living in a restricted
+data storage:
+
+```yaml hl_lines="4"
+workflow:
+  type: snakemake
+  resources:
+    kerberos: true
+  file: workflow/snakemake/Snakefile
+```
+
+This will enable Kerberos authentication not only for workflow orchestration,
+but also for each workflow step job.
+
+### Setting Kerberos requirement for certain jobs only
+
+If your workflow does not need Kerberos for the whole duration, but only for
+some of its steps, you can provide a workflow hint `kerberos: true` for only
+those steps that need it.
 
 Serial example:
 
