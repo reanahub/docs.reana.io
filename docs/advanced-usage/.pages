@@ -4,3 +4,4 @@ arrange:
     - storage-backends
     - code-repositories
     - access-control
+    - containers
