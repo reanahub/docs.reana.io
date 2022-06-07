@@ -5,3 +5,4 @@ arrange:
     - code-repositories
     - access-control
     - containers
+    - user-quotas
