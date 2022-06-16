@@ -148,20 +148,15 @@ Examples:
 
 Delete a workflow.
 
-The ``delete`` command allows to remove workflow runs from the database and
-the workspace. By default, the command removes the workflow and all its
-cached information and hides the workflow from the workflow list. Note that
-workflow workspace will still be accessible until you use
-``--include-workspace`` flag. Note also that you can remove all past runs of
-a workflow by specifying ``--include-all-runs`` flag.
+The ``delete`` command removes workflow run(s) from the database.
+Note that the workspace will always be deleted, even when ``--include-workspace`` is not specified.
+Note also that you can remove all past runs of a workflow by specifying ``--include-all-runs`` flag.
 
 Example:
 
      $ reana-client delete -w myanalysis.42
 
      $ reana-client delete -w myanalysis.42 --include-all-runs
-
-     $ reana-client delete -w myanalysis.42 --include-workspace
 
 ### diff
 
