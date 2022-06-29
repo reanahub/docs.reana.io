@@ -10,6 +10,7 @@
 
 - [Configuring user access](configuration/configuring-access)
 - [Configuring workflow scheduler](configuration/configuring-scheduler)
+- [Configuring TLS certificates](configuration/configuring-tls-certificates)
 
 **Managing REANA platform?**
 
