@@ -37,5 +37,5 @@ authenticated, they will be redirected back to REANA with their user
 logged in.
 
 You might also want to disable the local users functionality altogether
-to rely only on SSO users. To do this, set [`components.reana_ui.local_users`]((https://github.com/reanahub/reana/tree/master/helm/reana))
+to rely only on SSO users. To do this, set [`components.reana_ui.local_users`](https://github.com/reanahub/reana/tree/master/helm/reana)
 Helm value to `false`.
