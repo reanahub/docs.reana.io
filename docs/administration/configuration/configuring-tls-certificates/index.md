@@ -47,7 +47,7 @@ containing the certificate, which in this example will be called
 `reana-mycert-secret`:
 
 ```{ .console .copy-to-clipboard }
-$ kubectl create secret tls reana-mycert-secret --cert=./cert.crt --key=./cert.key
+$ kubectl create secret tls reana-mycert-secret --cert=./mycert.crt --key=./mycert.key
 ```
 
 Finally, you must set the necessary Helm values whilst deploying REANA:
