@@ -31,3 +31,7 @@
 **User Quotas**
 
 - [User quotas](user-quotas) to inspect CPU and Disk resource quota limits and manage their use
+
+**Workspace Retention Rules**
+
+- [Workspace retention rules](workspace-retention-rules) to automatically remove files after some specified time.

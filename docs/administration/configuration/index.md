@@ -4,3 +4,4 @@
 - [Configuring user quotas](configuring-user-quotas)
 - [Configuring workflow scheduler](configuring-scheduler)
 - [Configuring TLS certificates](configuring-tls-certificates)
+- [Configuring workspace retention rules](configuring-workspace-retention-rules)
