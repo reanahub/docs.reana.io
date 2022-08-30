@@ -9,6 +9,7 @@ Note also that REANA offers a set of containers that can serve as examples about
 - ROOT (see [reana-env-root6](https://github.com/reanahub/reana-env-root6))
 - Jupyter (see [reana-env-jupyter](https://github.com/reanahub/reana-env-jupyter))
 - AliPhysics (see [reana-env-aliphysics](https://github.com/reanahub/reana-env-aliphysics))
+- RucioClient (see [reana-env-rucioclient](https://github.com/reanahub/reana-env-rucioclient))
 
 ## Building your own environment
 

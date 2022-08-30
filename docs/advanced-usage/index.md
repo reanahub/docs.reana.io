@@ -21,6 +21,7 @@
 
 - [Kerberos](access-control/kerberos) to access restricted resources
 - [VOMS-proxy](access-control/voms-proxy) to authenticate with a VOMS proxy certificate
+- [Rucio](access-control/rucio) to authenticate with a Rucio instance
 - [Private Docker registries](access-control/private-docker-registries) to access private images
 
 **Containers**
