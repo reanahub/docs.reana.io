@@ -380,7 +380,8 @@ Examples:
 
 Move files within workspace.
 
-The ``mv`` command allow to move the files within workspace.
+The ``mv`` command allows to move files within a workspace. Note that the
+workflow might fail if files are moved during its execution.
 
 Examples:
 
