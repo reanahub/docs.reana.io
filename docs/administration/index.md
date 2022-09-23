@@ -9,6 +9,7 @@
 **Configuring REANA platform?**
 
 - [Configuring user access](configuration/configuring-access)
+- [Configuring user quotas](configuration/configuring-user-quotas)
 - [Configuring workflow scheduler](configuration/configuring-scheduler)
 - [Configuring TLS certificates](configuration/configuring-tls-certificates)
 

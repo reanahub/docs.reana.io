@@ -1,71 +1,68 @@
 # Configuring user quotas
 
-Since [REANA 0.8.0 release](https://blog.reana.io/posts/2021/release-0.8.0/#cpu-and-disk-quota-accounting),
-it is possible to configure quotas to limit usage of CPU and disk by users.
-On this page, you will find a guide on enabling quotas for the REANA cluster and setting limits.
-If you are looking for documentation from the user perspective, please, check [this page](https://docs.reana.io/advanced-usage/user-quotas/).
+Since [REANA 0.8.0](https://blog.reana.io/posts/2021/release-0.8.0/#cpu-and-disk-quota-accounting),
+it is possible to configure user quotas to limit the usage of resources, such as CPU and disk storage.
+This page describes how to enable quotas on your REANA cluster and how to set usage limits.
+If you are looking for documentation from the user perspective, please check [this page](https://docs.reana.io/advanced-usage/user-quotas/).
 
-## Enabling quotas
+## Enabling and disabling quotas
 
-By default, quotas are enabled in REANA. But, to be sure, you can always modify `quota.enabled` Helm value in [`values.yaml`](https://github.com/reanahub/reana/tree/master/helm/reana#configuration).
+Quotas are enabled by default in REANA. If you would like to disable them, you can set the [`quota.enabled`](https://github.com/reanahub/reana/tree/master/helm/reana) Helm value to `false`.
 
-```yaml
-quota:
-  enabled: true
-```
+REANA automatically creates two user quota resources for you:
 
-REANA automatically creates two quota resources for you:
+- `cpu` to limit the amount of CPU time available to run workflows;
+- `disk` to limit the total storage space in user workflow's workspaces.
 
-- `cpu`, to limit the time for running workflows;
-- `disk`, to limit the storage space available for file uploads.
+In addition to enabling quotas, you might want to decide how frequently the quota resources usage should be tracked and updated.
+This is done using two options:
 
-In addition to enabling quotas, you might want to decide on how frequently quotas should be updated.
-This is done using two options `quota.periodic_update_policy` and `quota.workflow_termination_update_policy`.
+- [`quota.periodic_update_policy`](https://github.com/reanahub/reana/tree/master/helm/reana) Helm value defining a policy where users' quota resources usage is updated periodically via a cron job. The value is a [cron expression](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/#cron-schedule-syntax) and it indicates how frequently the cron job should run. By default, the value is set to `"0 3 * * *"`, meaning that the quota usage updates are carried out daily at 03:00 in the morning.
+- [`quota.workflow_termination_update_policy`](https://github.com/reanahub/reana/tree/master/helm/reana) Helm value defining a policy where users' quota resources usage is updated as soon as each workflow run terminates. This policy is not enabled by default because it could lead to slower workflow termination times when the REANA system runs many concurrent user workflows.
 
-`quota.periodic_update_policy` option defines when periodic cron job should update quotas. By default, it is set to run once every night.
-
-`quota.workflow_termination_update_policy` option is responsible for defining what resources should be updated after the workflow is in its final state (finished, failed, etc.).
-
-Below you can find the example configuration of those two options.
+Here is an example of a mixed configuration where, in addition to nightly CPU and disk quota usage updates, the CPU usage is also updated immediately after each workflow run terminates:
 
 ```yaml
 quota:
   enabled: true
-  periodic_update_policy: "0 3 * * *"  # everyday at 3AM
-  workflow_termination_update_policy: "cpu,disk"  # after workflow finishes or fails update its cpu and disk resources usage
+  # update quota usage everyday at 3AM
+  periodic_update_policy: "0 3 * * *"
+  # after workflow finishes or fails update its cpu usage
+  workflow_termination_update_policy: "cpu"
 ```
 
 ## Setting default quota limits
 
-Now when user quotas are enabled, you may want to set a default quota limit that will apply to all new users.
-This can be done via `quota.default_disk_limit` and `quota.default_cpu_limit` values:
+When user quotas are enabled, no limit on the actual usage of resources by the users is enforced by default. You could however set a default quota limit that will apply to each user by means of setting the [`quota.default_disk_limit`](https://github.com/reanahub/reana/tree/master/helm/reana) and [`quota.default_cpu_limit`](https://github.com/reanahub/reana/tree/master/helm/reana) Helm values:
 
 ```yaml
 quota:
-  default_disk_limit: 5000000000  # bytes (4768 MB) 
-  default_cpu_limit: 3600000      # milliseconds (1 hour)
+  default_disk_limit: 10737418240  # bytes (10 GiB)
+  default_cpu_limit: 36000000      # milliseconds (10 hours)
   ...
 ```
 
-!!! note
-    If default quota values are changed, they will only be applied to newly created users. Users before will still have old values for quotas.
+Individual users will be able to run as many workflows as they want, provided that the total CPU usage time stays under 10 hours and the total consumed disk space stays under 10 GiB.
 
-## Setting quotas for selected users
+!!! warning
+    If the default quota values are changed, they will only be applied to newly created users. Users that already exist will not be affected by this change.
 
-In certain situation, you might want to set quotas for specific users.
-This can be done via `reana-admin` tool that is present in `reana-server` pod in REANA cluster.
-Let's take a look how you use it.
+## Setting individual quota limits
 
-Log in to `reana-server` pod.
+In addition to setting the default quota limits for all users, you may want to set different quota usage limits for different specific groups of users.
+This can be done via the `reana-admin` tool that is present in the `reana-server` pod.
+
+Log in to the `reana-server` pod:
 
 ```console
 $ kubectl exec -i -t deployment/reana-server -- /bin/bash
 ```
 
-Inside the pod, set a quota to a selected user(s).
+You can now set a custom quota limit to selected users:
 
 ```console
 # flask reana-admin quota-set -e john.doe@example.org -r disk -l 250000
+Quota limit 250000 for 'disk (shared storage)' successfully set to users ('john.doe@example.org',).
 ```
 
-You can learn about different management commands of `reana-admin` using `flask reana-admin --help` command.
+You can learn more about the `quota-set` administrative command options by running `flask reana-admin quota-set --help`.
