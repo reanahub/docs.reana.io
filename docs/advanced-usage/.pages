@@ -6,4 +6,4 @@ arrange:
     - access-control
     - containers
     - user-quotas
-    - workspace-retention-rules
+    - workspace-retention

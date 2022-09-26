@@ -33,7 +33,7 @@ The overall structure of `reana.yaml` looks as follows:
 | inputs     | _dictionary_ | _optional_  | Specifies all the high-level inputs to the workflow. Can be composed of "files", "directories", "parameters", "options". |
 | workflow   | _dictionary_ | _mandatory_ | Defines computational workflow, using CWL, Serial, Yadage or Snakemake specifications.                                   |
 | outputs    | _dictionary_ | _optional_  | Specifies all the high-level outputs of the workflow. Can be composed of "files" and "directories".                      |
-| workspace  | _dictionary_ | _optional_  | Defines configuration for a place where workflow files are stored. |
+| workspace  | _dictionary_ | _optional_  | Configures how workflow files are stored and managed. |
 
 Each property will be described in detail in the following sections.
 
@@ -218,16 +218,16 @@ The **workspace** property is composed of:
 | --------------- | ------------ | ---------- | ------------------------------------------------- |
 | retention_days  | _dictionary_ | _optional_ | Retention rules for the files in the workspace.   |
 
-**workspace.retention_days** property allows specifying retention rules for every workflow to preserve selected files for specified days.
-You can learn more about retention rules from [the documentation page](/advanced-usage/workspace-retention-rules).
+The **workspace.retention_days** property allows specifying retention rules to retain selected files only for a specified number of days.
+You can learn more about retention rules by checking out [the related documentation page](/advanced-usage/workspace-retention).
 
 The **workspace** property example:
 
 ```yaml
 workspace:
   retention_days:
-    data/*_tmp.root: 1
-    plots/*.png: 180
+    tmp/*.root: 7
+    data/*.csv: 30
 ```
 
 ## Validating `reana.yaml`
