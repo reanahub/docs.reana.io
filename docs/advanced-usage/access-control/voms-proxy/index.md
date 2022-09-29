@@ -25,7 +25,8 @@ If you do not have a user certificate yet, please create one at
 `userkey.pem` following [voms-proxy-init
 documentation](https://ca.cern.ch/ca/Help/?kbid=024010).
 
-Please check that your credentials are in order by logging in to LXPLUS:
+Please check that your credentials are working well on LXPLUS. Start by logging
+in to LXPLUS:
 
 ```console
 $ ssh johndoe@lxplus.cern.ch
@@ -60,11 +61,56 @@ technique with REANA.
 
 ## Uploading secrets
 
-In order to create the proxy certificate for your workflow jobs, REANA would
-need to access your (i) user certificate `usercert.pem`, (ii) encrypted private
-key `userkey.pem`, and (iii) the Grid passphrase encoded using the base64
-encoding. For example, if your Grid passphrase is `mygridpassphrase`, you
-would generate the corresponding base64-encoded value as follows:
+### Client-side proxy generation
+
+We recommend to create your VOMS proxy file on the client-side, such as on your
+laptop, exactly as you would do when using LXPLUS.
+
+The proxy file can be generated on the client side as follows:
+
+```console
+$ voms-proxy-init --cert ~/.globus/usercert.pem \
+                  --key ~/.globus/userkey.pem \
+                  --voms cms
+...
+
+Created proxy in /tmp/x509up_u1000.
+
+Your proxy is valid until Wed Oct 12 02:18:30 CEST 2022
+```
+
+You will now need to upload the created proxy file to the REANA cluster as a
+personal secret, as well as specify the name of the desired Virtual
+Organization that you would like to use:
+
+```console
+$ reana-client secrets-add --env VONAME=cms \
+                           --env VOMSPROXY_FILE=x509up_u1000 \
+                           --file /tmp/x509up_u1000
+```
+
+Note that the generated proxy file has a certain temporal validity, such as 24
+hours. You may therefore need to regenerate and reupload the proxy file from
+time to time, for example each time before you submit a new workflow run after
+being idle for a few days. Whilst the client-side proxy file regeneration and
+reupload procedure may be a little inconvenient, it helps to strengthen your
+online safety, since your user certificate and key never leave your laptop.
+
+Please proceed to the section entitled [Configuring your
+workflows](/advanced-usage/access-control/voms-proxy/#configuring-your-workflows)
+below to see how to configure your workflows to use the uploaded VOMS proxy
+file resource in your runtime jobs.
+
+### Server-side proxy generation
+
+If you would like REANA to automatically create the proxy file for your
+workflow jobs on the server side, rather than doing it yourself on the client
+side as described above, then REANA would need to access your (i) user
+certificate `usercert.pem`, (ii) encrypted private key `userkey.pem`, and (iii)
+the Grid passphrase encoded using the base64 encoding.
+
+If your Grid passphrase is `mygridpassphrase`, you would generate the
+corresponding base64-encoded value as follows:
 
 ```console
 $ echo -n 'mygridpassphrase' | base64
@@ -72,13 +118,14 @@ bXlncmlkcGFzc3BocmFzZQ==
 ```
 
 Thusly encoded passphrase will be expected as the `VOMSPROXY_PASS` environment
-variable's value.
+variable user secret.
 
-Finally, REANA needs to know also (iv) which VO you would like to use, such as
-"atlas" or "cms". This should be specified in the environment variable
+Finally, REANA would also need to know (iv) which VO you would like to use,
+such as "atlas" or "cms". This should be specified in the environment variable
 `VONAME`.
 
-These four necessary secrets can be uploaded to REANA as follows:
+These four secrets necessary for server-side generation of VOMS proxy file can
+be uploaded to REANA as follows:
 
 ```console
 $ reana-client secrets-add --file userkey.pem \
@@ -86,6 +133,24 @@ $ reana-client secrets-add --file userkey.pem \
                            --env VOMSPROXY_PASS=bXlncmlkcGFzc3BocmFzZQ== \
                            --env VONAME=cms
 ```
+
+In this way, REANA will be able to generate the proxy file automatically
+whenever a workflow runtime job needs it, so that the proxy file will be
+"always fresh", unlike the client-side technique where the proxy would expire
+after a certain time period and would need to be regenerated and reuploaded by
+the client.
+
+!!! important
+
+    Please use this technique only on REANA clusters that you trust, for
+    example if you are using a single-user REANA deployment on your premises
+    and if you have full control over your cluster. If you are using a
+    multi-user REANA deployment, where other persons could have admin access to
+    the Kubernetes cluster you are using, the client-side generation technique
+    described in the previous paragraph should be preferred for online safety
+    reasons. Your user certificate, your key and encoded passphrase should
+    never leave your laptop to untrusted clusters in order to reduce the risk
+    of attempts at impersonating you.
 
 ## Configuring your workflows
 

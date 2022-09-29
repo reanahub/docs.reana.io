@@ -12,5 +12,5 @@ REANA user documentation web site.
 $ mkvirtualenv docs.reana.io
 $ pip install -r requirements.txt
 $ mkdocs serve
-$ firefox http://127.0.0.1:8000
+$ firefox http://localhost:8000
 ```
