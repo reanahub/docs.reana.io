@@ -2,57 +2,43 @@
 
 ## About Rucio
 
-[Rucio](https://rucio.cern.ch/) is a project that provides services and associated
-libraries for allowing scientific collaborations to manage large volumes of data
-spread across facilities at multiple institutions and organisations. Rucio was
-originally developed to meet the requirements of the high-energy physics experiment
-ATLAS, and now is continuously extended to support the LHC experiments and other
-diverse scientific communities.
+[Rucio](https://rucio.cern.ch/) is a scientific data management system used in
+LHC particle physics and related scientific domains. It provides access for
+large volumes of data spread across facilities at multiple institutions.
 
-Rucio offers advanced features, is highly scalable, and modular. It is a data
-management solution that covers the needs of different communities in the scientific
-domain (e.g., HEP, astronomy, biology).
+If your workflow needs to access some researched data managed by a Rucio
+instance, you can use the Rucio authentication technique described below.
 
-If your workflow needs data access to a Rucio instance, you can use the Rucio
-authentication technique with your REANA workflows as described in detail below.
+## Dependencies
 
-## VOMS proxy dependency
-
-Currently, Rucio requires VOMS authentication meaning that `voms_proxy: true`
-has also to be declared.
+Currently, the Rucio authentication technique relies on the VOMS proxy
+authentication, meaning that you must set up your VO user certificates and
+proxy. Please see the [VOMS proxy documentation page](../voms-proxy/) for more
+information.
 
 ## Uploading secrets
 
-In order to create the Rucio configuration for your workflow jobs, REANA would
-need the secrets required by VOMS proxy and your Rucio username.
-In more detail, (i) user certificate `usercert.pem`, (ii) encrypted private
-key `userkey.pem`, (iii) the Grid passphrase encoded using the base64
-encoding, (iv) the VO you would like to use, such as
-"atlas" or "cms", and (v) your Rucio username.
-
-More details about VOMS proxy secrets can be found in the
-[Uploading secrets](../voms-proxy) section of VOMS proxy page.
-
-These five necessary secrets can be uploaded to REANA as follows:
+In order to create the Rucio configuration for your workflow jobs, you will
+have to upload your [VOMS proxy secrets](../voms-proxy/#uploading-secrets) as
+well as your Rucio username, for example:
 
 ```console
-$ reana-client secrets-add --file userkey.pem \
-                           --file usercert.pem \
-                           --env VOMSPROXY_PASS=bXlncmlkcGFzc3BocmFzZQ== \
-                           --env VONAME=cms \
-                           --env RUCIO_USERNAME=rucio_username
+$ reana-client secrets-add --env VONAME=atlas \
+                           --env VOMSPROXY_FILE=x509up_u1000 \
+                           --file /tmp/x509up_u1000 \
+                           --env RUCIO_USERNAME=johndoe
 ```
 
 ## Configuring your workflows
 
-You are now ready to declare that some steps of your workflow need to
-access Rucio data. This can be achieved by setting the workflow hint
-called `rucio` for those steps. The examples below show how to specify
-this hint for your CWL, Serial, Snakemake and Yadage workflows.
+You are now ready to declare that some steps of your workflow need to access
+Rucio data. This can be achieved by setting the workflow hints `voms_proxy` and
+`rucio` for those steps. The examples below show how to specify this hint for
+your CWL, Serial, Snakemake and Yadage workflows.
 
 CWL workflow example:
 
-```yaml hl_lines="3 4 5"
+```yaml hl_lines="3 4 5 6"
 steps:
   first:
     hints:
@@ -64,7 +50,7 @@ steps:
 
 Serial workflow example:
 
-```yaml hl_lines="6"
+```yaml hl_lines="6 7"
 workflow:
   type: serial
   specification:
@@ -78,12 +64,12 @@ workflow:
 
 Snakemake example:
 
-```yaml hl_lines="4 5"
+```yaml hl_lines="4 5 6"
 rule mystep:
   container:
     "docker://reana-env-rucioclient:1.0"
   resources:
-    voms_proxy=True
+    voms_proxy=True,
     rucio=True
   shell:
     "rucio get my_rucio_scope:my_rucio_file"
@@ -91,7 +77,7 @@ rule mystep:
 
 Yadage example:
 
-```yaml hl_lines="13 14"
+```yaml hl_lines="13 14 15"
 step:
   process:
     process_type: "string-interpolated-cmd"
@@ -109,17 +95,17 @@ step:
       - rucio: true
 ```
 
-The `rucio` workflow hint is fully sufficient to instruct REANA to set up
-the Rucio configuration  for your jobs. You don't have to modify the logic
-of your workflow steps in any other way besides providing the above one-line
-workflow hint declarations.
+The `voms_proxy` and `rucio` workflow hints are fully sufficient to instruct
+REANA to set up the Rucio configuration for your jobs. You don't have to modify
+the logic of your workflow steps in any other way besides providing the above
+one-line workflow hint declarations.
 
 ## Creating your job environment images
 
-In the above examples, we have used `reana-env-rucioclient:1.0` as an
-example of the job environment container image that would be used at runtime to
-execute the workflow step that is accessing some Rucio files. When REANA will
-orchestrate the execution of this job, it will automatically create a sidecar
-container that will perform the necessary Rucio configuration beforehand, using
-the secrets you uploaded. The environment image of your choice must have
-rucio-clients installed.
+In the above examples, we have used the `reana-env-rucioclient:1.0.0` as an
+example of a job environment container image that can be used at runtime to
+access some Rucio-managed data files. When REANA will orchestrate the execution
+of this job, it will automatically create a sidecar container that will perform
+the necessary Rucio configuration beforehand, using the secrets you uploaded.
+The environment image of your choice must simply contain the `rucio-clients`
+package installed.
