@@ -409,15 +409,13 @@ Add secrets from literal string or from file.
 
 Examples:
 
-     $ reana-client secrets-add --env PASSWORD=password
+     $ reana-client secrets-add --env RUCIO_USERNAME=ruciouser
 
-     $ reana-client secrets-add --file ~/.keytab
+     $ reana-client secrets-add --file userkey.pem
 
-     $ reana-client secrets-add --env USER=reanauser
+     $ reana-client secrets-add --env VOMSPROXY_FILE=x509up_u1000
 
-                                --env PASSWORD=password
-
-                                --file ~/.keytab
+                                --file /tmp/x509up_u1000
 
 ### secrets-delete
 
@@ -425,7 +423,7 @@ Delete user secrets by name.
 
 Examples:
 
-    $ reana-client secrets-delete PASSWORD
+    $ reana-client secrets-delete RUCIO_USERNAME
 
 ### secrets-list
 
