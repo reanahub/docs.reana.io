@@ -49,6 +49,9 @@ Workspace file management commands:
   rm        Delete files from workspace.
   upload    Upload files and directories to workspace.
 
+Workspace file retention commands:
+  retention-rules-list  List the retention rules for a workflow.
+
 Secret management commands:
   secrets-add     Add secrets from literal string or from file.
   secrets-delete  Delete user secrets by name.
@@ -400,6 +403,16 @@ Examples:
      $ reana-client du -w myanalysis.42 -s --human-readable
 
      $ reana-client du -w myanalysis.42 --filter name=data/
+
+## Workspace file retention commands
+
+### retention-rules-list
+
+List the retention rules for a workflow.
+
+Example:
+
+     $ reana-client retention-rules-list -w myanalysis.42
 
 ## Secret management commands
 
