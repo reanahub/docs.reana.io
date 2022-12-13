@@ -40,13 +40,13 @@ WORKDIR /code
 You can build this customised analysis environment image and give it some name, for example `johndoe/myenv`:
 
 ```{ .console .copy-to-clipboard }
-$ docker build -f environment/myenv/Dockerfile -t johndoe/myenv .
+$ docker build -f environment/myenv/Dockerfile -t johndoe/myenv:1.0 .
 ```
 
 and push the created image to the DockerHub image registry:
 
 ```{ .console .copy-to-clipboard }
-$ docker push johndoe/myenv
+$ docker push johndoe/myenv:1.0
 ```
 
 ## Supporting arbitrary user IDs
