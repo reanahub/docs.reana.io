@@ -49,6 +49,36 @@ and push the created image to the DockerHub image registry:
 $ docker push johndoe/myenv:1.0
 ```
 
+## Providing necessary shell
+
+The Docker images for executing user jobs in the REANA ecosystem need to
+contain `bash` shell in the image.
+
+The `bash` shell is used in operational procedures to pass along
+encoded/decoded job commands and parameters between REANA workflow
+orchestration components, the job execution components and the compute backend
+itself, so that the job execution behaviour would be consistent across
+Kubernetes, HTCondor, Slurm backends for both Docker and Singularity execution
+wrappers.
+
+Therefore, please make sure that your Docker images contain the `bash` shell
+executable, even if it may not be the default shell.
+
+For example, if you would like to use the tiny Alpine image, which uses `ash`
+shell by default, you can add a command in your `Dockerfile` to install
+additional `bash` shell as follows:
+
+```{ .Dockerfile .copy-to-clipboard }
+FROM alpine:3.17
+RUN apk add bash
+```
+
+The `bash` shell is relatively widespread, so it is very probable that your
+base images contain it already. Note that it is not necessary for `bash` to be
+the default shell; only its presence is required. Please get in touch if this
+requirement causes any trouble and you cannot ensure the presence of `bash` in
+your job images.
+
 ## Supporting arbitrary user IDs
 
 In the Docker container ecosystem, the processes run in the containers by default, uses the root user identity. However, this may not be secure. If you want to improve the security in your environment you can set up your own user under which identity the processes will run.
