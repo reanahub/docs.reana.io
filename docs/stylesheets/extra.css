@@ -127,35 +127,44 @@ html .md-footer-meta .md-footer-meta__inner a {
     background-color: #f5ecec;
 }
 
-.codehilite .nt, .codehilite .k, .codehilite .kn  {
+.codehilite .nt, .md-typeset .highlight .nt,
+.codehilite .k, .md-typeset .highlight .k,
+.codehilite .kn, .md-typeset .highlight .kn  {
     color: #a15555;
 }
 
-.codehilite .s {
+.codehilite .s, .md-typeset .highlight .s{
     color: #6082a7;
 }
 
-.codehilite .sd,
-.codehilite .c1,
-.codehilite .ch,
-.codehilite .cs {
+.codehilite .sd, .md-typeset .highlight .sd,
+.codehilite .c1, .md-typeset .highlight .c1,
+.codehilite .ch, .md-typeset .highlight .ch,
+.codehilite .cs, .md-typeset .highlight .cs {
     color: #888888;
 }
-/* admonition notes customization */
-.md-typeset .admonition.note {
+
+/* admonition notes customization
+   `details` and `summary` are used to style collapsible admonition
+*/
+.md-typeset .admonition.note,
+.md-typeset details {
     border-color: #c8aeae;
 }
 
-.md-typeset .admonition.note .admonition-title {
+.md-typeset .admonition.note .admonition-title,
+.md-typeset details summary  {
     background-color: #f5ecec;
 }
 
-.md-typeset .admonition.note .admonition-title::before {
+.md-typeset .admonition.note .admonition-title::before,
+.md-typeset details summary::before {
     color: #c8aeae;
 }
 
 /* show the copy-to-clipboard button only if .copy-to-clipboard is specified */
-.codehilite:not(.copy-to-clipboard) .md-clipboard {
+.codehilite:not(.copy-to-clipboard) .md-clipboard,
+.highlight:not(.copy-to-clipboard) .md-clipboard {
     display: none;
 }
 

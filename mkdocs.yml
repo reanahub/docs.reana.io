@@ -41,10 +41,9 @@ extra_css:
 # Extensions
 markdown_extensions:
   - admonition
-  - codehilite:
-      guess_lang: false
   - toc:
       permalink: true
+  - pymdownx.highlight
   - pymdownx.details # collapsible admonitions
   - pymdownx.superfences # allows nesting of code blocks inside admonitions
 
