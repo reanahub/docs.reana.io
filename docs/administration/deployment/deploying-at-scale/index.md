@@ -4,16 +4,12 @@ REANA can be easily deployed on large Kubernetes clusters using Helm. Useful for
 
 ## Pre-requisites
 
-- A Kubernetes `v1.16.3` cluster is required as well as Helm `v3.2.x`.
-
-- A shared file system to host all analyses workspaces when running in a multinode deployment setup. Therefore, you should create an [`StorageClass`](https://kubernetes.io/docs/concepts/storage/storage-classes/#the-storageclass-resource) pointing to your storage backend. The `StorageClass` should meet the following requirements:
-    - be named `<helm-release-prefix>-shared-volume-storage-class`;
-    - be created in the same namespace as the one you will deploy REANA to.
-
-    For example, [CERN uses CephFS](https://clouddocs.web.cern.ch/containers/tutorials/cephfs.html) as the default storage backend.
+- A Kubernetes cluster with version between v1.19 and v1.25 (included)
+- Helm v3
+- A shared file system to host all analyses' workspaces when running in a multinode deployment setup. See [Configuring storage volumes](../../configuration/configuring-storage-volumes).
 
 !!! note
-    If you do not have any particular distributed file system in your Kubernetes cluster, you can easily [deploy an NFS network file system following our documentation](../../../advanced-usage/storage-backends/nfs/).
+    If you do not have any particular distributed file system in your Kubernetes cluster, you can easily [deploy an NFS network file system following our documentation](../../configuration/configuring-storage-volumes#nfs).
 
 ## Deploy
 

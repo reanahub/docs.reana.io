@@ -1,0 +1,5 @@
+arrange:
+    - index.md
+    - deploying-locally
+    - deploying-at-scale
+    - upgrading-db

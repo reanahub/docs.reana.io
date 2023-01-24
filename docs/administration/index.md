@@ -8,6 +8,7 @@
 
 **Configuring REANA platform?**
 
+- [Configuring storage volumes](configuration/configuring-storage-volumes)
 - [Configuring user access](configuration/configuring-access)
 - [Configuring user quotas](configuration/configuring-user-quotas)
 - [Configuring workflow scheduler](configuration/configuring-scheduler)

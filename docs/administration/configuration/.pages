@@ -1,6 +1,8 @@
 arrange:
     - index.md
+    - configuring-storage-volumes
     - configuring-access
     - configuring-user-quotas
     - configuring-scheduler
     - configuring-tls-certificates
+    - configuring-global-workspace-retention-rules
