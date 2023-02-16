@@ -24,8 +24,48 @@ Helm value accordingly.
 
 ## User registration via Single Sign-On
 
-Handling of users with Single Sign-On (SSO) is also possible. Currently,
-this is only available for CERN deployments via [`components.reana_ui.cern_sso`](https://github.com/reanahub/reana/tree/master/helm/reana)
+Handling of users with Single Sign-On (SSO) is also possible. Currently SSO is supported for CERN as well as any third-party SSO provider, which supports [Keycloak](https://www.keycloak.org/).
+
+### Keycloak Single Sign-On Configuration
+
+Third-party SSO providers can be configured by adding an item with the respective configuration to the [`login`](https://github.com/reanahub/reana/tree/master/helm/reana) list in the Helm values:
+
+```yaml
+login:
+  - name: your-provider
+    type: keycloak
+    config:
+      title: "YOUR PROVIDER"
+      base_url: "https://your-host.com"
+      realm_url: "https://your-host.com/auth/realms/your-realm"
+      auth_url: "https://your-host.com/auth/realms/your-realm/protocol/openid-connect/auth"
+      token_url: "https://your-host.com/auth/realms/your-realm/protocol/openid-connect/token"
+      userinfo_url: "https://your-host.com/auth/realms/your-realm/protocol/openid-connect/userinfo"
+```
+
+**Please note that currently only one provider of the type `keycloak` is supported.**
+
+Further the respective client key and secret need to be specified under the [`secrets.login`](https://github.com/reanahub/reana/tree/master/helm/reana) Helm value:
+
+```yaml
+secrets:
+  login:
+    your-provider:
+      consumer_key: your-client-key
+      consumer_secret: your-client-secret
+```
+
+**This method should not be used in production, instead, secrets should be managed outside of the Helm values file.**
+
+When accessing the UI you will see a page like this:
+
+![ui-sso-keycloak](../../../images/ui-sso-keycloak.png)
+
+For further information on how to use Keycloak, see [Keycloak’s own documentation](https://www.keycloak.org/docs/latest/server_admin/index.html#_oidc_clients).
+
+### CERN Single Sign-On Configuration
+
+Single Sign-On is available for CERN deployments via [`components.reana_ui.cern_sso`](https://github.com/reanahub/reana/tree/master/helm/reana)
 Helm value. This configuration can be combined with local users or used
 exclusively. When accessing the UI you will see a page like this:
 
