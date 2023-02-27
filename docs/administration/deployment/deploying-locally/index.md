@@ -17,9 +17,9 @@ $ firefox https://helm.sh/docs/intro/install/
 **2.** Deploy REANA cluster:
 
 ```{ .console .copy-to-clipboard }
-$ wget https://raw.githubusercontent.com/reanahub/reana/maint-0.8/etc/kind-localhost-30443.yaml
+$ wget https://raw.githubusercontent.com/reanahub/reana/maint-0.9/etc/kind-localhost-30443.yaml
 $ kind create cluster --config kind-localhost-30443.yaml
-$ wget https://raw.githubusercontent.com/reanahub/reana/maint-0.8/scripts/prefetch-images.sh
+$ wget https://raw.githubusercontent.com/reanahub/reana/maint-0.9/scripts/prefetch-images.sh
 $ sh prefetch-images.sh
 $ helm repo add reanahub https://reanahub.github.io/reana
 $ helm repo update
@@ -29,7 +29,7 @@ $ helm install reana reanahub/reana --namespace reana --create-namespace --wait
 **3.** Create REANA admin user:
 
 ```{ .console .copy-to-clipboard }
-$ wget https://raw.githubusercontent.com/reanahub/reana/maint-0.8/scripts/create-admin-user.sh
+$ wget https://raw.githubusercontent.com/reanahub/reana/maint-0.9/scripts/create-admin-user.sh
 $ sh create-admin-user.sh reana reana john.doe@example.org mysecretpassword
 ```
 
