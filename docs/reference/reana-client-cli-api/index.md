@@ -46,6 +46,7 @@ Workspace file management commands:
   du        Get workspace disk usage.
   ls        List workspace files.
   mv        Move files within workspace.
+  prune     Prune workspace files.
   rm        Delete files from workspace.
   upload    Upload files and directories to workspace.
 
@@ -390,6 +391,19 @@ workflow might fail if files are moved during its execution.
 Examples:
 
      $ reana-client mv data/input.txt input/input.txt
+
+### prune
+
+Prune workspace files.
+
+The ``prune`` command deletes all the intermediate files of a given workflow that are not present
+in the input or output section of the workflow specification.
+
+Examples:
+
+     $ reana-client prune -w myanalysis.42
+
+     $ reana-client prune -w myanalysis.42 --include-inputs
 
 ### du
 
