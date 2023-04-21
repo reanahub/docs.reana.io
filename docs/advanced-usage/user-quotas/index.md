@@ -114,6 +114,47 @@ you will not free up any space:
 
 ![Dialog to confirm the deletion of a workflow](/images/ui-delete-workflow-confirmation.png)
 
+### Prune the workspace
+
+Another quick way to free some storage from your workspace is using the
+`reana-client prune` command. This command deletes all the files from the
+workspace of the specified workflow that are not declared in your `reana.yaml`
+as either input or output files. This can free up a significant amount of
+space, but please be very careful to use this command only after you really
+declared all your expected outputs in `reana.yaml`!
+
+For example, with the following content:
+
+```console
+$ cat reana.yaml
+...
+outputs:
+  files:
+    - statanalysis/fitresults/limit.png
+```
+
+running the `prune` command:
+
+```console
+$ reana-client prune -w reana-demo-root6-roofit
+==> SUCCESS: The workspace has been correctly pruned.
+```
+
+would mercilessly delete all files except for
+`statanalysis/fitresults/limit.png`.
+
+Note that you can use the command-line options `--include-inputs` and
+`--include-outputs` to instruct REANA to optionally remove your declared inputs
+and outputs as well.
+
+!!! warning
+
+    It is important to underline once more that running the `prune` command
+    will permanently delete any file from your workspace which is not declared
+    upfront amongst the known `inputs` or amongst the expected `outputs` files.
+    If you are unsure, please make sure that you have downloaded any files you
+    want to keep before running the ``prune`` command.
+
 ### Find and delete large files
 
 Once you have identified the heaviest workflows, you can also find which are the
