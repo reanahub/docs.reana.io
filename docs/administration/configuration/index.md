@@ -1,5 +1,6 @@
 # Configuration
 
+- [Configuring compute backends](configuring-compute-backends)
 - [Configuring storage volumes](configuring-storage-volumes)
 - [Configuring user access](configuring-access)
 - [Configuring user quotas](configuring-user-quotas)
