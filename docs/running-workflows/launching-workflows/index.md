@@ -49,18 +49,32 @@ Please note that argument values should be [properly encoded](https://en.wikiped
 `url` is a required argument that points to the external source where your workflow is hosted.
 Below you can find supported external sources.
 
-You can point to **publicly available** GitHub or GitLab repositories to launch a workflow. Below are examples of supported URL formats:
+#### Git repositories
+
+You can point to any **publicly available** Git repository to launch a workflow, as long as the URL ends with
+`.git` and the scheme is either `http` or `https`. Examples:
+
+- `https://github.com/reanahub/reana-demo-root6-roofit.git`
+- `http://example.com:8080/git/repo.git`
+
+If the repository is hosted on GitHub or GitLab, you can further specify
+the revision from which the workflow should be launched. Below are examples of supported URL formats:
 
 - `https://github.com/reanahub/reana-demo-root6-roofit`
-- `https://github.com/reanahub/reana-demo-root6-roofit.git`
 - `https://github.com/reanahub/reana-demo-root6-roofit/tree/my-branch` (to launch a particular branch)
 - `https://github.com/reanahub/reana-demo-root6-roofit/tree/v1.0` (to launch a particular tag)
 - `https://github.com/reanahub/reana-demo-root6-roofit/tree/3441d3b2d417c7f39f091a1d7f0df38bdaca82e8` (to launch a particular commit hash)
 
-You can also provide a generic URL to any hosting service, for example:
+#### ZIP tarballs
 
-- `https://example.org/reana.yaml` (to launch a workflow from its specification)
-- `https://zenodo.org/record/5752285/files/circular-health-data-processing-master.zip` (to launch a workflow from a zip tarball)
+Another option is to point to a ZIP tarball on any generic hosting service, for example `https://zenodo.org/record/5752285/files/circular-health-data-processing-master.zip`.
+In order for REANA to correctly launch the workflow, the archive should contain the REANA specification file
+and all the input files and directories needed by the workflow.
+
+#### REANA specification files
+
+You can also point directly to a remote REANA specification file, such as `https://example.org/reana.yaml`.
+In this case, the workflow should fetch the required input files on its own as part of the workflow execution.
 
 ### name (optional)
 
