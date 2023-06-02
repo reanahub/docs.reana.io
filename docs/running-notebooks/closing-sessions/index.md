@@ -1,4 +1,4 @@
-# Closing active sessions
+# Closing sessions
 
 ## Jupyter notebooks based sessions
 
@@ -30,3 +30,30 @@ click on the vertical ellipsis menu on the right-hand-side and select
 "Close Jupyter Notebook".
 
 ![ui-close-session](../../images/ui-close-session.png)
+
+### Auto-closure of inactive sessions
+
+Administrators can configure REANA to automatically close unused interactive sessions
+after a given period of inactivity in order to free unused resources.
+When you start an interactive session, you will be informed about how long
+your inactive sessions will be kept open before they are automatically closed.
+
+On the web interface:
+![ui-autoclosure-warning](../../images/ui-open-session-autoclosure-warning.png)
+
+On the command line:
+
+```console
+$ reana-client open -w my-atlas-recast-analysis jupyter
+==> SUCCESS: Interactive session opened successfully
+https://reana.cern.ch/69882819-b0a2-4aac-bd88-3bb4a4e5937a?token=<your-reana-token>
+It could take several minutes to start the interactive session.
+Please note that it will be automatically closed after 7 days of inactivity.
+```
+
+If the maximum period of inactivity is not reported in the notification, then the
+session will stay open "forever" until you close it manually.
+
+Please ensure your notebook work is periodically saved in order to avoid losing
+any unsaved progress in case your session becomes inactive and in risk of being
+automatically closed.

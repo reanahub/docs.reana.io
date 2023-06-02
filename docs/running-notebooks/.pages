@@ -4,4 +4,4 @@ arrange:
     - what-is-session
     - opening-sessions
     - listing-active-sessions
-    - closing-active-sessions
+    - closing-sessions

@@ -11,7 +11,15 @@ $ reana-client open jupyter -w helloworld
 ==> SUCCESS: Interactive session opened successfully
 https://reana.cern.ch/f8be55e4-5d18-43f9-b977-f773fdcab163?token=<your-reana-token>
 It could take several minutes to start the interactive session.
+Please note that it will be automatically closed after 7 days of inactivity.
 ```
+
+!!! warning
+    REANA administrators can configure REANA to automatically close
+    inactive interactive sessions after a given period of inactivity.
+    As shown in the previous example, when you start an interactive session,
+    you will be informed about how long your inactive sessions will be kept open before they are
+    automatically closed. You can read more about this in the [closing sessions](../closing-sessions#auto-closure-of-inactive-sessions) section.
 
 By default, newly opened sessions will use the
 [`jupyter/scipy-notebook:notebook-6.4.5`](https://hub.docker.com/layers/jupyter/scipy-notebook/notebook-6.4.5/images/sha256-b6a4ce777b837496d5612b7ce4efba9aa015576cb6993817721b8d293a7c2a3c?context=explore) Docker image to spawn your notebook. You can supply
