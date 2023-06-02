@@ -1,6 +1,7 @@
 arrange:
     - index.md
     - configuring-compute-backends
+    - configuring-interactive-sessions
     - configuring-storage-volumes
     - configuring-access
     - configuring-user-quotas

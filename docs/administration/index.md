@@ -9,6 +9,7 @@
 **Configuring REANA platform?**
 
 - [Configuring compute backends](configuration/configuring-compute-backends)
+- [Configuring interactive sessions](configuration/configuring-interactive-sessions)
 - [Configuring storage volumes](configuration/configuring-storage-volumes)
 - [Configuring user access](configuration/configuring-access)
 - [Configuring user quotas](configuration/configuring-user-quotas)
