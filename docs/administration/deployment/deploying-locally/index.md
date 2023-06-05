@@ -5,14 +5,10 @@
 If you are a researcher and would like to try out deploying a small REANA cluster on your laptop,
 you can proceed as follows.
 
-**1.** Install `docker`, `kubectl`, `kind`, and `helm` dependencies:
-
-```{ .console .copy-to-clipboard }
-$ firefox https://docs.docker.com/engine/install/
-$ firefox https://kubernetes.io/docs/tasks/tools/install-kubectl/
-$ firefox https://kind.sigs.k8s.io/docs/user/quick-start/
-$ firefox https://helm.sh/docs/intro/install/
-```
+**1.** Install [docker](https://docs.docker.com/engine/install/),
+[kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/),
+[kind](https://kind.sigs.k8s.io/docs/user/quick-start/), and
+[helm](https://helm.sh/docs/intro/install/) dependencies.
 
 **2.** Deploy REANA cluster:
 
