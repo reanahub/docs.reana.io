@@ -5,5 +5,6 @@ arrange:
     - configuring-access
     - configuring-user-quotas
     - configuring-scheduler
+    - configuring-cluster-ingress
     - configuring-tls-certificates
     - configuring-global-workspace-retention-rules
