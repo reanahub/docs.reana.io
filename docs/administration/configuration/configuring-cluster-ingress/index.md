@@ -42,6 +42,7 @@ ingress:
 
 If you would like to manually manage Ingresses, you should set `ingress.enabled` to false to disable the automatic creation of the Ingresses mentioned above.
 You may also want to disable the internal Traefik instance by setting `traefik.enabled` to false.
+Note that, when users open interactive sessions, REANA also creates dynamic Ingresses whose annotations can be customized with the `ingress.annotations` Helm value.
 
 Your custom Ingress must redirect all the requests to `/api` and `/oauth` to the `<helm-release-prefix>-server` Service, while all the rest should be sent to `<helm-release-prefix>-ui`.
 You can find an example of custom Ingress below.
@@ -89,21 +90,20 @@ spec:
 You may be interested in placing a (reverse) proxy service in front of REANA.
 This requires additional configuration to make REANA work correctly.
 
-Let us consider a setup in which a generic proxy handles connections to REANA:
+Let us consider a setup in which HAProxy proxy handles connections to REANA:
 
 ```text
-          +---------+    +---------+
-Client -> |  Proxy  | -> |  REANA  |
-          +---------+    +---------+
+          +-----------+    +---------+
+Client -> |  HAProxy  | -> |  REANA  |
+          +-----------+    +---------+
 ```
 
 In this case, REANA has no way to know how the client connected to the server and which protocol the client used, since REANA will only see connections coming from the proxy.
-If the proxy also performs TLS termination, all the connections to REANA will be carried out over the HTTP protocol, even if the client connected over HTTPS.
+If HAProxy also performs TLS termination, all the connections to REANA will be carried out over the HTTP protocol, even if the client connected over HTTPS.
 This makes it impossible to construct correct absolute URLs on the server-side, since the traffic protocol is not known.
 
 In these situations, you can make use of a non-standard `X-Forwarded-*` family of HTTP headers to preserve the details about the original connection.
 To fix the particular issue presented before, it is important to configure your proxy to provide correctly the `X-Forwarded-Proto` header.
-Note that the provided Traefik Ingress Controller acts as a proxy, but it correctly sets these headers by default.
 
 !!! warning
 
@@ -111,26 +111,18 @@ Note that the provided Traefik Ingress Controller acts as a proxy, but it correc
     You must make sure that the `X-Forwarded-*` headers provided by the client are either discarded or overwritten by a proxy you trust.
     See for example the [security concerns for X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#security_and_privacy_concerns).
 
-Let us now consider another setup in which HAProxy sits in front of the provided Traefik instance, like this:
-
-```text
-          +-----------+    +-----------+    +---------+
-Client -> |  HAProxy  | -> |  Traefik  | -> |  REANA  |
-          +-----------+    +-----------+    +---------+
-```
-
-Such a setup would require to set `X-Forwarded-Proto` in HAProxy as follows:
-
-```{ .text .copy-to-clipboard }
-http-request set-header X-Forwarded-Proto https if { ssl_fc }
-http-request set-header X-Forwarded-Proto http if !{ ssl_fc }
-```
-
-You would also need to configure Traefik to trust the `X-Forwarded-*` headers coming from HAProxy, so that they won't be overwritten:
+First of all, the provided Traefik instance must be configured to trust the `X-Forwarded-*` headers coming from HAProxy, so that they won't be overwritten:
 
 ```{ .yaml .copy-to-clipboard }
 traefik:
   additionalArguments:
     - "--entryPoints.web.forwardedHeaders.trustedIPs=127.0.0.1/32,192.168.1.7"
     - "--entryPoints.websecure.forwardedHeaders.trustedIPs=127.0.0.1/32,192.168.1.7"
+```
+
+HAProxy also needs to set the `X-Forwarded-Proto` header for each incoming request:
+
+```{ .text .copy-to-clipboard }
+http-request set-header X-Forwarded-Proto https if { ssl_fc }
+http-request set-header X-Forwarded-Proto http if !{ ssl_fc }
 ```
