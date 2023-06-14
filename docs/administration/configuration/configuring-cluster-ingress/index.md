@@ -90,7 +90,7 @@ spec:
 You may be interested in placing a (reverse) proxy service in front of REANA.
 This requires additional configuration to make REANA work correctly.
 
-Let us consider a setup in which HAProxy proxy handles connections to REANA:
+Let us consider a setup in which HAProxy handles connections to REANA:
 
 ```text
           +-----------+    +---------+
@@ -98,12 +98,11 @@ Client -> |  HAProxy  | -> |  REANA  |
           +-----------+    +---------+
 ```
 
-In this case, REANA has no way to know how the client connected to the server and which protocol the client used, since REANA will only see connections coming from the proxy.
+In this case, REANA has no way of knowing how the client connected to the server and which protocol the client used, since REANA will only see connections coming from the proxy.
 If HAProxy also performs TLS termination, all the connections to REANA will be carried out over the HTTP protocol, even if the client connected over HTTPS.
 This makes it impossible to construct correct absolute URLs on the server-side, since the traffic protocol is not known.
 
 In these situations, you can make use of a non-standard `X-Forwarded-*` family of HTTP headers to preserve the details about the original connection.
-To fix the particular issue presented before, it is important to configure your proxy to provide correctly the `X-Forwarded-Proto` header.
 
 !!! warning
 
@@ -111,18 +110,18 @@ To fix the particular issue presented before, it is important to configure your 
     You must make sure that the `X-Forwarded-*` headers provided by the client are either discarded or overwritten by a proxy you trust.
     See for example the [security concerns for X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#security_and_privacy_concerns).
 
-First of all, the provided Traefik instance must be configured to trust the `X-Forwarded-*` headers coming from HAProxy, so that they won't be overwritten:
+You therefore need to configure HAProxy to set the `X-Forwarded-Proto` header for each incoming request:
+
+```{ .text .copy-to-clipboard }
+http-request set-header X-Forwarded-Proto https if { ssl_fc }
+http-request set-header X-Forwarded-Proto http if !{ ssl_fc }
+```
+
+You then need to configure REANA's provided Traefik instance to trust the `X-Forwarded-*` headers coming from HAProxy, so that they won't be overwritten:
 
 ```{ .yaml .copy-to-clipboard }
 traefik:
   additionalArguments:
     - "--entryPoints.web.forwardedHeaders.trustedIPs=127.0.0.1/32,192.168.1.7"
     - "--entryPoints.websecure.forwardedHeaders.trustedIPs=127.0.0.1/32,192.168.1.7"
-```
-
-HAProxy also needs to set the `X-Forwarded-Proto` header for each incoming request:
-
-```{ .text .copy-to-clipboard }
-http-request set-header X-Forwarded-Proto https if { ssl_fc }
-http-request set-header X-Forwarded-Proto http if !{ ssl_fc }
 ```
