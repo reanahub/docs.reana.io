@@ -3,6 +3,7 @@ arrange:
     - configuring-compute-backends
     - configuring-interactive-sessions
     - configuring-storage-volumes
+    - configuring-private-docker-registries
     - configuring-access
     - configuring-user-quotas
     - configuring-scheduler

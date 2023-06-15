@@ -3,6 +3,7 @@
 - [Configuring compute backends](configuring-compute-backends)
 - [Configuring interactive sessions](configuring-interactive-sessions)
 - [Configuring storage volumes](configuring-storage-volumes)
+- [Configuring private Docker registries](configuring-private-docker-registries)
 - [Configuring user access](configuring-access)
 - [Configuring user quotas](configuring-user-quotas)
 - [Configuring workflow scheduler](configuring-scheduler)
