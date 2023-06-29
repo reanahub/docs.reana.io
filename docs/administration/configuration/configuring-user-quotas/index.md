@@ -61,7 +61,7 @@ $ kubectl exec -i -t deployment/reana-server -- /bin/bash
 You can now set a custom quota limit to selected users:
 
 ```console
-# flask reana-admin quota-set -e john.doe@example.org -r disk -l 250000
+# flask reana-admin quota-set -e john.doe@example.org -r disk -l 250000 --admin-access-token $REANA_ACCESS_TOKEN
 Quota limit 250000 for 'disk (shared storage)' successfully set to users ('john.doe@example.org',).
 ```
 
