@@ -5,33 +5,25 @@ EOS you could use Kerberos authentication.
 
 ## Generating keytab file
 
-First, generate a Kerberos keytab file for passwordless authentication.
+At CERN, you can connect to `lxplus7.cern.ch` to generate a Kerberos keytab
+file for passwordless authentication in the following way:
 
 ```console
-$ # login to lxplus and generate keytab file
-$ ssh johndoe@lxplus.cern.ch
-$ ktutil
-ktutil:  add_entry -password -p johndoe@CERN.CH -k 1 -e aes256-cts-hmac-sha1-96
-Password for johndoe@CERN.CH:
-ktutil:  add_entry -password -p johndoe@CERN.CH -k 1 -e arcfour-hmac
-Password for johndoe@CERN.CH:
-ktutil:  write_kt .keytab
-ktutil:  exit
+$ cern-get-keytab --keytab ~/.keytab --user --login johndoe
+```
 
-$ # Let's test generated keytab file by trying to generate Kerberos ticket
-$ scp johndoe@lxplus.cern.ch:~/.keytab .
-$ kinit -kt ~/.keytab johndoe@CERN.CH
-$ klist
-Ticket cache: FILE:/tmp/krb5cc_1000
+You can test the freshly generated keytab file as follows:
+
+```console
+$ kdestroy; kinit -kt ~/.keytab johndoe; klist
+Ticket cache: FILE:/tmp/krb5cc_1234_5678
 Default principal: johndoe@CERN.CH
 
 Valid starting       Expires              Service principal
-04/29/2019 11:24:12  04/30/2019 12:23:52  krbtgt/CERN.CH@CERN.CH
-  renew until 05/04/2019 11:23:52
-04/29/2019 11:24:49  04/30/2019 12:23:52  host/tweetybird04.cern.ch@CERN.CH
-  renew until 05/04/2019 11:23:52
-04/29/2019 11:25:00  04/30/2019 12:23:52  host/bigbird14.cern.ch@CERN.CH
-  renew until 05/04/2019 11:23:52
+07/05/2023 18:04:13  07/06/2023 19:04:13  krbtgt/CERN.CH@CERN.CH
+    renew until 07/10/2023 18:04:13
+07/05/2023 18:04:13  07/06/2023 19:04:13  afs/cern.ch@CERN.CH
+    renew until 07/10/2023 18:04:13
 ```
 
 ## Uploading secrets
@@ -52,8 +44,8 @@ $ reana-client secrets-add --env CERN_USER=johndoe \
 If the workflow engine you are using needs Kerberos to parse and validate the
 workflow specification, then you can enable it globally for the whole workflow
 orchestration in the `reana.yaml` file. For example, this may be needed if you
-are using the Snakemake workflow engine with data objects living in a restricted
-data storage:
+are using the Snakemake workflow engine with data objects living in a
+restricted data storage:
 
 ```yaml hl_lines="4"
 workflow:
