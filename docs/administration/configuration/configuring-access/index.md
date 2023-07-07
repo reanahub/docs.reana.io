@@ -24,46 +24,60 @@ Helm value accordingly.
 
 ## User registration via Single Sign-On
 
-Handling of users with Single Sign-On (SSO) is also possible. Currently SSO is supported for CERN as well as any third-party SSO provider, which supports [Keycloak](https://www.keycloak.org/).
+User access through Single-Sign-On (SSO) authentication is also possible. REANA currently supports CERN SSO as well as any third-party [Keycloak](https://www.keycloak.org/) instance.
 
-### Keycloak Single Sign-On Configuration
+### Keycloak Single Sign-On configuration
 
-Third-party SSO providers can be configured by adding an item with the respective configuration to the [`login`](https://github.com/reanahub/reana/tree/master/helm/reana) list in the Helm values:
+First of all, to integrate REANA with your Keycloak instance, you need to create a new client from the Keycloak's admin dashboard.
+There are many configuration options; the following are the minimal ones that you should set:
 
-```yaml
+- _Valid Redirect URIs_ should be set to `https://reana.example.org/api/oauth/authorized/keycloak/` (see Keycloak's [Access Settings](https://www.keycloak.org/docs/latest/server_admin/#access-settings));
+- _Client authentication_ should be enabled in order to get the client ID and the client secret (see Keycloak's [Confidential client credentials](https://www.keycloak.org/docs/latest/server_admin/#_client-credentials)).
+
+You can then configure REANA to use your Keycloak instance with the following configuration of the [`login`](https://github.com/reanahub/reana/tree/master/helm/reana) list in your Helm values:
+
+- `name` can be chosen freely and will be used as an internal identifier of the Keycloak instance;
+- `type` must be set to `keycloak`;
+- `config.title` is the name of the Keycloak instance that will be shown to users on the web interface login page;
+- `config.base_url`, `config.realm_url`, `config.auth_url`, `config.token_url` and `config.userinfo_url` should all be set to the corresponding Keycloak endpoints.
+
+Please note that currently only one instance of `keycloak` type is supported, so the `login` array in your `values.yaml` file must contain at most one element:
+
+```{ .yaml .copy-to-clipboard }
 login:
-  - name: your-provider
-    type: keycloak
+  - name: "yourprovider"
+    type: "keycloak"
     config:
       title: "YOUR PROVIDER"
-      base_url: "https://your-host.com"
-      realm_url: "https://your-host.com/auth/realms/your-realm"
-      auth_url: "https://your-host.com/auth/realms/your-realm/protocol/openid-connect/auth"
-      token_url: "https://your-host.com/auth/realms/your-realm/protocol/openid-connect/token"
-      userinfo_url: "https://your-host.com/auth/realms/your-realm/protocol/openid-connect/userinfo"
+      base_url: "https:/keycloak.example.org"
+      realm_url: "https://keycloak.example.org/auth/realms/your-realm"
+      auth_url: "https://keycloak.example.org/auth/realms/your-realm/protocol/openid-connect/auth"
+      token_url: "https://keycloak.example.org/auth/realms/your-realm/protocol/openid-connect/token"
+      userinfo_url: "https://keycloak.example.org/auth/realms/your-realm/protocol/openid-connect/userinfo"
 ```
 
-**Please note that currently only one provider of the type `keycloak` is supported.**
-
-Further the respective client key and secret need to be specified under the [`secrets.login`](https://github.com/reanahub/reana/tree/master/helm/reana) Helm value:
+You should then take the values of the client ID and the client secret that you obtained when you created your SSO application in the Keycloak dashboard and add it under the [`secrets.login`](https://github.com/reanahub/reana/tree/master/helm/reana) Helm value:
 
 ```yaml
 secrets:
   login:
-    your-provider:
-      consumer_key: your-client-key
-      consumer_secret: your-client-secret
+    yourprovider:
+      consumer_key: <your-client-id>
+      consumer_secret: <your-client-secret>
 ```
 
-**This method should not be used in production, instead, secrets should be managed outside of the Helm values file.**
+Note that the key `yourprovider` must match the internal identifier name you have chosen above as the name of your Keycloak instance.
 
-When accessing the UI you will see a page like this:
+Furthermore, given that email verification is already handled by Keycloak, you have to set `components.reana_server.environment.REANA_USER_EMAIL_CONFIRMATION` to `false`.
+Finally, to disable signup/signin for local users, you can set `components.reana_ui.local_users` to `false`.
+
+When accessing the web interface, this is what the login page will look like:
 
 ![ui-sso-keycloak](../../../images/ui-sso-keycloak.png)
 
-For further information on how to use Keycloak, see [Keycloak’s own documentation](https://www.keycloak.org/docs/latest/server_admin/index.html#_oidc_clients).
+For further information on how to use Keycloak, see [Keycloak’s documentation](https://www.keycloak.org/docs/latest/server_admin/#_oidc_clients).
 
-### CERN Single Sign-On Configuration
+### CERN Single Sign-On configuration
 
 Single Sign-On is available for CERN deployments via [`components.reana_ui.cern_sso`](https://github.com/reanahub/reana/tree/master/helm/reana)
 Helm value. This configuration can be combined with local users or used
