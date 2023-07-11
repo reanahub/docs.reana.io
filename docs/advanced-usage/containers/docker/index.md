@@ -21,7 +21,7 @@ If you need to create your own environment, this can be achieved by means of pro
 
 ```{ .Dockerfile .copy-to-clipboard }
 # Start from the Python 2.7 base image:
-FROM python:2.7
+FROM docker.io/library/python:2.7
 
 # Install HFtools:
 RUN apt-get -y update && \
@@ -37,16 +37,16 @@ ADD code /code
 WORKDIR /code
 ```
 
-You can build this customised analysis environment image and give it some name, for example `johndoe/myenv`:
+You can build this customised analysis environment image and give it some name, for example `docker.io/johndoe/myenv`:
 
 ```{ .console .copy-to-clipboard }
-$ docker build -f environment/myenv/Dockerfile -t johndoe/myenv:1.0 .
+$ docker build -f environment/myenv/Dockerfile -t docker.io/johndoe/myenv:1.0 .
 ```
 
 and push the created image to the DockerHub image registry:
 
 ```{ .console .copy-to-clipboard }
-$ docker push johndoe/myenv:1.0
+$ docker push docker.io/johndoe/myenv:1.0
 ```
 
 ## Providing necessary shell
@@ -69,7 +69,7 @@ shell by default, you can add a command in your `Dockerfile` to install
 additional `bash` shell as follows:
 
 ```{ .Dockerfile .copy-to-clipboard }
-FROM alpine:3.17
+FROM docker.io/library/alpine:3.17
 RUN apk add bash
 ```
 
@@ -106,7 +106,7 @@ We now have a containerised image representing our computational environment tha
 We should test the containerised environment to ensure it works properly, for example whether all the necessary libraries are present:
 
 ```console
-$ docker run -i -t --rm johndoe/myenv /bin/bash
+$ docker run -i -t --rm docker.io/johndoe/myenv /bin/bash
 container> python -V
 Python 2.7.15
 container> python mycode.py < mydata.csv > /tmp/mydata.tmp

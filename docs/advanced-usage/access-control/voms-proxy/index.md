@@ -177,7 +177,7 @@ workflow:
   type: serial
   specification:
     steps:
-      - environment: johndoe/myanalysisenvironment:1.0
+      - environment: docker.io/johndoe/myanalysisenvironment:1.0
         voms_proxy: true
         commands:
           - xrdcp root://example.org//mydata.root .
@@ -188,7 +188,7 @@ Snakemake example:
 ```yaml hl_lines="4 5"
 rule mystep:
   container:
-    "docker://johndoe/myanalysisenvironment:1.0"
+    "docker://docker.io/johndoe/myanalysisenvironment:1.0"
   resources:
     voms_proxy=True
   shell:
@@ -208,7 +208,7 @@ step:
       outputfile: outputfile
   environment:
     environment_type: "docker-encapsulated"
-    image: "johndoe/myanalysisenvironment"
+    image: "docker.io/johndoe/myanalysisenvironment"
     imagetag: "1.0"
     resources:
       - voms_proxy: true
@@ -221,13 +221,14 @@ workflow hint declarations.
 
 ## Creating your job environment images
 
-In the above examples, we have used `johndoe/myanalysisenvironment:1.0` as an
-example of the job environment container image that would be used at runtime to
-execute the workflow step that is accessing some VO restricted resource. When
-REANA will orchestrate the execution of this job, it will automatically create
-a sidecar container that will perform the necessary VOMS proxy authentication
-beforehand, using the secrets you uploaded. In some cases, this may already be
-sufficient for your VO restricted resource usage needs.
+In the above examples, we have used
+`docker.io/johndoe/myanalysisenvironment:1.0` as an example of the job
+environment container image that would be used at runtime to execute the
+workflow step that is accessing some VO restricted resource. When REANA will
+orchestrate the execution of this job, it will automatically create a sidecar
+container that will perform the necessary VOMS proxy authentication beforehand,
+using the secrets you uploaded. In some cases, this may already be sufficient
+for your VO restricted resource usage needs.
 
 However, if you would like to access restricted data located on a remote Grid
 site, your job is expected to have local access to the Grid site certificates
@@ -244,10 +245,10 @@ analysis. This image uses a special "atlas" user and is based on the CentOS
 Linux 7 distribution:
 
 ```console
-$ docker run -i -t --rm atlas/analysisbase:21.2.130 /usr/bin/id
+$ docker run -i -t --rm docker.io/atlas/analysisbase:21.2.130 /usr/bin/id
 uid=1000(atlas) gid=1000(atlas) groups=1000(atlas),10(wheel)
 
-$ docker run -i -t --rm atlas/analysisbase:21.2.130 /bin/bash -c 'cat /etc/redhat-release'
+$ docker run -i -t --rm docker.io/atlas/analysisbase:21.2.130 /bin/bash -c 'cat /etc/redhat-release'
 CentOS Linux release 7.7.1908 (Core)
 ```
 
@@ -255,7 +256,7 @@ However, the image does not contain any Grid certificates. For example, the
 German Grid sites certificates are missing:
 
 ```console
-$ docker run -i -t --rm atlas/analysisbase:21.2.130 /bin/bash -c 'ls -l /etc/grid-security/certificates/GermanGrid.pem'
+$ docker run -i -t --rm docker.io/atlas/analysisbase:21.2.130 /bin/bash -c 'ls -l /etc/grid-security/certificates/GermanGrid.pem'
 ls: cannot access /etc/grid-security/certificates/GermanGrid.pem: No such file or directory
 ```
 
@@ -266,13 +267,13 @@ environment image by amending `Dockerfile` as follows:
 
 ```console
 $ cat Dockerfile
-FROM atlas/analysisbase:21.2.130
+FROM docker.io/atlas/analysisbase:21.2.130
 USER root
 RUN curl -o /etc/yum.repos.d/EGI-trustanchors.repo https://repository.egi.eu/sw/production/cas/1/current/repo-files/EGI-trustanchors.repo && \
     yum -y install ca-certificates ca-policy-egi-core wlcg-voms-atlas && \
     yum -y clean all
 USER atlas
-$ docker build -t johndoe/myanalysisenvironment:1.0 .
+$ docker build -t docker.io/johndoe/myanalysisenvironment:1.0 .
 ```
 
 Installing packages such as `ca-policy-egi-core` and `wlcg-voms-atlas` will
@@ -282,10 +283,10 @@ environment image during its runtime execution.
 We can verify the produced image as follows:
 
 ```console
-$ docker run -i -t --rm johndoe/myanalysisenvironment:1.0 /bin/bash -c 'ls -l /etc/grid-security/certificates/GermanGrid.pem'
+$ docker run -i -t --rm docker.io/johndoe/myanalysisenvironment:1.0 /bin/bash -c 'ls -l /etc/grid-security/certificates/GermanGrid.pem'
 -rw-r--r--. 1 root root 1407 Mar 30 11:18 /etc/grid-security/certificates/GermanGrid.pem
 
-$ docker run -i -t --rm johndoe/myanalysisenvironment:1.0 /bin/bash -c 'rpm -qa | grep ca_German'
+$ docker run -i -t --rm docker.io/johndoe/myanalysisenvironment:1.0 /bin/bash -c 'rpm -qa | grep ca_German'
 ca_GermanGrid-1.116-1.noarch
 ```
 

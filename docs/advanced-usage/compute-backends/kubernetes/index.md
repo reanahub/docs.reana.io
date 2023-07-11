@@ -11,7 +11,7 @@ on the default backend.
   ...
   steps:
     - name: reana_demo_helloworld_htcondorcern
-      environment: 'python:2.7-slim'
+      environment: 'docker.io/library/python:2.7-slim'
       compute_backend: kubernetes
       commands:
         - python "${helloworld}"
@@ -33,7 +33,7 @@ For **Serial**, you can set `kubernetes_memory_limit` in every `step` of workflo
   ...
   steps:
     - name: reana_demo_helloworld_memory_limit
-      environment: 'python:2.7-slim'
+      environment: 'docker.io/library/python:2.7-slim'
       compute_backend: kubernetes
       kubernetes_memory_limit: '8Gi'
       commands:
@@ -57,7 +57,7 @@ For **Yadage**, you can set `kubernetes_memory_limit` in every `step` under `env
             cmd: 'python "{helloworld}"'
           environment:
             environment_type: 'docker-encapsulated'
-            image: 'python'
+            image: 'docker.io/library/python'
             imagetag: '2.7-slim'
             resources:
               - compute_backend: kubernetes
@@ -96,7 +96,7 @@ For **Snakemake**, you can set `kubernetes_memory_limit` in every `rule` under `
         compute_backend="kubernetes",
         kubernetes_memory_limit="8Gi"
     container:
-        "docker://python:2.7-slim"
+        "docker://docker.io/library/python:2.7-slim"
   ...
 ```
 
@@ -117,7 +117,7 @@ For **Serial**, you can set `kubernetes_job_timeout` in every `step` of workflow
   ...
   steps:
     - name: reana_demo_helloworld_job_timeout
-      environment: 'python:2.7-slim'
+      environment: 'docker.io/library/python:2.7-slim'
       compute_backend: kubernetes
       kubernetes_job_timeout: 60
       commands:
@@ -141,7 +141,7 @@ For **Yadage**, you can set `kubernetes_job_timeout` in every `step` under `envi
             cmd: 'python "{helloworld}"'
           environment:
             environment_type: 'docker-encapsulated'
-            image: 'python'
+            image: 'docker.io/library/python'
             imagetag: '2.7-slim'
             resources:
               - compute_backend: kubernetes
@@ -180,6 +180,6 @@ For **Snakemake**, you can set `kubernetes_job_timeout` in every `rule` under `r
         compute_backend="kubernetes",
         kubernetes_job_timeout=60
     container:
-        "docker://python:2.7-slim"
+        "docker://docker.io/library/python:2.7-slim"
   ...
 ```

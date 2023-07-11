@@ -14,7 +14,7 @@ For example:
           - fcc.cern.ch
       specification:
         steps:
-          - environment: 'cern/slc6-base'
+          - environment: 'docker.io/cern/slc6-base'
             commands:
             - ls -l /cvmfs/fcc.cern.ch/sw/views/releases/
 ```

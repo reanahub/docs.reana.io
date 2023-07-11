@@ -40,7 +40,7 @@ compute_backends:
   - htcondorcern
 components:
   reana_job_controller:
-    image: reanahub/reana-job-controller-htcondorcern-slurmcern:0.9.0
+    image: docker.io/reanahub/reana-job-controller-htcondorcern-slurmcern:0.9.0
 ```
 
 ## Kubernetes
@@ -123,5 +123,5 @@ compute_backends:
   - slurmcern
 components:
   reana_job_controller:
-    image: reanahub/reana-job-controller-htcondorcern-slurmcern:0.9.0
+    image: docker.io/reanahub/reana-job-controller-htcondorcern-slurmcern:0.9.0
 ```

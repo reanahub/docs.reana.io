@@ -74,7 +74,7 @@ workflow:
       - fcc.cern.ch
   specification:
     steps:
-      - environment: "cern/slc6-base"
+      - environment: "docker.io/cern/slc6-base"
         kerberos: true
         commands:
           - ls -l /cvmfs/fcc.cern.ch/sw/views/releases/
@@ -111,7 +111,7 @@ step:
       outputfile: outputfile
   environment:
     environment_type: "docker-encapsulated"
-    image: "python"
+    image: "docker.io/library/python"
     imagetag: "2.7-slim"
     resources:
       - kerberos: true
@@ -130,7 +130,7 @@ rule helloworld:
     "results/greetings.txt"
   resources:
     kerberos=True
-  container: "docker://python:2.7-slim"
+  container: "docker://docker.io/library/python:2.7-slim"
 ```
 
 > Please note that Kerberos token is automatically provided for HTCondor and

@@ -55,7 +55,7 @@ workflow:
   type: serial
   specification:
     steps:
-      - environment: reana-env-rucioclient:1.0
+      - environment: docker.io/reanahub/reana-auth-rucio:1.0.0
         voms_proxy: true
         rucio: true
         commands:
@@ -67,7 +67,7 @@ Snakemake example:
 ```yaml hl_lines="4 5 6"
 rule mystep:
   container:
-    "docker://reana-env-rucioclient:1.0"
+    "docker://docker.io/reanahub/reana-auth-rucio:1.0.0"
   resources:
     voms_proxy=True,
     rucio=True
@@ -88,8 +88,8 @@ step:
       outputfile: outputfile
   environment:
     environment_type: "docker-encapsulated"
-    image: "reana-env-rucioclient"
-    imagetag: "1.0"
+    image: "docker.io/reanahub/reana-auth-rucio"
+    imagetag: "1.0.0"
     resources:
       - voms_proxy: true
       - rucio: true
@@ -102,7 +102,7 @@ one-line workflow hint declarations.
 
 ## Creating your job environment images
 
-In the above examples, we have used the `reana-env-rucioclient:1.0.0` as an
+In the above examples, we have used the `reana-auth-rucio:1.0.0` as an
 example of a job environment container image that can be used at runtime to
 access some Rucio-managed data files. When REANA will orchestrate the execution
 of this job, it will automatically create a sidecar container that will perform

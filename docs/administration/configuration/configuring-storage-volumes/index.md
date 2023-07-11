@@ -160,7 +160,7 @@ If you have an existing cluster with many users with heavy disk space needs, and
         spec:
           containers:
             - name: reana-volume-migration
-              image: ubuntu:20.04
+              image: docker.io/library/ubuntu:20.04
               command:
                 - "bash"
                 - "-c"

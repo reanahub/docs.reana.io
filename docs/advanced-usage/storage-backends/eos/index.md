@@ -11,8 +11,9 @@ that would copy the results of interest in the outside filesystem.
 First, we have to let the REANA platform know your Kerberos keytab so that the
 writing is authorised. We can do this by [uploading keytab and CERN username](../../access-control/kerberos/index.md).
 
-Second, once we have the secrets, we can use a Kerberos-aware container
-image (such as [`reanahub/krb5`](https://hub.docker.com/r/reanahub/krb5)) in the final publishing step of the workflow:
+Second, once we have the secrets, we can use a Kerberos-aware container image
+(such as [`docker.io/reanahub/krb5`](https://hub.docker.com/r/reanahub/krb5))
+in the final publishing step of the workflow:
 
 ```yaml
 workflow:
@@ -25,7 +26,7 @@ workflow:
         ...
       - name: publish
         kerberos: true
-        environment: 'reanahub/krb5'
+        environment: 'docker.io/reanahub/krb5'
         commands:
         - mkdir -p /eos/home/j/johndoe/myanalysis-outputs
         - cp myplots/*.png /eos/home/j/johndoe/myanalysis-outputs/

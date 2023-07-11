@@ -123,7 +123,7 @@ and a **custom Slurm timeout** of five minutes:
           ...
           environment:
             environment_type: 'docker-encapsulated'
-            image: 'reanahub/reana-env-root6'
+            image: 'docker.io/reanahub/reana-env-root6'
             imagetag: '6.18.04'
             resources:
               - compute_backend: slurmcern
