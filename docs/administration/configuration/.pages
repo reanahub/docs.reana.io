@@ -11,3 +11,4 @@ arrange:
     - configuring-cluster-ingress
     - configuring-tls-certificates
     - configuring-global-workspace-retention-rules
+    - configuring-gitlab-integration

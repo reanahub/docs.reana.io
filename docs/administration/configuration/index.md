@@ -11,3 +11,4 @@
 - [Configuring cluster ingress](configuring-cluster-ingress)
 - [Configuring TLS certificates](configuring-tls-certificates)
 - [Configuring global workspace retention rules](configuring-global-workspace-retention-rules)
+- [Configuring GitLab integration](configuring-gitlab-integration)
