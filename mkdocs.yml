@@ -46,6 +46,7 @@ markdown_extensions:
   - pymdownx.highlight
   - pymdownx.details # collapsible admonitions
   - pymdownx.superfences # allows nesting of code blocks inside admonitions
+  - attr_list
 
 # Plugins
 plugins:

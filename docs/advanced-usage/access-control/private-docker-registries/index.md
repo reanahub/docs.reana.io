@@ -12,7 +12,7 @@ Go to the _Project members_ tab of your CERN GitLab repository web interface
 [reana](https://gitlab.cern.ch/reana) service account as a collaborator with
 the "Reporter" role:
 
-![gitlab-authorize-reana](../../../images/gitlab-private-docker-registry.png)
+![gitlab-authorize-reana](../../../images/gitlab-private-docker-registry.png){.screenshot-browser-mockup}
 
 This will ensure that the REANA platform will be able to access your private
 repositories and pull your images.
