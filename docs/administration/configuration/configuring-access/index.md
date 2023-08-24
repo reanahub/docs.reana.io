@@ -12,9 +12,12 @@ sign-in form and a link to the sign-up form:
 
 After signing up, an email is sent to the user's email address for
 confirmation. Once the email address is confirmed, the user can then ask
-administrators for an access token.
+administrators for an access token. Note that for users to be able to
+receive the confirmation email, the [`notifications.enabled`](https://github.com/reanahub/reana/tree/master/helm/reana)
+Helm value must be set to `true`, and a working email configuration must be present.
 
-If you would like to disable the email verification step, you can add
+If you would like to disable the email verification step, for example because you
+disabled the REANA notifications, you can add
 `REANA_USER_EMAIL_CONFIRMATION: false` Helm value to [`components.reana_server.environment`](https://github.com/reanahub/reana/tree/master/helm/reana).
 
 If you would like to disable the sign-up form completely, and [add your
