@@ -15,6 +15,7 @@
 - [Configuring user access](configuration/configuring-access)
 - [Configuring user quotas](configuration/configuring-user-quotas)
 - [Configuring workflow scheduler](configuration/configuring-scheduler)
+- [Configuring web interface](configuration/configuring-web-interface)
 - [Configuring cluster ingress](configuration/configuring-cluster-ingress)
 - [Configuring TLS certificates](configuration/configuring-tls-certificates)
 - [Configuring global workspace retention rules](configuration/configuring-global-workspace-retention-rules)
