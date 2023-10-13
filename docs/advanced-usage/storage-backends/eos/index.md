@@ -2,18 +2,20 @@
 
 REANA uses shared filesystem for storing results of your running workflows.
 They may be garbage-collected after a certain period of time. You can use the
-`reana-client download` command to download the results of your workflows or
-copy them to your personal [EOS](http://information-technology.web.cern.ch/services/eos-service) space.
+`reana-client download` command to download the results of your workflows.
 
-To publish your results on EOS you have to add a final step to your workflow
-that would copy the results of interest in the outside filesystem.
+If you wish to automatise the copying of your workflow outputs to your personal
+[EOS](http://information-technology.web.cern.ch/services/eos-service) space,
+you can proceed as follows.
 
-First, we have to let the REANA platform know your Kerberos keytab so that the
-writing is authorised. We can do this by [uploading keytab and CERN username](../../access-control/kerberos/index.md).
+First, you will have to let the REANA platform know your Kerberos keytab so
+that the writing to EOS would be authorised. We can do this by [creating and
+uploading keytab and CERN username](../../access-control/kerberos/index.md) as
+your user secrets.
 
-Second, once we have the secrets, we can use a Kerberos-aware container image
-(such as [`docker.io/reanahub/krb5`](https://hub.docker.com/r/reanahub/krb5))
-in the final publishing step of the workflow:
+Second, once your Kerberos user secrets are uploaded to the REANA platform, you
+can modify your workflow to add a final data publishing step that would copy
+your output plots to the desired EOS directory. For example:
 
 ```yaml
 workflow:
@@ -25,14 +27,13 @@ workflow:
       - name: mysecondstep
         ...
       - name: publish
+        environment: 'docker.io/library/ubuntu:20.04'
         kerberos: true
-        environment: 'docker.io/reanahub/krb5'
         commands:
-        - mkdir -p /eos/home/j/johndoe/myanalysis-outputs
-        - cp myplots/*.png /eos/home/j/johndoe/myanalysis-outputs/
+          - mkdir -p /eos/home-j/johndoe/myanalysis-outputs
+          - cp myplots/*.png /eos/home-j/johndoe/myanalysis-outputs/
 ```
 
-!!! note
-    Note the presence of `kerberos: true` classifier in the final publishing step,
-    which tells the REANA system to initialise Kerberos authentication using provided
-    secrets for the workflow step at hand.
+Note the presence of the ``kerberos: true`` clause in the final publishing step
+definition which instructs the REANA system to initialise the Kerberos-based
+authentication process using the provided user secrets.
