@@ -38,7 +38,8 @@ Workflow execution commands:
   validate  Validate workflow specification file.
 
 Workflow sharing commands:
-  share-add  Share a workflow with other users (read-only).
+  share-add     Share a workflow with other users (read-only).
+  share-remove  Unshare a workflow.
 
 Workspace interactive commands:
   close  Close an interactive session.
@@ -305,6 +306,18 @@ $ reana-client share-add -w myanalysis.42 --user bob@cern.ch
 
 <!-- markdownlint-disable no-bare-urls -->
 $ reana-client share-add -w myanalysis.42 --user bob@cern.ch --user cecile@cern.ch --message "Please review my analysis" --valid-until 2024-12-31
+
+### share-remove
+
+Unshare a workflow.
+
+The `share-remove` command allows for unsharing a workflow. The workflow
+will no longer be visible to the users with whom it was shared.
+
+Example:
+
+<!-- markdownlint-disable no-bare-urls -->
+$ reana-client share-remove -w myanalysis.42 --user bob@example.org
 
 ## Workspace interactive commands
 
