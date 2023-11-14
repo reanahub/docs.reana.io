@@ -40,6 +40,7 @@ Workflow execution commands:
 Workflow sharing commands:
   share-add     Share a workflow with other users (read-only).
   share-remove  Unshare a workflow.
+  share-status  Show with whom a workflow is shared.
 
 Workspace interactive commands:
   close  Close an interactive session.
@@ -318,6 +319,17 @@ Example:
 
 <!-- markdownlint-disable no-bare-urls -->
 $ reana-client share-remove -w myanalysis.42 --user bob@example.org
+
+### share-status
+
+Show with whom a workflow is shared.
+
+The `share-status` command allows for checking with whom a workflow is
+shared.
+
+Example:
+
+$ reana-client share-status -w myanalysis.42
 
 ## Workspace interactive commands
 
