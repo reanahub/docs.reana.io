@@ -126,7 +126,20 @@ List all workflows and sessions.
 The ``list`` command lists workflows and sessions. By default, the list of
 workflows is returned. If you would like to see the list of your open
 interactive sessions, you need to pass the ``--sessions`` command-line
-option.
+option. If you would like to see the list of all workflows, including those
+shared with you, you need to pass the ``--shared`` command-line option.
+
+Along with specific user emails, you can pass the following special values  
+to the ``--shared-by`` and ``--shared-with`` command-line options:
+
+     - ``--shared-by anybody``: list workflows shared with you by anybody.
+
+     - ``--shared-with anybody``: list your shared workflows exclusively.
+
+     - ``--shared-with nobody``: list your unshared workflows exclusively.
+
+     - ``--shared-with bob@cern.ch,cecile@cern.ch``: list workflows shared
+     with either bob@cern.ch or cecile@cern.ch
 
 Example:
 
@@ -135,6 +148,12 @@ Example:
      $ reana-client list --sessions
 
      $ reana-client list --verbose --bytes
+
+     $ reana-client list --shared
+
+     $ reana-client list --shared-by bob@cern.ch
+
+     $ reana-client list --shared-with anybody
 
 ### create
 
