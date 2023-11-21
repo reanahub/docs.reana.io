@@ -126,15 +126,33 @@ List all workflows and sessions.
 The ``list`` command lists workflows and sessions. By default, the list of
 workflows is returned. If you would like to see the list of your open
 interactive sessions, you need to pass the ``--sessions`` command-line
-option.
+option. If you would like to see the list of all workflows, including those
+shared with you, you need to pass the ``--shared`` command-line option.
 
-Example:
+Along with specific user emails, you can pass the following special values
+to the ``--shared-by`` and ``--shared-with`` command-line options:
+
+     - ``--shared-by anybody``: list workflows shared with you by anybody.
+
+     - ``--shared-with anybody``: list your shared workflows exclusively.
+
+     - ``--shared-with nobody``: list your unshared workflows exclusively.
+
+     - ``--shared-with bob@cern.ch``: list workflows shared with bob@cern.ch
+
+Examples:
 
      $ reana-client list --all
 
      $ reana-client list --sessions
 
      $ reana-client list --verbose --bytes
+
+     $ reana-client list --shared
+
+     $ reana-client list --shared-by bob@cern.ch
+
+     $ reana-client list --shared-with anybody
 
 ### create
 
@@ -302,11 +320,9 @@ users will be able to view the workflow but not modify it.
 
 Examples:
 
-<!-- markdownlint-disable no-bare-urls -->
-$ reana-client share-add -w myanalysis.42 --user bob@cern.ch
+     $ reana-client share-add -w myanalysis.42 --user bob@example.org
 
-<!-- markdownlint-disable no-bare-urls -->
-$ reana-client share-add -w myanalysis.42 --user bob@cern.ch --user cecile@cern.ch --message "Please review my analysis" --valid-until 2024-12-31
+     $ reana-client share-add -w myanalysis.42 --user bob@example.org --user cecile@example.org --message "Please review my analysis" --valid-until 2025-12-31
 
 ### share-remove
 
@@ -317,8 +333,7 @@ will no longer be visible to the users with whom it was shared.
 
 Example:
 
-<!-- markdownlint-disable no-bare-urls -->
-$ reana-client share-remove -w myanalysis.42 --user bob@example.org
+    $ reana-client share-remove -w myanalysis.42 --user bob@example.org
 
 ### share-status
 
@@ -329,7 +344,7 @@ shared.
 
 Example:
 
-$ reana-client share-status -w myanalysis.42
+    $ reana-client share-status -w myanalysis.42
 
 ## Workspace interactive commands
 
