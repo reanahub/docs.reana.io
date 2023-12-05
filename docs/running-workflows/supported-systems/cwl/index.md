@@ -16,12 +16,12 @@ The Common Workflow Language standard for describing computational workflows ori
 | 0.3 release series     | 1.0.20180912090223  |
 | 0.2 release series     | 1.0.20180326152342  |
 
-## CWL v1.0 specification conformance results
+## CWL v1.0 conformance results
 
-REANA 0.8.0 tested on 2022-01-12
+REANA 0.9.1 tested on 2023-12-05
 
-- 183 tests passed
-- 14 failures
+- 177 tests passed
+- 20 failures
 - 0 unsupported features
 
 <!-- markdownlint-disable no-inline-html  -->
@@ -43,16 +43,22 @@ REANA 0.8.0 tested on 2022-01-12
 - Test [136/197] job_input_secondary_subdirs: Test specifying secondaryFiles in subdirectories of the job input document.
 - Test [137/197] job_input_subdir_primary_and_secondary_subdirs: Test specifying secondaryFiles in same subdirectory of the job input as the primary input file.
 - Test [173/197] docker_entrypoint: Test Docker ENTRYPOINT usage
+- Test [192/197] no_inputs_commandlinetool: Test CommandLineTool without inputs
+- Test [193/197] no_outputs_commandlinetool: Test CommandLineTool without outputs
+- Test [194/197] no_inputs_workflow: Test Workflow without inputs
+- Test [195/197] no_outputs_workflow: Test Workflow without outputs
+- Test [196/197] anonymous_enum_in_array: Test an anonymous enum inside an array inside a record
+- Test [197/197] schema-def_anonymous_enum_in_array: Test an anonymous enum inside an array inside a record, SchemaDefRequirement
 ```
 
 </details>
 
 ## CWL v1.1 specification conformance results
 
-REANA 0.8.0 tested on 2022-01-12
+REANA 0.9.1 tested on 2023-12-06
 
-- 214 tests passed
-- 39 failures
+- 181 tests passed
+- 72 failures
 - 0 unsupported features
 
 <details>
@@ -73,31 +79,64 @@ REANA 0.8.0 tested on 2022-01-12
 - Test [137/253] job_input_secondary_subdirs: Test specifying secondaryFiles in subdirectories of the job input document.
 - Test [138/253] job_input_subdir_primary_and_secondary_subdirs: Test specifying secondaryFiles in same subdirectory of the job input as the primary input file.
 - Test [174/253] docker_entrypoint: Test Docker ENTRYPOINT usage
+- Test [192/253] directory_literal_with_literal_file_nostdin: Test non-stdin reference to literal File via a Directory literal
+- Test [193/253] no_inputs_commandlinetool: Test CommandLineTool without inputs
+- Test [194/253] no_outputs_commandlinetool: Test CommandLineTool without outputs
+- Test [195/253] no_inputs_workflow: Test Workflow without inputs
+- Test [196/253] no_outputs_workflow: Test Workflow without outputs
+- Test [197/253] anonymous_enum_in_array: Test an anonymous enum inside an array inside a record
+- Test [198/253] schema-def_anonymous_enum_in_array: Test an anonymous enum inside an array inside a record, SchemaDefRequirement
 - Test [199/253] stdin_shorcut: Test command execution in with stdin and stdout redirection using stdin shortcut
+- Test [202/253] secondary_files_in_output_records: Test secondaryFiles on output record fields
 - Test [204/253] secondary_files_missing: Test checking when secondaryFiles are missing
 - Test [206/253] input_records_file_entry_with_format_and_bad_regular_input_file_format: Test file format checking on parameter
 - Test [207/253] input_records_file_entry_with_format_and_bad_entry_file_format: Test file format checking on record field
 - Test [208/253] input_records_file_entry_with_format_and_bad_entry_array_file_format: Test file format checking on array item
 - Test [209/253] record_output_file_entry_format: Test format on output record fields
+- Test [210/253] workflow_input_inputBinding_loadContents: Test WorkflowInputParameter.inputBinding.loadContents
+- Test [211/253] workflow_input_loadContents_without_inputBinding: Test WorkflowInputParameter.loadContents
+- Test [212/253] expression_tool_input_loadContents: Test loadContents on InputParameter.loadContents (expression)
+- Test [213/253] workflow_step_in_loadContents: Test WorkflowStepInput.loadContents
 - Test [214/253] timelimit_basic: Test that job fails when exceeding time limit
+- Test [215/253] timelimit_invalid: Test invalid time limit value
+- Test [216/253] timelimit_zero_unlimited: Test zero timelimit means no limit
 - Test [217/253] timelimit_from_expression: Test expression in time limit
+- Test [218/253] timelimit_expressiontool: Test timelimit in expressiontool is ignored
 - Test [219/253] timelimit_basic_wf: Test that tool in workflow fails when exceeding time limit
+- Test [220/253] timelimit_invalid_wf: Test that workflow level time limit is not applied to workflow execution time
+- Test [221/253] timelimit_zero_unlimited_wf: Test zero timelimit means no limit in workflow
 - Test [222/253] timelimit_from_expression_wf: Test expression in time limit in workflow
+- Test [223/253] networkaccess: Test networkaccess enabled
 - Test [224/253] networkaccess_disabled: Test networkaccess is disabled by default
 - Test [225/253] Test null and array input in InitialWorkDirRequirement
+- Test [226/253] Test array of directories InitialWorkDirRequirement
 - Test [227/253] cwl_requirements_addition: Test requirements in input document via EnvVarRequirement
 - Test [228/253] cwl_requirements_override_expression: Test conflicting requirements in input document via EnvVarRequirement and expression
 - Test [229/253] cwl_requirements_override_static: Test conflicting requirements in input document via EnvVarRequirement
+- Test [230/253] Test output of InitialWorkDir
+- Test [231/253] Test if full paths are allowed in glob
 - Test [232/253] Test fail trying to glob outside output directory
 - Test [233/253] symlink to file outside of working directory should NOT be retrieved
 - Test [234/253] symlink to file inside of working directory should be retrieved
 - Test [235/253] inplace update has side effect on file content
 - Test [236/253] inplace update has side effect on directory content
+- Test [237/253] outputbinding_glob_directory: Test that OutputBinding.glob accepts Directories
 - Test [238/253] stage_file_array: Test that array of input files can be staged to directory with entryname
 - Test [239/253] stage_file_array: Test that array of input files can be staged to directory with basename
 - Test [240/253] stage_file_array: Test that if array of input files are staged to directory with basename and entryname, entryname overrides
+- Test [241/253] tmpdir_is_not_outdir: Test that runtime.tmpdir is not runtime.outdir
+- Test [242/253] listing_default_none: Test that default behavior is 'no_listing' if not specified
+- Test [243/253] listing_requirement_none: Test that 'listing' is not present when LoadListingRequirement is 'no_listing'
+- Test [244/253] listing_loadListing_none: Test that 'listing' is not present when loadListing on input parameter is 'no_listing'
+- Test [245/253] listing_requirement_shallow: Test that 'listing' is present in top directory object but not subdirectory object when LoadListingRequirement is 'shallow_listing'
+- Test [246/253] listing_loadListing_shallow: Test that 'listing' is present in top directory object but not subdirectory object when loadListing on input parameter loadListing is 'shallow_listing'
+- Test [247/253] listing_requirement_deep: Test that 'listing' is present in top directory object and in subdirectory objects when LoadListingRequirement is 'deep_listing'
+- Test [248/253] listing_loadListing_deep: Test that 'listing' is present in top directory object and in subdirectory objects when input parameter loadListing is 'deep_listing'
 - Test [249/253] inputBinding_position_expr: Test for expression in the InputBinding.position field; also test using emoji in CWL document and tool output
 - Test [250/253] outputEval_exitCode: Can access exit code in outputEval
+- Test [251/253] any_input_param_graph_no_default: Test use of $graph without specifying which process to run
+- Test [252/253] any_input_param_graph_no_default_hashmain: Test use of $graph without specifying which process to run, hash-prefixed "main"
+- Test [253/253] optional_numerical_output_returns_0_not_null: Test that optional number output is returned as 0, not null```
 ```
 
 </details>
