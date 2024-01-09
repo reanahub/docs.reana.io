@@ -37,6 +37,10 @@ Workflow execution commands:
   stop      Stop a running workflow.
   validate  Validate workflow specification file.
 
+Workflow sharing commands:
+  share-add     Share a workflow with other users (read-only).
+  share-remove  Unshare a workflow.
+
 Workspace interactive commands:
   close  Close an interactive session.
   open   Open an interactive session inside the workspace.
@@ -285,6 +289,35 @@ Examples:
      $ reana-client run -w myanalysis-test-small -p myparam=mysmallvalue
 
      $ reana-client run -w myanalysis-test-big -p myparam=mybigvalue
+
+## Workflow sharing commands
+
+### share-add
+
+Share a workflow with other users (read-only).
+
+The `share-add` command allows sharing a workflow with other users. The
+users will be able to view the workflow but not modify it.
+
+Examples:
+
+<!-- markdownlint-disable no-bare-urls -->
+$ reana-client share-add -w myanalysis.42 --user bob@cern.ch
+
+<!-- markdownlint-disable no-bare-urls -->
+$ reana-client share-add -w myanalysis.42 --user bob@cern.ch --user cecile@cern.ch --message "Please review my analysis" --valid-until 2024-12-31
+
+### share-remove
+
+Unshare a workflow.
+
+The `share-remove` command allows for unsharing a workflow. The workflow
+will no longer be visible to the users with whom it was shared.
+
+Example:
+
+<!-- markdownlint-disable no-bare-urls -->
+$ reana-client share-remove -w myanalysis.42 --user bob@example.org
 
 ## Workspace interactive commands
 
