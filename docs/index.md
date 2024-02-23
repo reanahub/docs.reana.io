@@ -13,9 +13,9 @@
 
 **Advanced REANA user?**
 
-- Choose one of supported workflow systems: [CWL](running-workflows/supported-systems/cwl), [Serial](running-workflows/supported-systems/serial), [Yadage](running-workflows/supported-systems/yadage), [Snakemake](running-workflows/supported-systems/snakemake)
+- Choose one of supported workflow systems: [CWL](running-workflows/supported-systems/cwl), [Serial](running-workflows/supported-systems/serial), [Snakemake](running-workflows/supported-systems/snakemake), [Yadage](running-workflows/supported-systems/yadage)
 - Choose one of supported compute backends: [HTCondor](advanced-usage/compute-backends/htcondor), [Kubernetes](advanced-usage/compute-backends/kubernetes), [Slurm](advanced-usage/compute-backends/slurm)
-- Integrate with one of supported storage systems: [GitLab](advanced-usage/code-repositories/gitlab), [CVMFS](advanced-usage/code-repositories/cvmfs), [EOS](advanced-usage/storage-backends/eos)
+- Integrate with one of supported source code and storage systems: [GitLab](advanced-usage/code-repositories/gitlab), [CVMFS](advanced-usage/code-repositories/cvmfs), [EOS](advanced-usage/storage-backends/eos)
 
 **Deploying REANA on your premises?**
 
@@ -29,6 +29,6 @@
 **Get in touch**
 
 - Discuss [on Forum](https://forum.reana.io/)
-- Chat [on Mattermost](https://mattermost.web.cern.ch/it-dep/channels/reana) or [on Gitter](https://gitter.im/reanahub/reana)
+- Chat [on Mattermost](https://mattermost.web.cern.ch/it-dep/channels/reana) (particle physicists having CERN account)
 - Follow us [on Twitter](https://twitter.com/reanahub)
 - Collaborate [on GitHub](https://github.com/reanahub)

@@ -1,12 +1,16 @@
 # docs.reana.io
 
-[![CI Actions Status](https://github.com/reanahub/docs.reana.io/workflows/CI/badge.svg)](https://github.com/reanahub/docs.reana.io/actions) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/reanahub/reana?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![License](https://img.shields.io/github/license/reanahub/docs.reana.io.svg)](https://github.com/reanahub/docs.reana.io/blob/master/LICENSE)
+[![image](https://github.com/reanahub/reana/workflows/CI/badge.svg)](https://github.com/reanahub/docs.reana.io/actions)
+[![image](https://img.shields.io/badge/discourse-forum-blue.svg)](https://forum.reana.io)
+[![image](https://img.shields.io/github/license/reanahub/docs.reana.io.svg)](https://github.com/reanahub/docs.reana.io/blob/master/LICENSE)
 
 ## About
 
-REANA user documentation web site.
+REANA documentation web site [docs.reana.io](https://docs.reana.io).
 
-## Running
+## Developing
+
+Run locally:
 
 ```console
 $ mkvirtualenv docs.reana.io
