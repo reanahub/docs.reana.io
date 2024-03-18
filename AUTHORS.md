@@ -6,6 +6,7 @@ The list of contributors in alphabetical order:
 - [Agisilaos Kounelis](https://orcid.org/0000-0001-9312-3189)
 - [Audrius Mecionis](https://orcid.org/0000-0002-3759-1663)
 - [Clemens Lange](https://orcid.org/0000-0002-3632-3157)
+- [Daan Rosendal](https://orcid.org/0000-0002-3447-9000)
 - [Diego Rodriguez](https://orcid.org/0000-0003-0649-2002)
 - [Domenic Gosein](https://orcid.org/0000-0002-1546-0435)
 - [Elena Gazzarrini](https://orcid.org/0000-0001-5772-5166)
