@@ -10,6 +10,7 @@ REANA creates a single Ingress object by default, which can be customized with t
 
 - `ingress.enabled` enables or disables the creation of Ingresses
 - `ingress.annotations` is used to define which custom annotations should be applied to the Ingress resource
+- `ingress.ingress_class_name` is used to select the desired [Ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class), and can be set to `null` to use the default Ingress class of the cluster
 - `ingress.tls` can be used to configure a TLS certificate (see [Configuring TLS certificates](../configuring-tls-certificates/))
 
 You can also specify additional Ingresses with the `ingress.extra` Helm value.
@@ -27,13 +28,11 @@ ingress:
       - reana.cern.ch
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-    kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: https
     traefik.ingress.kubernetes.io/router.tls: "true"
   extra:
     - name: http
       annotations:
-        kubernetes.io/ingress.class: traefik
         traefik.ingress.kubernetes.io/router.entrypoints: http
         traefik.ingress.kubernetes.io/router.middlewares: kube-system-redirect-scheme@kubernetescrd
 ```
@@ -53,7 +52,6 @@ kind: Ingress
 metadata:
   name: reana-ingress
   annotations:
-    kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
 spec:
   tls:
