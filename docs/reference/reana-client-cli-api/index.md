@@ -294,7 +294,7 @@ Open an interactive session inside the workspace.
 
 The ``open`` command allows to open interactive session processes on top of
 the workflow workspace, such as Jupyter notebooks. This is useful to
-quickly inspect and analyse the produced files while the workflow is stlil
+quickly inspect and analyse the produced files while the workflow is still
 running.
 
 Examples:
