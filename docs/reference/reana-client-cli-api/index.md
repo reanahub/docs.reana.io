@@ -37,6 +37,11 @@ Workflow execution commands:
   stop      Stop a running workflow.
   validate  Validate workflow specification file.
 
+Workflow sharing commands:
+  share-add     Share a workflow with other users (read-only).
+  share-remove  Unshare a workflow.
+  share-status  Show with whom a workflow is shared.
+
 Workspace interactive commands:
   close  Close an interactive session.
   open   Open an interactive session inside the workspace.
@@ -121,7 +126,20 @@ List all workflows and sessions.
 The ``list`` command lists workflows and sessions. By default, the list of
 workflows is returned. If you would like to see the list of your open
 interactive sessions, you need to pass the ``--sessions`` command-line
-option.
+option. If you would like to see the list of all workflows, including those
+shared with you, you need to pass the ``--shared`` command-line option.
+
+Along with specific user emails, you can pass the following special values  
+to the ``--shared-by`` and ``--shared-with`` command-line options:
+
+     - ``--shared-by anybody``: list workflows shared with you by anybody.
+
+     - ``--shared-with anybody``: list your shared workflows exclusively.
+
+     - ``--shared-with nobody``: list your unshared workflows exclusively.
+
+     - ``--shared-with bob@cern.ch,cecile@cern.ch``: list workflows shared
+     with either bob@cern.ch or cecile@cern.ch
 
 Example:
 
@@ -130,6 +148,12 @@ Example:
      $ reana-client list --sessions
 
      $ reana-client list --verbose --bytes
+
+     $ reana-client list --shared
+
+     $ reana-client list --shared-by bob@cern.ch
+
+     $ reana-client list --shared-with anybody
 
 ### create
 
@@ -285,6 +309,46 @@ Examples:
      $ reana-client run -w myanalysis-test-small -p myparam=mysmallvalue
 
      $ reana-client run -w myanalysis-test-big -p myparam=mybigvalue
+
+## Workflow sharing commands
+
+### share-add
+
+Share a workflow with other users (read-only).
+
+The `share-add` command allows sharing a workflow with other users. The
+users will be able to view the workflow but not modify it.
+
+Examples:
+
+<!-- markdownlint-disable no-bare-urls -->
+$ reana-client share-add -w myanalysis.42 --user bob@cern.ch
+
+<!-- markdownlint-disable no-bare-urls -->
+$ reana-client share-add -w myanalysis.42 --user bob@cern.ch --user cecile@cern.ch --message "Please review my analysis" --valid-until 2024-12-31
+
+### share-remove
+
+Unshare a workflow.
+
+The `share-remove` command allows for unsharing a workflow. The workflow
+will no longer be visible to the users with whom it was shared.
+
+Example:
+
+<!-- markdownlint-disable no-bare-urls -->
+$ reana-client share-remove -w myanalysis.42 --user bob@example.org
+
+### share-status
+
+Show with whom a workflow is shared.
+
+The `share-status` command allows for checking with whom a workflow is
+shared.
+
+Example:
+
+$ reana-client share-status -w myanalysis.42
 
 ## Workspace interactive commands
 
