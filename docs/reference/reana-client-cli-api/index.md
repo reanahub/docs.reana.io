@@ -62,6 +62,9 @@ Secret management commands:
   secrets-add     Add secrets from literal string or from file.
   secrets-delete  Delete user secrets by name.
   secrets-list    List user secrets.
+
+Workflow run test commands:
+  test  Test workflow execution, based on a given Gherkin file.
 ```
 
 ## Quota commands
@@ -520,3 +523,21 @@ List user secrets.
 Examples:
 
      $ reana-client secrets-list
+
+## Workflow run test commands
+
+### test
+
+Test workflow execution, based on a given Gherkin file.
+
+Gherkin files can be specified in the reana specification file (reana.yaml),
+or by using the ``-n`` option.
+
+The ``test`` command allows for testing of a workflow execution,
+by assessing whether it meets certain properties specified in a
+chosen gherkin file.
+
+Example:
+    $ reana-client test -w myanalysis -n test_analysis.feature
+    $ reana-client test -w myanalysis
+    $ reana-client test -w myanalysis -n test1.feature -n test2.feature
