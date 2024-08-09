@@ -5,7 +5,7 @@ EOS you could use Kerberos authentication.
 
 ## Generating keytab file
 
-At CERN, you can connect to `lxplus7.cern.ch` to generate a Kerberos keytab
+At CERN, you can connect to `lxplus.cern.ch` to generate a Kerberos keytab
 file for passwordless authentication in the following way:
 
 ```console
