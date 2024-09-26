@@ -11,6 +11,7 @@ The list of contributors in alphabetical order:
 - [Domenic Gosein](https://orcid.org/0000-0002-1546-0435)
 - [Elena Gazzarrini](https://orcid.org/0000-0001-5772-5166)
 - [Giuseppe Steduto](https://orcid.org/0009-0002-1258-8553)
+- [Jelizaveta Lemeševa](https://orcid.org/0009-0003-6606-9270)
 - [Marco Donadoni](https://orcid.org/0000-0003-2922-5505)
 - [Marco Vidal](https://orcid.org/0000-0002-9363-4971)
 - [Maria Fernando](https://github.com/MMFernando)
