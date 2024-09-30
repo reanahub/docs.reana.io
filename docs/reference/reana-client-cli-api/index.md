@@ -266,14 +266,17 @@ Examples:
 
 Get workflow logs.
 
-The ``logs`` command allows to retrieve logs of running workflow. Note that
-only finished steps of the workflow are returned, the logs of the currently
-processed step is not returned until it is finished.
+The ``logs`` command allows to retrieve logs of a running workflow.
 
 Examples:
 
      $ reana-client logs -w myanalysis.42
-     $ reana-client logs -w myanalysis.42 -s 1st_step
+
+     $ reana-client logs -w myanalysis.42 --json
+
+     $ reana-client logs -w myanalysis.42 --filter status=running
+
+     $ reana-client logs -w myanalysis.42 --filter step=myfit --follow
 
 ### validate
 
