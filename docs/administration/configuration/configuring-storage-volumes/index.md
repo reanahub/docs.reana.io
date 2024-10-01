@@ -220,5 +220,7 @@ If you have an existing cluster with many users with heavy disk space needs, and
 9. Disable maintenance mode and scale up the cluster to start accepting new workflows.
 
     ```{ .console .copy-to-clipboard }
-    $ helm diff upgrade reana helm/reana -f myvalues.yaml
+    $ helm upgrade reana reanahub/reana \
+        --version $VERSION \
+        --values myvalues.yaml
     ```
