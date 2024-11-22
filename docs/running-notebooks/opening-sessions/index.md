@@ -19,13 +19,13 @@ By clicking on the link you will have access to a Jupyter notebook interface:
 ![jupyter-notebook](../../images/interactive-session-jupyter-notebook.png){.screenshot-browser-mockup}
 
 By default, newly opened sessions will use the
-[`jupyter/scipy-notebook:notebook-6.4.5`](https://hub.docker.com/layers/jupyter/scipy-notebook/notebook-6.4.5/images/sha256-b6a4ce777b837496d5612b7ce4efba9aa015576cb6993817721b8d293a7c2a3c?context=explore)
+[`quay.io/jupyter/scipy-notebook:notebook-7.2.2`](https://quay.io/repository/jupyter/scipy-notebook)
 Docker image to spawn your notebook.
 If you would like to use a different image, you can pass it to the previous command with the
 `-i/--image` option:
 
 ```console
-$ reana-client open -w jupyter --image jupyter/scipy-notebook:notebook-6.4.7
+$ reana-client open -w jupyter --image quay.io/jupyter/scipy-notebook:notebook-7.2.2
 ==> SUCCESS: Interactive session opened successfully
 https://reana.cern.ch/f8be55e4-5d18-43f9-b977-f773fdcab163?token=<your-reana-token>
 It could take several minutes to start the interactive session.
