@@ -6,3 +6,4 @@ arrange:
     - executing-workflows
     - launching-workflows
     - supported-systems
+    - dask
