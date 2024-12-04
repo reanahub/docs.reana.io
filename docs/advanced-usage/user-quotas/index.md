@@ -108,11 +108,9 @@ workflow"_:
 
 !["Delete workflow" menu option](/images/ui-delete-workflow.png)
 
-Make sure that _"Delete also workflow workspace"_ is checked before confirming
-the deletion of the workflow, otherwise the workspace will be kept intact and
-you will not free up any space:
+Before confirming the deletion of the workflow, you can also decide whether to delete all the other workflow runs:
 
-![Dialog to confirm the deletion of a workflow](/images/ui-delete-workflow-confirmation.png)
+![Dialog to confirm the deletion of a workflow](/images/ui-delete-workflow-confirmation.png){.screenshot-browser-mockup}
 
 ### Prune the workspace
 
