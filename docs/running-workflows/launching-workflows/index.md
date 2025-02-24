@@ -152,5 +152,14 @@ This example points to the RooFit analysis demo. You should replace the `url` to
 You can include one of the above badges into your HTML documentation pages using the following syntax:
 
 ```html
-<a href="https://reana.cern.ch/launch?url=https%3A%2F%2Fgithub.com%2Freanahub%2Freana-demo-root6-roofit"><img src="https://www.reana.io/static/img/badges/launch-on-reana.svg" alt="Launch on REANA badge"></a>
+<a href="<LAUNCHER-URL>"><img src="https://www.reana.io/static/img/badges/launch-on-reana.svg" alt="Launch on REANA badge"></a>
 ```
+
+### Launcher badge creator
+
+To streamline the badge creation process, you can use the tool accessible on REANA at
+`/launcher-badge`. If you have a CERN account, you can use the launcher badge creator on the [REANA@CERN](https://reana.cern.ch/launcher-badge) instance.
+
+Upon visiting the launcher badge page, you will be able to generate the necessary markdown syntax to include the badge
+in your documentation. This tool also provides you the URL for executing your workflow, which can be integrated into
+your projects.
