@@ -28,7 +28,7 @@ shared_storage:
 ```
 
 In the configuration examples below we'll use the `shared_storage` volume, but the `infrastructure_storage` volume can be configured in exactly the same way.
-Note that typically, the shared storage volume can be huge (even tens of terabytes), while the shared storage volume can be as small as a few gigabytes, depending also on whether you are using an external database or not.
+Note that typically, the shared storage volume can be huge (even tens of terabytes), while the infrastructure storage volume can be as small as a few gigabytes, depending also on whether you are using an external database or not.
 
 ### CephFS
 
