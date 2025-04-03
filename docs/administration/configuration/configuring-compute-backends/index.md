@@ -61,7 +61,42 @@ user job pods:
   user workload demands. The node labelling system is described in a dedicated
   document [Deploying at scale](../../deployment/deploying-at-scale/).
 
-- The default memory limit for user job containers is governed by the Helm
+Starting from REANA 0.95.0 release series, administrators can configure default
+and maximum CPU requests, CPU limits, and memory requests for user job
+containers:
+
+- The default CPU request for user job containers is governed by the Helm value
+  [`kubernetes_jobs_cpu_request`](https://github.com/reanahub/reana/tree/master/helm/reana).
+  This value specifies the minimum amount of CPU resources that must be available
+  for a container to start. By default no CPU request is set.
+
+- The maximum CPU request a user can specify is governed by the Helm value
+  [`kubernetes_jobs_max_user_cpu_request`](https://github.com/reanahub/reana/tree/master/helm/reana).
+  For example, you can allow users to request up to 4 CPU cores. If a user requests
+  more than this value, the job is rejected.
+
+- The default CPU limit for user job containers is governed by the Helm value
+  [`kubernetes_jobs_cpu_limit`](https://github.com/reanahub/reana/tree/master/helm/reana).
+  This value specifies the maximum amount of CPU a container can use. When containers
+  try to use more CPU than their limit, they will be throttled. By default no
+  CPU limit is set.
+
+- The maximum CPU limit a user can specify is governed by the Helm value
+  [`kubernetes_jobs_max_user_cpu_limit`](https://github.com/reanahub/reana/tree/master/helm/reana).
+  For example, you can allow users to set a limit up to 8 CPU cores. If a user requests
+  more than this value, the job is rejected.
+
+- The default memory request for user job containers is governed by the Helm value
+  [`kubernetes_jobs_memory_request`](https://github.com/reanahub/reana/tree/master/helm/reana).
+  This value specifies the minimum amount of memory that must be available for a
+  container to start. By default no memory request is set.
+
+- The maximum memory request a user can specify is governed by the Helm value
+  [`kubernetes_jobs_max_user_memory_request`](https://github.com/reanahub/reana/tree/master/helm/reana).
+  For example, you can allow users to request up to 8 GiB of memory. If a user requests
+  more than this value, the job is rejected.
+
+- Starting from REANA 0.7.4, the default memory limit for user job containers is governed by the Helm
   value
   [`kubernetes_jobs_memory_limit`](https://github.com/reanahub/reana/tree/master/helm/reana).
   If a user job exceeds this limit, the user job will be terminated and an
@@ -69,13 +104,13 @@ user job pods:
   set this variable based on the cluster node flavours you have in your system
   and the typical user workflow memory needs.
 
-- The maximum memory limit a user can request is governed by the Helm value
+- Starting from REANA 0.7.4, the maximum memory limit a user can request is governed by the Helm value
   [`kubernetes_jobs_max_user_memory_limit`](https://github.com/reanahub/reana/tree/master/helm/reana).
   For example, you can allow users to request up to 10 GiB of memory even
-  though the default is 4 GiB. If a user would request more than this value,
-  the job would not be accepted.
+  though the default is 4 GiB. If a user requests more than this value,
+  the job is rejected.
 
-- The default runtime limit for user job containers is governed by the Helm
+- Starting from REANA 0.8.1, the default runtime limit for user job containers is governed by the Helm
   value
   [`kubernetes_jobs_timeout_limit`](https://github.com/reanahub/reana/tree/master/helm/reana).
   If a user job exceeds this limit, the user job will be terminated and an
@@ -83,17 +118,23 @@ user job pods:
   days. Please set this variable based on the typical user workflow runtime
   needs in your installation.
 
-- The maximum runtime limit a user can request is governed by the Helm value
+- Starting from REANA 0.8.1, the maximum runtime limit a user can request is governed by the Helm value
   [`kubernetes_jobs_max_user_timeout_limit`](https://github.com/reanahub/reana/tree/master/helm/reana).
   For example, you can allow users to request a runtime of up to 14 days even
-  though the default is 7 days. If a user would request more than this value,
-  the job would not be accepted.
+  though the default is 7 days. If a user requests more than this value,
+  the job is rejected.
 
 Here is a customisation snippet example:
 
 ```yaml
 compute_backends:
   - kubernetes
+kubernetes_jobs_cpu_request: "0.1"
+kubernetes_jobs_max_user_cpu_request: "4"
+kubernetes_jobs_cpu_limit: "1"
+kubernetes_jobs_max_user_cpu_limit: "8"
+kubernetes_jobs_memory_request: 1Gi
+kubernetes_jobs_max_user_memory_request: 8Gi
 kubernetes_jobs_memory_limit: 2Gi
 kubernetes_jobs_max_user_memory_limit: 10Gi
 ```
