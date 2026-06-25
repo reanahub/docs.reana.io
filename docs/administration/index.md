@@ -20,6 +20,7 @@
 - [Configuring TLS certificates](configuration/configuring-tls-certificates)
 - [Configuring global workspace retention rules](configuration/configuring-global-workspace-retention-rules)
 - [Configuring GitLab integration](configuration/configuring-gitlab-integration)
+- [Configuring OpenSearch](configuration/configuring-opensearch)
 
 **Managing REANA platform?**
 
