@@ -47,6 +47,25 @@ The available Slurm partition values are listed in [CERN Linux HPC resources](ht
 documentation page. Please see the [Examples](.#examples) section below for some
 concrete examples.
 
+## Handling large files
+
+The CERN Slurm cluster does not share a common filesystem with the REANA
+cluster. REANA therefore transfers the workflow workspace files to the Slurm
+cluster before each Slurm job starts, and transfers the workspace content back
+to REANA after each Slurm job finishes, so that subsequent workflow steps,
+which may run on other compute backends such as Kubernetes, can seamlessly
+access the produced results.
+
+Note that this transfer concerns the whole workspace and happens for every
+Slurm step of the workflow. If your computations produce large intermediate
+temporary files, it is therefore advisable to keep them out of the workspace,
+and to pass them between steps only as file path references, using either the
+Slurm cluster filesystem, if the subsequent steps run on Slurm as well, or an
+external storage system such as EOS, if the subsequent steps run on other
+compute backends. This will keep the workspace small and the workspace
+transfers fast. Ideally, the workspace should contain only the workflow inputs
+and the final results that you would like REANA to preserve.
+
 ## Examples
 
 The following **CWL** workflow specification will dispatch the first `gendata`
