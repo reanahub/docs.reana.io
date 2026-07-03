@@ -42,7 +42,7 @@ examples for each of these techniques.
 
 If you would like to specify a concrete Slurm partition to use or a concrete
 Slurm timeout limit, you can provide additional workflow hints called
-`slurm_partition` (default is `inf-short`) and `slurm_time` (default is 60 minutes).
+`slurm_partition` (default is `photon`) and `slurm_time` (default is 60 minutes).
 The available Slurm partition values are listed in [CERN Linux HPC resources](https://batchdocs.web.cern.ch/linuxhpc/resources.html)
 documentation page. Please see the [Examples](.#examples) section below for some
 concrete examples.
@@ -109,7 +109,7 @@ to the CERN Slurm compute backend, using a particular **Singularity image from C
 
 The following **Yadage** workflow specification will dispatch the first `gendata`
 step of the [RooFit demo example](https://github.com/reanahub/reana-demo-root6-roofit)
-to the CERN Slurm compute backend, using a **custom Slurm partition** called `photon`
+to the CERN Slurm compute backend, using a **custom Slurm partition** called `phodev`
 and a **custom Slurm timeout** of five minutes:
 
 ```yaml hl_lines="14 15 16"
@@ -127,6 +127,6 @@ and a **custom Slurm timeout** of five minutes:
             imagetag: '6.18.04'
             resources:
               - compute_backend: slurmcern
-              - slurm_partition: 'photon'
+              - slurm_partition: 'phodev'
               - slurm_time: '5'
 ```

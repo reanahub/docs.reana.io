@@ -152,9 +152,14 @@ and customise the
 value to use an image compiled with the Slurm CERN backend support, such as
 `reanahub/reana-job-controller-htcondorcern-slurmcern:0.9.0`.
 
-Currently it is not possible to further customise the Slurm integration through
-additional Helm values or environment variables. Please get in touch should you
-need to customise the Slurm integration further in your REANA deployment.
+The Slurm integration can be further customised by setting environment
+variables under `components.reana_job_controller.environment`; see the
+[REANA Helm chart documentation](https://github.com/reanahub/reana/tree/master/helm/reana)
+for the full list. For example, `SLURM_HOSTNAME` selects the Slurm head node.
+Starting from REANA 0.95.0 release series, `SLURM_GSS_HOSTNAME` can additionally
+be used to explicitly select the Kerberos service principal hostname used for
+SSH GSSAPI authentication. It must match the Slurm gate node actually reached
+by the SSH connection.
 
 Here is a customisation snippet example:
 
@@ -165,4 +170,6 @@ compute_backends:
 components:
   reana_job_controller:
     image: docker.io/reanahub/reana-job-controller-htcondorcern-slurmcern:0.9.0
+    environment:
+      SLURM_HOSTNAME: slurmgate01.cern.ch
 ```
