@@ -21,6 +21,9 @@ For additional information, please see:
 
 ## Supported versions
 
-| REANA version         | Snakemake |
-| ----------------------|-----------|
-| 0.8 release series    | 6.8.0     |
+| REANA version        | Snakemake |
+| -------------------- | --------- |
+| 0.95 release series  | 9.22.0    |
+| 0.9.3-0.9.4 releases | 7.32.4    |
+| 0.9.0-0.9.2 releases | 6.8.0     |
+| 0.8 release series   | 6.8.0     |

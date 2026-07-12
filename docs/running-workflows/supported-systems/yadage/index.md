@@ -16,11 +16,15 @@ For additional information, please see:
 
 ## Supported versions
 
-| REANA version         | Yadage  | Adage   | Packtivity |
-| ----------------------|---------|---------|------------|
-| 0.8 release series    | 0.20.1  | 0.10.1  | 0.14.24    |
-| 0.7 release series    | 0.20.1  | 0.10.1  | 0.14.24    |
-| 0.6 release series    | 0.20.0  | 0.10.0  | 0.14.21    |
-| 0.4 release series    | 0.13.5  | 0.8.5   | 0.10.0     |
-| 0.4 release series    | 0.13.5  | 0.8.5   | 0.10.0     |
-| 0.3 release series    | 0.13.5  | 0.8.5   | 0.10.0     |
+| REANA version       | Yadage | Adage  | Packtivity | Yadage-Schemas |
+| ------------------- | ------ | ------ | ---------- | -------------- |
+| 0.95 release series | 0.20.1 | 0.11.0 | 0.16.2     | 0.10.6         |
+| 0.9 release series  | 0.20.1 | 0.10.1 | 0.14.24    | 0.10.6         |
+| 0.8.2 release       | 0.20.1 | 0.10.1 | 0.14.24    | 0.10.6         |
+| 0.8.1 release       | 0.20.1 | 0.10.3 | 0.14.21    | 0.10.6         |
+| 0.8.0 release       | 0.20.1 | 0.10.1 | 0.14.21    | 0.10.6         |
+| 0.7 release series  | 0.20.1 | 0.10.1 | 0.14.21    | 0.10.6         |
+| 0.6 release series  | 0.20.0 | 0.10.0 | 0.14.21    | 0.10.6         |
+| 0.5 release series  | 0.13.5 | 0.8.5  | 0.10.0     | 0.7.16         |
+| 0.4 release series  | 0.13.5 | 0.8.5  | 0.10.0     | 0.7.16         |
+| 0.3 release series  | 0.13.5 | 0.8.5  | 0.10.0     | 0.7.16         |

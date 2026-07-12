@@ -9,6 +9,8 @@ The Common Workflow Language standard for describing computational workflows ori
 
 | REANA version          | ``cwltool`` version |
 | ---------------------- | ------------------- |
+| 0.95 release series    | 3.1.20210628163208  |
+| 0.9 release series     | 3.1.20210628163208  |
 | 0.8 release series     | 3.1.20210628163208  |
 | 0.7 release series     | 1.0.20191022103248  |
 | 0.6 release series     | 1.0.20190815141648  |
