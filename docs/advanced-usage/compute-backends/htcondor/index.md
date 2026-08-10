@@ -171,9 +171,19 @@ machines HTCondor is allowed to pick for a step.
 
 For finer-grained control over which execution machines HTCondor may schedule
 the step on, you can pass a raw ClassAd `Requirements` expression via
-`htcondor_requirements`. The string is forwarded verbatim to the HTCondor
-submit file's `Requirements` attribute, so any ClassAd expression accepted by
-HTCondor is allowed.
+`htcondor_requirements`. Any ClassAd expression accepted by HTCondor is
+allowed.
+
+The expression you supply becomes the job's *complete* `Requirements`
+expression; HTCondor's usual submit-side defaults are not appended to it. This
+keeps submission architecture-neutral, since those defaults would otherwise
+constrain the step to the architecture and the operating system of the machine
+that submitted it. If your step needs a constraint, state it explicitly.
+
+Resource requests such as `htcondor_request_memory` are not affected, since
+they are passed as separate submit attributes and are still taken into account
+when matching execution machines. Site policies configured on the HTCondor
+schedd and on the execution machines continue to apply as usual.
 
 A common use case is restricting the step to a specific CPU architecture, for
 example to run only on ARM (`aarch64`) machines:
@@ -186,7 +196,7 @@ example to run only on ARM (`aarch64`) machines:
       - name: reana_demo_helloworld_htcondorcern
         environment: 'python:2.7-slim'
         compute_backend: htcondorcern
-        htcondor_requirements: '(Arch =?= "aarch64")'
+        htcondor_requirements: '(TARGET.Arch =?= "aarch64")'
         commands:
             - python helloworld.py
 ```
