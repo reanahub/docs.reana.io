@@ -42,3 +42,31 @@ secrets:
     REANA_GITLAB_OAUTH_APP_SECRET: "<your-client-secret>"
     REANA_GITLAB_HOST: "gitlab.example.org"
 ```
+
+## Configuring webhook authorization lifetime
+
+REANA authenticates incoming GitLab webhooks with a per-user secret. This is a
+delegated capability, not an OIDC token, so GitLab can deliver webhooks without
+the user being logged in. To bound access after an identity-provider role is
+removed, REANA expires the capability and requires periodic reauthorization.
+
+Set the maximum authorization lifetime in seconds through the REANA Server
+environment. The default is 30 days:
+
+```yaml
+components:
+  reana_server:
+    environment:
+      REANA_GITLAB_WEBHOOK_SECRET_MAX_LIFETIME: 2592000
+```
+
+Users renew the authorization from the GitLab section of their REANA profile.
+The renewal request is protected by normal OIDC authentication and therefore
+checks the user's current REANA role. It extends the expiry without rotating
+the secret already installed in existing GitLab projects.
+
+A longer lifetime means fewer renewal prompts, but it also lengthens the period
+for which a user whose role has been revoked at the identity provider may keep
+launching workflows through GitLab. Choose a duration that reflects the
+deployment's revocation requirements. Existing secrets without an expiry are
+rejected after upgrade until their owners explicitly renew them.
