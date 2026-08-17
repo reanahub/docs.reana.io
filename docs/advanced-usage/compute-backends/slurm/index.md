@@ -35,6 +35,17 @@ specify the desired computing environment for your job:
   your workspace before starting the workflow.
 - You can also use Singularity images from the [CVMFS unpacked images](https://gitlab.cern.ch/unpacked/sync/-/blob/master/recipe.yaml) area.
 
+Note that REANA caches the converted SIF images under `.reana/sif-cache` in
+your Slurm home directory, so that the same image reference is converted only
+once and is then reused by all your workflows. The cache is not expired
+automatically, and mutable image tags such as `latest` are converted on first
+use and are not refreshed afterwards. For reproducible runs, use stable image
+tags that are never overwritten. If you would like to reclaim space, or to
+force a fresh conversion of an image, you can remove the corresponding cached
+files, provided that none of your REANA Slurm jobs are queued or running at
+that moment. Any missing image will be converted again during the next job
+submission.
+
 Please see the [Examples](.#examples) section below that will provide concrete
 examples for each of these techniques.
 
