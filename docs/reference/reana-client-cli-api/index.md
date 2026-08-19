@@ -233,6 +233,14 @@ Note that workflow restarting can be used in a combination with operational
 options ``FROM`` and ``TARGET``. You can also pass a modified workflow
 specification with ``-f`` or ``--file`` flag.
 
+The ``-f``/``--file`` flag replaces only the *specification* (input
+parameters, operational options, and workflow type/definition metadata).
+The workflow **source files** (Snakefiles, CWL files, rules, ...) are reused
+from the existing workspace: a restart does not re-upload them. If the
+replacement specification references new or changed workflow source, upload
+those files to the workspace first; otherwise validation fails naming the
+missing file.
+
 You can furthermore use modified input prameters using ``-p`` or
 ``--parameters`` flag and by setting additional operational options using
 ``-o`` or ``--options``.  The input parameters and operational options can be
@@ -339,7 +347,7 @@ will no longer be visible to the users with whom it was shared.
 
 Example:
 
-    $ reana-client share-remove -w myanalysis.42 --user bob@example.org
+     $ reana-client share-remove -w myanalysis.42 --user bob@example.org
 
 ### share-status
 
