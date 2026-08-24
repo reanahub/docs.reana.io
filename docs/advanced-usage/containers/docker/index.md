@@ -58,8 +58,8 @@ The `bash` shell is used in operational procedures to pass along
 encoded/decoded job commands and parameters between REANA workflow
 orchestration components, the job execution components and the compute backend
 itself, so that the job execution behaviour would be consistent across
-Kubernetes, HTCondor, Slurm backends for both Docker and Singularity execution
-wrappers.
+Kubernetes, HTCondor, Slurm backends for both Docker and Apptainer/Singularity
+execution wrappers.
 
 Therefore, please make sure that your Docker images contain the `bash` shell
 executable, even if it may not be the default shell.

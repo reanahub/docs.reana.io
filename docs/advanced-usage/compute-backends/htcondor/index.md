@@ -31,6 +31,50 @@ workflow specification.
 Examples for CWL and Yadage can be found in
 [REANA example - "hello world"](https://github.com/reanahub/reana-demo-helloworld)
 
+## Choosing container execution mode
+
+REANA supports two container execution modes for HTCondor steps. The mode is
+selected by the image given in `environment` and by the `unpacked_img` hint.
+
+### Docker images
+
+Docker execution is the default mode. Specify a regular Docker or OCI image
+reference in `environment`, as in the example above, and omit `unpacked_img`
+(or set it to `false`). REANA passes the image to the CERN HTCondor Docker
+integration, which obtains it from the container registry and starts the job.
+
+This mode is appropriate for images stored in a container registry. The image
+must be accessible from the HTCondor execution infrastructure.
+
+### Apptainer with CVMFS unpacked images
+
+The Apptainer mode executes an image that is already unpacked in a directory
+available through CVMFS on the HTCondor execution machine. At CERN, many such
+images are published below `/cvmfs/unpacked.cern.ch/`; see the
+[CernVM-FS container image documentation](https://cvmfs.readthedocs.io/en/latest/cpt-containers/#using-unpackedcernch).
+Set `environment` to the full CVMFS path and set `unpacked_img` to `true`:
+
+```yaml hl_lines="5 7"
+
+   # Serial example
+   ...
+   steps:
+      - name: python_version
+        environment: '/cvmfs/unpacked.cern.ch/registry.hub.docker.com/library/python:3.10'
+        compute_backend: htcondorcern
+        unpacked_img: true
+        commands:
+            - python --version
+```
+
+In this mode, REANA launches the command through the Apptainer wrapper on the
+execution machine. The image path is not downloaded or transferred with the
+job, so it must already exist and be readable there.
+
+See [Apptainer containers](../../containers/apptainer/index.md) for why the
+hint is required, the support offered by each compute backend, and a Snakemake
+example.
+
 ## Aid job scheduling
 
 HTCondor uses priorities to allocate machines to run jobs. With REANA there are two values you can specify to help schedule a job appropriately.

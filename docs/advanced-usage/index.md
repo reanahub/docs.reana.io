@@ -25,6 +25,7 @@
 
 **Containers**
 
+- [Apptainer](containers/apptainer/index.md) for batch execution with SIF and unpacked images
 - [Docker](containers/docker) useful tips for Docker containerised environments
 
 **User Quotas**

@@ -24,16 +24,16 @@ section below about how to do this for your CWL, Serial, Snakemake, Yadage workf
 
 ## Specifying environment
 
-The Slurm jobs will run in a containerised compute environment that uses
-Singularity container technology. There are three possibilities how you can
-specify the desired computing environment for your job:
+The Slurm jobs run in a containerised compute environment using
+[Apptainer](../../containers/apptainer/index.md), formerly known as Singularity. There
+are three ways to specify the desired computing environment for your job:
 
 - If you are using a Docker container image in your workflow step, REANA will
-  automatically convert the image into a Singularity SIF image before submitting
+  automatically convert the image into an Apptainer SIF image before submitting
   the job. This is fully transparent.
-- You can also specify your own Singularity SIF image. You have to upload it into
+- You can also specify your own Apptainer SIF image. You have to upload it into
   your workspace before starting the workflow.
-- You can also use Singularity images from the [CVMFS unpacked images](https://gitlab.cern.ch/unpacked/sync/-/blob/master/recipe.yaml) area.
+- You can also use [unpacked container images distributed through CVMFS](https://cvmfs.readthedocs.io/en/latest/cpt-containers/#using-unpackedcernch).
 
 Note that REANA caches the converted SIF images under `.reana/sif-cache` in
 your Slurm home directory, so that the same image reference is converted only
@@ -99,7 +99,7 @@ to the CERN Slurm compute backend, using a regular **Docker image** for the job 
 
 The following **Serial** workflow specification will dispatch the first `gendata`
 step of the [RooFit demo example](https://github.com/reanahub/reana-demo-root6-roofit)
-to the CERN Slurm compute backend, using a **custom Singularity image** called `myimage_1_0.sif` from the workspace:
+to the CERN Slurm compute backend, using a **custom Apptainer image** called `myimage_1_0.sif` from the workspace:
 
 ```yaml hl_lines="5 9 10"
   ...
@@ -118,7 +118,7 @@ to the CERN Slurm compute backend, using a **custom Singularity image** called `
 
 The following **Snakemake** workflow specification will dispatch the first `gendata`
 step of the [RooFit demo example](https://github.com/reanahub/reana-demo-root6-roofit)
-to the CERN Slurm compute backend, using a particular **Singularity image from CVMFS unpacked image area**:
+to the CERN Slurm compute backend, using a particular **Apptainer image from CVMFS unpacked image area**:
 
 ```yaml hl_lines="10 12"
   ...
