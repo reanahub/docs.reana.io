@@ -9,7 +9,7 @@ You can open Jupyter notebook sessions from the REANA-Client as follows:
 ```console
 $ reana-client open jupyter -w helloworld
 ==> SUCCESS: Interactive session opened successfully
-https://reana.cern.ch/f8be55e4-5d18-43f9-b977-f773fdcab163?token=<your-reana-token>
+https://reana.cern.ch/f8be55e4-5d18-43f9-b977-f773fdcab163?token=<interactive-session-secret>
 It could take several minutes to start the interactive session.
 Please note that it will be automatically closed after 7 days of inactivity.
 ```
@@ -17,6 +17,10 @@ Please note that it will be automatically closed after 7 days of inactivity.
 By clicking on the link you will have access to a Jupyter notebook interface:
 
 ![jupyter-notebook](../../images/interactive-session-jupyter-notebook.png){.screenshot-browser-mockup}
+
+The URL contains a short-lived secret generated specifically for this
+interactive session. It is not your OIDC access token or a reusable REANA user
+token. Treat the complete URL as confidential and do not share it.
 
 By default, newly opened sessions will use the
 [`quay.io/jupyter/scipy-notebook:notebook-7.2.2`](https://quay.io/repository/jupyter/scipy-notebook)
@@ -27,7 +31,7 @@ If you would like to use a different image, you can pass it to the previous comm
 ```console
 $ reana-client open -w jupyter --image quay.io/jupyter/scipy-notebook:notebook-7.2.2
 ==> SUCCESS: Interactive session opened successfully
-https://reana.cern.ch/f8be55e4-5d18-43f9-b977-f773fdcab163?token=<your-reana-token>
+https://reana.cern.ch/f8be55e4-5d18-43f9-b977-f773fdcab163?token=<interactive-session-secret>
 It could take several minutes to start the interactive session.
 Please note that it will be automatically closed after 7 days of inactivity.
 ```

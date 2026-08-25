@@ -1,98 +1,174 @@
 # Configuring user access
 
-## User registration via sign up form
+REANA authenticates users with OpenID Connect (OIDC). The identity provider
+owns passwords, access-token issuance and user entitlements; REANA validates
+the provider's signed JWT access tokens and creates the corresponding local
+user record on first login.
 
-By exposing the REANA User Interface, the default configuration allows
-users to sign-up.
+JWT validation happens at the `reana-server` API boundary only, not
+independently in every internal service -- those trust `reana-server`
+because they are not reachable from outside the cluster. The browser does
+not hold a JWT itself: it authenticates through the BFF, an HTTP-only REANA
+session backed by OIDC refresh credentials, described below. REANA also does
+not yet have a groups or role-based authorization model beyond the single
+`requiredRole` gate configured below -- access is granted per user, not per
+group.
 
-When accessing the UI for the first time, users will be prompted with a
-sign-in form and a link to the sign-up form:
+## Configure an external OIDC provider
 
-![ui-sign-in](../../../images/ui-sign-in.png)
+Register two clients at the provider:
 
-After signing up, an email is sent to the user's email address for
-confirmation. Once the email address is confirmed, the user can then ask
-administrators for an access token. Note that for users to be able to
-receive the confirmation email, the [`notifications.enabled`](https://github.com/reanahub/reana/tree/master/helm/reana)
-Helm value must be set to `true`, and a working email configuration must be present.
+- a public client for `reana-client`, with Authorization Code and device
+  authorization enabled. Browser-based CLI login uses Authorization Code with
+  PKCE and a loopback redirect URI; and
+- a confidential web client for the browser login, with the callback URL
+  `https://reana.example.org/api/oauth/callback`.
 
-If you would like to disable the email verification step, for example because you
-disabled the REANA notifications, you can add
-`REANA_USER_EMAIL_CONFIRMATION: false` Helm value to [`components.reana_server.environment`](https://github.com/reanahub/reana/tree/master/helm/reana).
-
-If you would like to disable the sign-up form completely, and [add your
-users manually](../../management/managing-users), you can configure
-[`components.reana_ui.hide_signup`](https://github.com/reanahub/reana/tree/master/helm/reana)
-Helm value accordingly.
-
-## User registration via Single Sign-On
-
-User access through Single-Sign-On (SSO) authentication is also possible. REANA currently supports CERN SSO as well as any third-party [Keycloak](https://www.keycloak.org/) instance.
-
-### Keycloak Single Sign-On configuration
-
-First of all, to integrate REANA with your Keycloak instance, you need to create a new client from the Keycloak's admin dashboard.
-There are many configuration options; the following are the minimal ones that you should set:
-
-- _Valid Redirect URIs_ should be set to `https://reana.example.org/api/oauth/authorized/keycloak/` (see Keycloak's [Access Settings](https://www.keycloak.org/docs/latest/server_admin/#access-settings));
-- _Client authentication_ should be enabled in order to get the client ID and the client secret (see Keycloak's [Confidential client credentials](https://www.keycloak.org/docs/latest/server_admin/#_client-credentials)).
-
-You can then configure REANA to use your Keycloak instance with the following configuration of the [`login`](https://github.com/reanahub/reana/tree/master/helm/reana) list in your Helm values:
-
-- `name` can be chosen freely and will be used as an internal identifier of the Keycloak instance;
-- `type` must be set to `keycloak`;
-- `config.title` is the name of the Keycloak instance that will be shown to users on the web interface login page;
-- `config.base_url`, `config.realm_url`, `config.auth_url`, `config.token_url` and `config.userinfo_url` should all be set to the corresponding Keycloak endpoints.
-
-Please note that currently only one instance of `keycloak` type is supported, so the `login` array in your `values.yaml` file must contain at most one element:
+Configure the provider and the accepted access-token audience in Helm values:
 
 ```{ .yaml .copy-to-clipboard }
-login:
-  - name: "yourprovider"
-    type: "keycloak"
-    config:
-      title: "YOUR PROVIDER"
-      base_url: "https:/keycloak.example.org"
-      realm_url: "https://keycloak.example.org/auth/realms/your-realm"
-      auth_url: "https://keycloak.example.org/auth/realms/your-realm/protocol/openid-connect/auth"
-      token_url: "https://keycloak.example.org/auth/realms/your-realm/protocol/openid-connect/token"
-      userinfo_url: "https://keycloak.example.org/auth/realms/your-realm/protocol/openid-connect/userinfo"
-```
+keycloak:
+  enabled: false
 
-You should then take the values of the client ID and the client secret that you obtained when you created your SSO application in the Keycloak dashboard and add it under the [`secrets.login`](https://github.com/reanahub/reana/tree/master/helm/reana) Helm value:
+auth:
+  issuer: https://identity.example.org/realms/reana
+  audience: reana-cli,reana-server
+  clientId: reana-cli
+  webClientId: reana-server
+  rolesClaim: reana_roles
+  requiredRole: "reana:user"
+  bffEnabled: true
 
-```yaml
 secrets:
-  login:
-    yourprovider:
-      consumer_key: <your-client-id>
-      consumer_secret: <your-client-secret>
+  auth:
+    REANA_AUTH_WEB_CLIENT_SECRET: replace-me
 ```
 
-Note that the key `yourprovider` must match the internal identifier name you have chosen above as the name of your Keycloak instance.
+REANA normally discovers the authorization, token, UserInfo and JWKS endpoints
+from the issuer's OpenID configuration. The `auth.*Url` values can override
+individual endpoints when discovery is not suitable. Production issuers must
+use HTTPS; use `auth.caBundle` for a private certificate authority.
 
-Furthermore, given that email verification is already handled by Keycloak, you have to set `components.reana_server.environment.REANA_USER_EMAIL_CONFIRMATION` to `false`.
-Finally, to disable signup/signin for local users, you can set `components.reana_ui.local_users` to `false`.
+REANA caches both the discovery document and the JWKS signing keys
+in-process, refreshing on a fixed TTL. If a refresh fails while the issuer is
+briefly unreachable, the previous, still-cached copy keeps being served for a
+bounded grace period rather than failing every request outright -- and,
+symmetrically, a signing key removed from a *reachable* issuer (e.g. because
+it was compromised) stops being trusted once that grace period elapses, even
+though token expiry alone would not otherwise bound it: whoever holds the
+removed key's private half can still mint tokens with any `exp` they like.
+Tune or disable this fallback on `reana-server`:
 
-When accessing the web interface, this is what the login page will look like:
+```{ .yaml .copy-to-clipboard }
+components:
+  reana_server:
+    environment:
+      REANA_AUTH_JWKS_STALE_GRACE: 3600      # seconds, default; 0 disables it
+      REANA_AUTH_DISCOVERY_STALE_GRACE: 3600 # seconds, default; 0 disables it
+```
 
-![ui-sso-keycloak](../../../images/ui-sso-keycloak.png)
+The configured `audience` is mandatory and may contain a comma-separated list
+when the public and web clients receive differently audienced tokens. The
+configured `rolesClaim` must be a top-level array in the access token, and
+`requiredRole` must match one of its values. Removing that role at the identity
+provider prevents newly issued tokens from accessing REANA.
 
-For further information on how to use Keycloak, see [Keycloak’s documentation](https://www.keycloak.org/docs/latest/server_admin/#_oidc_clients).
+## Browser and command-line login
 
-### CERN Single Sign-On configuration
+The browser uses an HTTP-only REANA session backed by OIDC refresh credentials.
+The command-line client authenticates with a local browser-based login by
+default and stores its credentials locally; pass `--headless` to use the
+device flow instead on machines without a browser (e.g. over SSH):
 
-Single Sign-On is available for CERN deployments via [`components.reana_ui.cern_sso`](https://github.com/reanahub/reana/tree/master/helm/reana)
-Helm value. This configuration can be combined with local users or used
-exclusively. When accessing the UI you will see a page like this:
+```{ .console .copy-to-clipboard }
+$ export REANA_SERVER_URL=https://reana.example.org
+$ reana-client login
+$ reana-client ping
+$ reana-client logout
+```
 
-![ui-sso](../../../images/ui-sso.png)
+Do not provision or distribute REANA-owned bearer tokens. Administrators can
+pre-create or explicitly link local user rows with the `flask reana-admin`
+commands described in [Managing users](../../management/managing-users/).
 
-When clicking on "Sign in with SSO" the users will be redirected to the
-corresponding login page to enter their SSO provider credentials. Once
-authenticated, they will be redirected back to REANA with their user
-logged in.
+## Link accounts when upgrading
 
-You might also want to disable the local users functionality altogether
-to rely only on SSO users. To do this, set [`components.reana_ui.local_users`](https://github.com/reanahub/reana/tree/master/helm/reana)
-Helm value to `false`.
+Accounts created before OIDC authentication do not have an immutable issuer
+and subject attached. Link them explicitly before their owners sign in:
+
+```{ .console .copy-to-clipboard }
+$ kubectl exec deployment/reana-server -- flask reana-admin link-user-identity \
+    --email jane.doe@example.org \
+    --idp-issuer https://identity.example.org/realms/reana \
+    --idp-subject 01234567-89ab-cdef-0123-456789abcdef
+```
+
+For a controlled institutional issuer, matching existing accounts can instead
+be linked automatically by verified email. Configure the narrowest applicable
+issuer and domain allowlists on REANA Server:
+
+```{ .yaml .copy-to-clipboard }
+components:
+  reana_server:
+    environment:
+      REANA_AUTH_EMAIL_LINKING_ENABLED: "true"
+      REANA_AUTH_EMAIL_LINKING_ISSUER_ALLOWLIST: https://identity.example.org/realms/reana
+      REANA_AUTH_EMAIL_LINKING_DOMAIN_ALLOWLIST: example.org
+```
+
+Some institutional issuers omit the standard `email_verified` claim while
+verifying addresses out-of-band. Only for such an issuer, add its exact URL to
+`REANA_AUTH_EMAIL_LINKING_ASSUME_VERIFIED_ISSUERS`. This is an administrator
+attestation for an *absent* claim: a present value must be the boolean `true`;
+`false`, `null`, strings and numbers are never accepted for account linking.
+Automatic linking is one-shot and will not move an already-linked account to a
+different identity.
+
+The browser-based login binds a temporary local callback server on an
+OS-assigned, ephemeral port, following RFC 8252's guidance for native
+apps; a well-behaved identity provider is expected to match the redirect
+URI on scheme and host only, not on the exact port. Not every provider
+supports that, though. If yours requires an exact-match redirect URI
+registration, set `REANA_CLIENT_LOGIN_LOOPBACK_PORT` on the machine
+running `reana-client` to pin one fixed port, and register
+`http://127.0.0.1:<port>/callback` with the provider once. The trade-off:
+login then fails outright if something else on that machine is already
+using the port, instead of the ephemeral default always finding a free
+one.
+
+## Bundled Keycloak
+
+The chart's bundled Keycloak is intended for development and small test
+deployments. The development values profile enables it and provides deliberately
+non-production credentials:
+
+```{ .console .copy-to-clipboard }
+$ helm upgrade --install reana reanahub/reana \
+    --values helm/configurations/values-dev.yaml
+```
+
+For a private test deployment using persistent bundled storage, the essential
+values are:
+
+```{ .yaml .copy-to-clipboard }
+keycloak:
+  enabled: true
+  frontend_url: https://reana.example.org/keycloak
+  admin_user: reana-keycloak-admin
+  admin_password: replace-with-a-strong-secret
+  database:
+    mode: bundled
+
+secrets:
+  auth:
+    REANA_AUTH_WEB_CLIENT_SECRET: replace-with-a-strong-secret
+  keycloak:
+    database_password: replace-with-a-strong-secret
+```
+
+`database.mode: bundled` creates a separate Keycloak database and role in the
+chart-managed PostgreSQL service. Use `external` with a pre-provisioned
+PostgreSQL service for independently operated storage. The explicit
+`ephemeral` mode is development-only and loses users, sessions and signing keys
+when its pod is replaced. Production installations should use a separately
+operated identity provider rather than the bundled development service.

@@ -1,95 +1,64 @@
 # Managing users
 
-## Managing users by administrators
+REANA user records are linked to an identity provider by the immutable issuer
+and subject claims. Passwords, roles and bearer tokens remain owned by the OIDC
+provider.
 
-To manage users you will need to obtain administration credentials:
+Run administrative commands inside the REANA Server pod:
 
 ```{ .console .copy-to-clipboard }
 $ export KUBECONFIG=~/mycluster/config
-$ export REANA_ACCESS_TOKEN=$(kubectl get secret reana-admin-access-token -o json | jq -r '.data | map_values(@base64d) | .ADMIN_ACCESS_TOKEN')
 ```
 
-### Create users
+## Create or link users
+
+Users are normally created automatically at their first permitted OIDC login.
+An administrator can pre-create a local row when needed:
 
 ```console
-$ kubectl exec -i -t deployment/reana-server -- flask reana-admin user-create --email john.doe@example.org --admin-access-token $REANA_ACCESS_TOKEN
-User was successfully created.
-ID                                     EMAIL                  ACCESS_TOKEN
-aa37d63d-3186-45d5-aa40-5d221cb170bf   john.doe@example.org   xxxxxxxxxxxx
+$ kubectl exec deployment/reana-server -- flask reana-admin user-create \
+    --email john.doe@example.org
 ```
 
-If you have enabled [Single Sign-On (SSO) access](../../configuration/configuring-access/#user-registration-via-single-sign-on), then user creation via
-CLI is not necessary since users will be created via SSO when they first
-sign in.
-
-### List users
+Link a pre-existing row once the provider's immutable subject is known:
 
 ```console
-$ kubectl exec -i -t deployment/reana-server -- flask reana-admin user-list --admin-access-token $REANA_ACCESS_TOKEN
-ID                                     EMAIL                      ACCESS_TOKEN                    ACCESS_TOKEN_STATUS
-b5ff2c90-d2aa-4455-805d-599990043c39   john.doe@example.org       xxxxxxxxxxxx                    active
-6d0a83d3-a5fb-415e-bc90-e2abed807ffe   new.web.user@example.org   None                            requested
+$ kubectl exec deployment/reana-server -- flask reana-admin link-user-identity \
+    --email john.doe@example.org \
+    --idp-issuer https://identity.example.org/realms/reana \
+    --idp-subject 01234567-89ab-cdef-0123-456789abcdef
 ```
 
-### Grant access tokens
+Use `create-admin-user` with the same `--idp-issuer` and `--idp-subject`
+options to create or link the platform administrator.
+
+## List, export and import users
 
 ```console
-$ kubectl exec -i -t deployment/reana-server -- flask reana-admin token-grant --email new.web.user@example.org --admin-access-token $REANA_ACCESS_TOKEN
-Token for user aa37d63d-3186-45d5-aa40-5d221cb170bf (new.web.user@example.org) granted.
-
-Token: c0fa47fa00ae4013a13fd7n
+$ kubectl exec deployment/reana-server -- flask reana-admin user-list
+$ kubectl exec deployment/reana-server -- flask reana-admin user-export > myusers.csv
+$ kubectl exec deployment/reana-server -- flask reana-admin user-import \
+    --file /var/reana/myusers.csv
 ```
 
-### Revoke access tokens
+The list identifies linked users by `IDP_SUBJECT`; it does not expose an access
+token.
+
+## Revoke an identity
+
+First remove the user's REANA role or entitlement at the identity provider.
+Then revoke the REANA-side browser sessions, interactive sessions and GitLab
+webhook authorization:
 
 ```console
-$ kubectl exec -i -t deployment/reana-server -- flask reana-admin token-revoke --email new.web.user@example.org --admin-access-token $REANA_ACCESS_TOKEN
-User token c0fa47fa00ae4013a13fd7n (new.web.user@example.org) was successfully revoked.
+$ kubectl exec deployment/reana-server -- flask reana-admin revoke-identity \
+    --email john.doe@example.org
 ```
 
-If you need to revoke user tokens remotely without Kubernetes cluster access,
-you can optionally enable a token-management REST API endpoint:
+Use `--dry-run` to preview the action. Use `--delete-secret` only when the
+installed GitLab webhook secret must be invalidated permanently.
 
-```yaml
-components:
-  reana_server:
-    environment:
-      REANA_TOKEN_MANAGEMENT_SECRET: "my_secret"
-```
-
-When this secret is non-empty, you can revoke a user's active token with:
-
-```console
-$ curl -X DELETE https://reana.example.org/api/token \
-    -H 'Content-Type: application/json' \
-    -H "X-Token-Management-Secret: $REANA_TOKEN_MANAGEMENT_SECRET" \
-    --data '{"email": "new.web.user@example.org"}'
-```
-
-You can also identify the user by REANA user ID instead of email, for example:
-
-```console
-$ curl -X DELETE https://reana.example.org/api/token \
-    -H 'Content-Type: application/json' \
-    -H "X-Token-Management-Secret: $REANA_TOKEN_MANAGEMENT_SECRET" \
-    --data '{"user_id": "aa37d63d-3186-45d5-aa40-5d221cb170bf"}'
-```
-
-If `REANA_TOKEN_MANAGEMENT_SECRET` is empty, this endpoint is disabled.
-
-Note that when `REANA_ACCESS_TOKEN_ISSUANCE_POLICY=auto`, revoking a token only
-invalidates the current token; the user will obtain a new token on the next
-login.
-
-### Export users
-
-```{ .console .copy-to-clipboard }
-$ kubectl exec -i -t deployment/reana-server -- flask reana-admin user-export --admin-access-token $REANA_ACCESS_TOKEN > myusers.csv
-```
-
-### Import users
-
-```{ .console .copy-to-clipboard }
-$ # put myusers.csv onto the node in the /var/reana directory and run:
-$ kubectl exec -i -t deployment/reana-server -- flask reana-admin user-import --admin-access-token $REANA_ACCESS_TOKEN --file /var/reana/myusers.csv
-```
+REANA validates access tokens statelessly, so this command cannot invalidate an
+already issued JWT. Such a token remains valid until its identity-provider
+expiry; this is why removing the provider-side role is the first revocation
+step.

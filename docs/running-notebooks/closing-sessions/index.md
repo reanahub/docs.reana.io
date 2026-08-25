@@ -10,7 +10,7 @@ as follows:
 ```console
 $ reana-client list --sessions
 NAME         RUN_NUMBER   CREATED               SESSION_TYPE   SESSION_URI                                                                           SESSION_STATUS
-jupyter      1            2021-12-01T14:33:26   jupyter        https://reana.cern.ch/f8be55e4-5d18-43f9-b977-f773fdcab163?token=<your-reana-token>   created
+jupyter      1            2021-12-01T14:33:26   jupyter        https://reana.cern.ch/f8be55e4-5d18-43f9-b977-f773fdcab163?token=<interactive-session-secret>   created
 
 $ reana-client close -w jupyter
 ==> SUCCESS: Interactive session for workflow jupyter was successfully closed
@@ -46,7 +46,7 @@ On the command line:
 ```console
 $ reana-client open -w my-atlas-recast-analysis jupyter
 ==> SUCCESS: Interactive session opened successfully
-https://reana.cern.ch/69882819-b0a2-4aac-bd88-3bb4a4e5937a?token=<your-reana-token>
+https://reana.cern.ch/69882819-b0a2-4aac-bd88-3bb4a4e5937a?token=<interactive-session-secret>
 It could take several minutes to start the interactive session.
 Please note that it will be automatically closed after 7 days of inactivity.
 ```

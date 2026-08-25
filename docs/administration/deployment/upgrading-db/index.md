@@ -9,6 +9,21 @@ database upgrade script using [`alembic`](https://alembic.sqlalchemy.org/en/late
 The `reana-db` command-line tool is provided to ease the database
 upgrade tasks. The tool is included in the `REANA-Server` component.
 
+On an installation with a large number of user accounts, some migrations
+briefly hold an exclusive lock on the `user_` table while building new
+constraints, blocking authenticated requests for the build's duration --
+see the per-migration notes in `reana-db`'s `alembic/versions/` for which
+ones and why. Consider a maintenance window: run the upgrade below
+*before* setting the chart's `maintenance.enabled` value to `true`, since
+that scales the server itself (and, with the bundled database, the
+database too) to zero replicas and leaves nothing for `kubectl exec` to
+reach. If you are already in maintenance mode, the exact recovery
+procedure (temporarily restoring dependencies without exposing the API to
+real traffic, then running the upgrade, then reverting) is printed in
+full by `helm upgrade`'s own installation notes -- re-display them at any
+time with `helm get notes <release-name>` without needing to run
+`helm upgrade` again.
+
 Two different procedures will be explained. The first, covers a quick
 database upgrade after a successful cluster upgrade. The second, covers
 a more detailed upgrade procedure, in case you want to have a better
