@@ -18,9 +18,10 @@ By clicking on the link you will have access to a Jupyter notebook interface:
 
 ![jupyter-notebook](../../images/interactive-session-jupyter-notebook.png){.screenshot-browser-mockup}
 
-The URL contains a short-lived secret generated specifically for this
-interactive session. It is not your OIDC access token or a reusable REANA user
-token. Treat the complete URL as confidential and do not share it.
+The URL contains a secret scoped to this interactive session, valid for as
+long as the session stays open. It is not your OIDC access token or a
+reusable REANA user token. Treat the complete URL as confidential and do not
+share it.
 
 By default, newly opened sessions will use the
 [`quay.io/jupyter/scipy-notebook:notebook-7.2.2`](https://quay.io/repository/jupyter/scipy-notebook)

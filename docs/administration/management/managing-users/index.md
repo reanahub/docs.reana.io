@@ -4,7 +4,8 @@ REANA user records are linked to an identity provider by the immutable issuer
 and subject claims. Passwords, roles and bearer tokens remain owned by the OIDC
 provider.
 
-Run administrative commands inside the REANA Server pod:
+The commands below run `flask reana-admin` inside the REANA Server pod via
+`kubectl exec`. Point `kubectl` at the right cluster first:
 
 ```{ .console .copy-to-clipboard }
 $ export KUBECONFIG=~/mycluster/config
@@ -37,9 +38,14 @@ options to create or link the platform administrator.
 ```console
 $ kubectl exec deployment/reana-server -- flask reana-admin user-list
 $ kubectl exec deployment/reana-server -- flask reana-admin user-export > myusers.csv
+$ kubectl exec -i deployment/reana-server -- sh -c 'cat > /var/reana/myusers.csv' < myusers.csv
 $ kubectl exec deployment/reana-server -- flask reana-admin user-import \
     --file /var/reana/myusers.csv
 ```
+
+`user-export` writes `myusers.csv` on your own machine; `user-import` reads
+its `--file` path from inside the pod, so the file needs to be copied there
+first.
 
 The list identifies linked users by `IDP_SUBJECT`; it does not expose an access
 token.

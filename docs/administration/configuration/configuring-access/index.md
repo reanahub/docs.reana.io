@@ -139,16 +139,25 @@ one.
 ## Bundled Keycloak
 
 The chart's bundled Keycloak is intended for development and small test
-deployments. The development values profile enables it and provides deliberately
+deployments.
+
+For local development against a `reana` chart checkout (e.g. a `kind`
+cluster), the development values profile enables it with deliberately
 non-production credentials:
 
 ```{ .console .copy-to-clipboard }
-$ helm upgrade --install reana reanahub/reana \
+$ helm upgrade --install reana ./helm/reana \
     --values helm/configurations/values-dev.yaml
 ```
 
-For a private test deployment using persistent bundled storage, the essential
-values are:
+This profile is tailored to that local setup specifically (a `localhost`
+frontend URL, a plaintext Keycloak backchannel, `:latest`-tagged images) and
+requires the `reana` chart repository checked out locally for the relative
+`--values` path to resolve -- it is not meant as a general-purpose small
+deployment starting point.
+
+For a small test deployment that only needs the published chart (no local
+checkout), the essential values are:
 
 ```{ .yaml .copy-to-clipboard }
 keycloak:
