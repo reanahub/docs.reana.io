@@ -84,11 +84,15 @@ existing users, run:
 
 ```console
 $ kubectl exec -i -t deployment/reana-server -- reana-db quota init-default-period
+Will set the default CPU quota period for 42 users (3 months).
+Proceed? [y/N]: y
 Initialised the default CPU quota period for 42 existing users.
 ```
 
 This command only initializes users who do not already have a custom CPU
-quota period configured.
+quota period configured. Pass `--yes` to skip the confirmation prompt for
+non-interactive/scripted use, or `--dry-run` to see how many users would be
+affected without changing anything.
 
 ## Setting individual quota limits
 
@@ -97,17 +101,12 @@ This can be done via the `reana-admin` tool that is present in the `reana-server
 
 ### Using the `reana-admin` tool
 
-Obtain the administrator access token:
+Run the command inside the `reana-server` pod to set a custom quota limit for
+selected users:
 
 ```console
-$ export REANA_ACCESS_TOKEN=$(kubectl get secret reana-admin-access-token -o json | jq -r '.data | map_values(@base64d) | .ADMIN_ACCESS_TOKEN')
-```
-
-You can now set a custom quota limit to selected users:
-
-```console
-$ kubectl exec -i -t deployment/reana-server -- flask reana-admin quota-set -e john.doe@example.org -r disk -l 250000 --admin-access-token $REANA_ACCESS_TOKEN
-Quota limit 250000 for 'disk (shared storage)' successfully set to users ('john.doe@example.org',).
+$ kubectl exec -i -t deployment/reana-server -- flask reana-admin quota-set -e john.doe@example.org -r disk -l 250000
+Quota limit 250000 for 'disk (shared storage)' successfully set to user(s): john.doe@example.org.
 ```
 
 You can learn more about the `quota-set` administrative command options by running `kubectl exec -i -t deployment/reana-server -- flask reana-admin quota-set --help`.
@@ -172,14 +171,16 @@ a per-user basis. For example, to set a two-month CPU quota period for one
 user, run:
 
 ```console
-$ kubectl exec -i -t deployment/reana-server -- flask reana-admin quota-set-period -e john.doe@example.org --resource cpu --quota-period-months 2 --admin-access-token $REANA_ACCESS_TOKEN
+$ kubectl exec -i -t deployment/reana-server -- flask reana-admin quota-set-period -e john.doe@example.org --resource cpu --quota-period-months 2
 Periodic quota fields updated successfully.
 ```
 
-You can optionally provide the current period start explicitly:
+You can optionally provide the current period start explicitly, as either
+`YYYY-MM-DD` or `YYYY-MM-DDTHH:MM:SS` (no timezone suffix; the value is
+interpreted as UTC):
 
 ```console
-$ kubectl exec -i -t deployment/reana-server -- flask reana-admin quota-set-period -e john.doe@example.org --resource cpu --quota-period-months 2 --quota-period-start-at 2026-05-01T00:00:00Z --admin-access-token $REANA_ACCESS_TOKEN
+$ kubectl exec -i -t deployment/reana-server -- flask reana-admin quota-set-period -e john.doe@example.org --resource cpu --quota-period-months 2 --quota-period-start-at 2026-05-01T00:00:00
 Periodic quota fields updated successfully.
 ```
 
@@ -194,7 +195,7 @@ To force-start a new CPU quota period for a user, reuse
 `quota-set-period` and provide only the new `--quota-period-start-at`:
 
 ```console
-$ kubectl exec -i -t deployment/reana-server -- flask reana-admin quota-set-period -e john.doe@example.org --resource cpu --quota-period-start-at 2026-07-01T00:00:00Z --admin-access-token $REANA_ACCESS_TOKEN
+$ kubectl exec -i -t deployment/reana-server -- flask reana-admin quota-set-period -e john.doe@example.org --resource cpu --quota-period-start-at 2026-07-01T00:00:00
 Periodic quota fields updated successfully.
 ```
 

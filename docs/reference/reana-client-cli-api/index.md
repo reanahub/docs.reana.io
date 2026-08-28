@@ -19,6 +19,8 @@ Quota commands:
 
 Configuration commands:
   info     List cluster general information.
+  login    Authenticate against REANA server using OIDC.
+  logout   Logout from the active REANA server.
   ping     Check connection to REANA server.
   version  Show version.
 
@@ -86,6 +88,22 @@ Examples:
      $ reana-client quota-show --resources
 
 ## Configuration commands
+
+### login
+
+Authenticate against REANA server using OIDC.
+
+By default the browser-based loopback flow (authorization code with PKCE)
+is used. On headless machines pass ``--headless`` to use the device flow.
+
+For local deployments using self-signed certificates, set
+``REANA_SERVER_CA_CERTS`` to the path of a CA bundle (PEM) to trust, or set
+``REANA_INSECURE=true`` to disable TLS verification entirely (local testing
+only).
+
+### logout
+
+Logout from the active REANA server.
 
 ### ping
 
@@ -232,6 +250,14 @@ workspace.
 Note that workflow restarting can be used in a combination with operational
 options ``FROM`` and ``TARGET``. You can also pass a modified workflow
 specification with ``-f`` or ``--file`` flag.
+
+The ``-f``/``--file`` flag replaces only the *specification* (input
+parameters, operational options, and workflow type/definition metadata).
+The workflow **source files** (Snakefiles, CWL files, rules, ...) are reused
+from the existing workspace: a restart does not re-upload them. If the
+replacement specification references new or changed workflow source, upload
+those files to the workspace first; otherwise validation fails naming the
+missing file.
 
 You can furthermore use modified input prameters using ``-p`` or
 ``--parameters`` flag and by setting additional operational options using
