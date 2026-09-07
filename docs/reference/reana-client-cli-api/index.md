@@ -65,6 +65,9 @@ Secret management commands:
 
 Workflow run test commands:
   test  Test workflow execution, based on a given Gherkin file.
+
+REANA login commands:
+  login  Login to REANA using Device Code Flow (OAuth2).
 ```
 
 ## Quota commands
@@ -544,3 +547,21 @@ Example:
     $ reana-client test -w myanalysis -n test_analysis.feature
     $ reana-client test -w myanalysis
     $ reana-client test -w myanalysis -n test1.feature -n test2.feature
+
+## REANA login commands
+
+### login
+
+Login to REANA using Device Code Flow (OAuth2).
+
+The ``login`` command authenticates users with REANA using the OAuth2 Device Code Flow.
+This authentication method allows users to authenticate using a web browser on any device,
+making it suitable for headless environments and remote access scenarios.
+
+The command will:
+1. Request a device code from the REANA server
+2. Display a verification URL and user code
+3. Wait for the user to complete authentication in their browser
+4. Store the access token for future use
+
+The REANA_SERVER_URL environment variable must be set before running this command.
