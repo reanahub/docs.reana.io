@@ -2,7 +2,7 @@
 
 For REANA 0.9, authenticate with `REANA_ACCESS_TOKEN` as shown in the
 [first-example guide](../../getting-started/first-example/). The
-[REANA 0.95 authentication commands](#authentication-in-reana-095) are
+[REANA 0.95 authentication and server commands](#authentication-in-reana-095) are
 described separately below.
 
 The complete `reana-client` CLI API reference guide is available here:
@@ -560,32 +560,114 @@ Example:
 
 ## Authentication in REANA 0.95
 
-As of REANA 0.95 release series, use `reana-client login` instead of exporting
-`REANA_ACCESS_TOKEN` for authentication. These commands require matching
-OIDC-enabled server and client versions. Unset an existing
-`REANA_ACCESS_TOKEN` before login so it does not override the saved
-credentials. For REANA 0.9, continue to use the access token from your REANA
-profile as shown in the [first-example guide](../../getting-started/first-example/).
+As of REANA 0.95 release series, use `reana-client login --server URL` with
+matching OIDC-enabled server and client versions. For REANA 0.9 deployments,
+continue to use the access token instructions in the
+[first-example guide](../../getting-started/first-example/).
 
 ### login
 
-Authenticate against REANA server using OIDC.
+Authenticate through your browser and save the server and credentials:
 
-By default the browser-based loopback flow (authorization code with PKCE)
-is used. On headless machines pass ``--headless`` to use the device flow.
+```{ .console .copy-to-clipboard }
+$ unset REANA_SERVER_URL REANA_SERVER_TLS_VERIFY REANA_ACCESS_TOKEN
+$ reana-client login --server https://reana.example.org
+$ reana-client ping
+```
 
-TLS certificate verification is enabled by default. For local deployments,
-set ``REANA_SERVER_CA_CERTS`` to a trusted CA bundle (PEM) for both REANA and
-the identity provider. This takes precedence over ``REANA_SERVER_TLS_VERIFY``.
+Use the URL supplied by your administrator. On machines without a local
+browser, add `--headless`. Subsequent commands use the saved server;
+`login` without `--server` authenticates with the current selection.
 
-``REANA_SERVER_TLS_VERIFY`` accepts ``1``/``true``/``yes``/``on`` to enable
-verification and ``0``/``false``/``no``/``off`` to disable it for requests to
-the REANA server's HTTPS hostname and port (local testing). This includes
-bundled Keycloak endpoints under ``/keycloak``. Identity providers on other
-hostnames or ports are always verified. Values are case-insensitive and
-ignore surrounding whitespace. Unset or empty values enable verification;
-other values are errors.
+TLS verification is enabled by default. For local self-signed HTTPS, use
+`login --server URL --no-tls-verify`. The choice is saved for that server;
+re-login without a TLS flag keeps it, and `--tls-verify` re-enables verification.
+The bypass applies only to the REANA server's HTTPS hostname and port;
+identity providers on other origins remain verified. A trusted PEM bundle
+can still be supplied with `REANA_SERVER_CA_CERTS`. It takes precedence over
+a saved bypass and cannot be combined with an explicit `--no-tls-verify`.
+
+!!! note "Migrating from REANA 0.9"
+    As of REANA 0.95 release series, clients no longer read `REANA_SERVER_URL`
+    or `REANA_SERVER_TLS_VERIFY`. Ordinary commands reject non-empty exports
+    with an error stating that they "are no longer client inputs". The four
+    `server-*` commands still work and ignore these exports, so you can inspect
+    and manage saved connections. Unset the exports, then use `login --server URL`
+    with `--no-tls-verify` for local self-signed HTTPS when needed. Old REANA 0.9
+    access tokens do not work with OIDC;
+    unset `REANA_ACCESS_TOKEN` so it does not override saved credentials.
+    Explicit issuer-issued JWTs remain supported for automation.
+
+Credentials are stored in `~/.config/reana/reana-client.json`;
+`REANA_CLIENT_CONFIG` selects an alternative file. Keep this file private.
+For automation, preserve refreshed credentials between runs: restoring an
+old copy may restore a refresh token that the identity provider has invalidated.
 
 ### logout
 
-Logout from the active REANA server.
+`reana-client logout` revokes the current server's refresh token when possible
+and clears local credentials, retaining its saved connection settings.
+
+## Server connection management commands
+
+As of REANA 0.95 release series, both Python and Go clients can manage saved
+connections. Use `reana-client-go` instead of `reana-client` for the Go client.
+
+```console
+Server connection management commands:
+  server-add     Save a server without authenticating or selecting it.
+  server-list    List saved server connections.
+  server-remove  Revoke credentials and remove a saved server.
+  server-use     Select a saved server without authenticating.
+```
+
+For example, configure a server first and authenticate after selecting it:
+
+```{ .console .copy-to-clipboard }
+$ reana-client server-add https://reana.example.org
+$ reana-client server-list
+$ reana-client server-use https://reana.example.org
+$ reana-client login
+```
+
+`login --server URL` also saves and selects a server directly, so `server-add`
+is optional. `server-add` reports an error if the server is already saved;
+it accepts `--tls-verify` or `--no-tls-verify` for a new connection.
+
+`server-remove URL` revokes any saved refresh token at the identity provider
+before removing the local connection and credentials. If revocation fails,
+the saved record is retained. Use `--local-only` to remove it without
+revocation. The REANA deployment itself is unaffected.
+
+<!-- BEGIN generated server command descriptions -->
+
+### server-add
+
+Save a server without authenticating or selecting it.
+
+Verification is enabled by default. Existing records are not overwritten;
+use login --server URL to authenticate and update their TLS settings.
+
+### server-list
+
+List saved server connections.
+
+Show the current selection and effective TLS verification. This command
+does not contact servers or refresh credentials.
+
+### server-use
+
+Select a saved server without authenticating.
+
+Credentials and TLS settings are retained. The next command refreshes
+credentials or asks for login when necessary.
+
+### server-remove
+
+Revoke credentials and remove a saved server.
+
+Revocation failure preserves the record. Use --local-only to forget an
+unreachable server without revoking its tokens. Removing the selected
+server leaves no selection; no other server is selected automatically.
+
+<!-- END generated server command descriptions -->

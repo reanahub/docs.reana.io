@@ -30,27 +30,31 @@ Third, set REANA environment variables for the client (using the access token ob
 
 ```{ .console .copy-to-clipboard }
 $ export REANA_SERVER_URL=https://reana.cern.ch
-$ export REANA_ACCESS_TOKEN=xxxxxxxxxxxxxxxxxxx # or use `reana-client login` for REANA 0.95
+$ export REANA_ACCESS_TOKEN=xxxxxxxxxxxxxxxxxxx
 $ reana-client ping
 ```
 
 !!! note "REANA 0.95"
-    As of REANA 0.95 release series, use `reana-client login` instead of
-    obtaining and exporting a REANA access token. Use a client that matches
-    your server; for an unreleased server, use the corresponding development
-    client checkout. Select your 0.95 deployment and clear any existing token
-    override before logging in:
+    As of REANA 0.95 release series, use `reana-client login --server URL`
+    instead of obtaining and exporting a REANA access token. Use a client
+    that matches your server; for an unreleased server, use the corresponding
+    development client checkout. The environment-variable setup in the third
+    step is not needed. Clear any old exports your shell profile may already
+    set, then log in:
 
     ```{ .console .copy-to-clipboard }
-    $ export REANA_SERVER_URL=https://reana.example.org # your REANA 0.95 server
-    $ unset REANA_ACCESS_TOKEN
-    $ reana-client login
+    $ unset REANA_SERVER_URL REANA_SERVER_TLS_VERIFY REANA_ACCESS_TOKEN
+    $ reana-client login --server https://reana.example.org
     $ reana-client ping
     ```
 
-    On a remote SSH host such as LXPLUS, use `reana-client login --headless`
-    to authenticate through the device flow instead of opening a local
-    browser. Continue with the same workflow commands below after login.
+    Use your REANA 0.95 server's URL. Login saves the server and credentials
+    for later commands. On an SSH host such as LXPLUS, add `--headless` to
+    authenticate through the device flow. For a local development server
+    with a self-signed certificate, add `--no-tls-verify` to save that choice.
+    See [authentication and saved connections](../../reference/reana-client-cli-api/#authentication-in-reana-095)
+    for TLS settings, switching servers and migration from the old exports.
+    Continue with the same workflow commands below after login.
 
 Fourth, clone a simple [analysis example](https://github.com/reanahub/reana-demo-root6-roofit/tree/master#reana-example---root6-and-roofit) and run it on the REANA platform:
 

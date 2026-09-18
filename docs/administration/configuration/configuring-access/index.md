@@ -85,11 +85,14 @@ default and stores its credentials locally; pass `--headless` to use the
 device flow instead on machines without a browser (e.g. over SSH):
 
 ```{ .console .copy-to-clipboard }
-$ export REANA_SERVER_URL=https://reana.example.org
-$ reana-client login
+$ reana-client login --server https://reana.example.org
 $ reana-client ping
 $ reana-client logout
 ```
+
+The client saves the server and credentials for subsequent commands. See the
+[REANA 0.95 client instructions](../../../reference/reana-client-cli-api/#authentication-in-reana-095)
+for migration from old exports, TLS choices and switching saved connections.
 
 Do not provision or distribute REANA-owned bearer tokens. Administrators can
 pre-create or explicitly link local user rows with the `flask reana-admin`
