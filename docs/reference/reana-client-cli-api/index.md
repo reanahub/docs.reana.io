@@ -1,9 +1,11 @@
 # reana-client CLI API
 
-For REANA 0.9, authenticate with `REANA_ACCESS_TOKEN` as shown in the
-[first-example guide](../../getting-started/first-example/). The
-[REANA 0.95 authentication and server commands](#authentication-in-reana-095) are
-described separately below.
+To install the client, see [installation](../../getting-started/installation/).
+Authenticate with `reana-client login` as described in
+[authentication in REANA 0.95](#authentication-in-reana-095) below, which also
+covers the server connection management commands. For a REANA 0.9 server,
+authenticate with `REANA_ACCESS_TOKEN` instead, as shown in the REANA 0.9 note
+of the [first-example guide](../../getting-started/first-example/).
 
 The complete `reana-client` CLI API reference guide is available here:
 
@@ -562,7 +564,7 @@ Example:
 
 As of REANA 0.95 release series, use `reana-client login --server URL` with
 matching OIDC-enabled server and client versions. For REANA 0.9 deployments,
-continue to use the access token instructions in the
+use the access token instructions in the REANA 0.9 note of the
 [first-example guide](../../getting-started/first-example/).
 
 ### login
