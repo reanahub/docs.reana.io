@@ -5,6 +5,8 @@ For REANA 0.9, authenticate with `REANA_ACCESS_TOKEN` as shown in the
 [REANA 0.95 authentication and server commands](#authentication-in-reana-095) are
 described separately below.
 
+<!-- BEGIN generated command reference -->
+
 The complete `reana-client` CLI API reference guide is available here:
 
 - [https://reana-client.readthedocs.io/en/latest/#cli-api](https://reana-client.readthedocs.io/en/latest/#cli-api)
@@ -558,6 +560,8 @@ Example:
     $ reana-client test -w myanalysis
     $ reana-client test -w myanalysis -n test1.feature -n test2.feature
 
+<!-- END generated command reference -->
+
 ## Authentication in REANA 0.95
 
 As of REANA 0.95 release series, use `reana-client login --server URL` with
@@ -565,7 +569,21 @@ matching OIDC-enabled server and client versions. For REANA 0.9 deployments,
 continue to use the access token instructions in the
 [first-example guide](../../getting-started/first-example/).
 
+<!-- BEGIN generated login command -->
+
 ### login
+
+Authenticate against REANA server using OIDC.
+
+By default the browser-based loopback flow (authorization code with PKCE)
+is used. On headless machines pass ``--headless`` to use the device flow.
+
+TLS certificate verification is enabled by default. An explicit TLS flag
+applies during login and is saved only after success. Later logins inherit
+the saved setting. REANA_SERVER_CA_CERTS supplies a trusted CA bundle and
+takes precedence. Identity providers on other HTTPS origins stay verified.
+
+<!-- END generated login command -->
 
 Authenticate through your browser and save the server and credentials:
 
@@ -603,7 +621,13 @@ Credentials are stored in `~/.config/reana/reana-client.json`;
 For automation, preserve refreshed credentials between runs: restoring an
 old copy may restore a refresh token that the identity provider has invalidated.
 
+<!-- BEGIN generated logout command -->
+
 ### logout
+
+Logout from the active REANA server.
+
+<!-- END generated logout command -->
 
 `reana-client logout` revokes the current server's refresh token when possible
 and clears local credentials, retaining its saved connection settings.
