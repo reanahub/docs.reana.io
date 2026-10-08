@@ -133,15 +133,33 @@ different identity.
 
 The browser-based login binds a temporary local callback server on an
 OS-assigned, ephemeral port, following RFC 8252's guidance for native
-apps; a well-behaved identity provider is expected to match the redirect
-URI on scheme and host only, not on the exact port. Not every provider
-supports that, though. If yours requires an exact-match redirect URI
-registration, set `REANA_CLIENT_LOGIN_LOOPBACK_PORT` on the machine
-running `reana-client` to pin one fixed port, and register
-`http://127.0.0.1:<port>/callback` with the provider once. The trade-off:
-login then fails outright if something else on that machine is already
-using the port, instead of the ephemeral default always finding a free
-one.
+apps; a well-behaved identity provider is expected to match the complete
+redirect URI, including its path, and to let only the port vary for
+loopback redirects. Not every provider supports that, though: INDIGO IAM,
+for example, requires the redirect URI to match the registered one
+exactly, port included.
+
+If yours requires an exact-match redirect URI, register
+`http://127.0.0.1:<port>/callback` with the provider once and set the
+same port in the Helm values:
+
+```yaml
+auth:
+  cliLoopbackPort: 8899
+```
+
+REANA then advertises the port to `reana-client` and `reana-client-go`,
+which use it automatically, so users do not have to configure anything.
+Choose a port of 1024 or above. The trade-off: login then fails outright
+if something else on the user's machine is already using the port,
+instead of the ephemeral default always finding a free one. Users who hit
+this can free the port or, if the provider and the CLI client
+registration support the device-code grant, log in with `--headless`.
+
+Users can still set `REANA_CLIENT_LOGIN_LOOPBACK_PORT` on the machine
+running the client. It takes precedence over the advertised port; `0`
+forces an OS-assigned port. Clients older than this feature ignore the
+advertised port and need this variable when the provider is strict.
 
 ## Bundled Keycloak
 
