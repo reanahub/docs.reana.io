@@ -133,15 +133,43 @@ different identity.
 
 The browser-based login binds a temporary local callback server on an
 OS-assigned, ephemeral port, following RFC 8252's guidance for native
-apps; a well-behaved identity provider is expected to match the redirect
-URI on scheme and host only, not on the exact port. Not every provider
-supports that, though. If yours requires an exact-match redirect URI
-registration, set `REANA_CLIENT_LOGIN_LOOPBACK_PORT` on the machine
-running `reana-client` to pin one fixed port, and register
-`http://127.0.0.1:<port>/callback` with the provider once. The trade-off:
-login then fails outright if something else on that machine is already
-using the port, instead of the ephemeral default always finding a free
-one.
+apps; a well-behaved identity provider is expected to match the complete
+redirect URI, including its path, and to let only the port vary for
+loopback redirects. Not every provider supports that, though: INDIGO IAM,
+for example, requires the redirect URI to match the registered one
+exactly, port included.
+
+If yours requires an exact-match redirect URI, register
+`http://127.0.0.1:<port>/callback` with the provider once and set the
+same port in the Helm values:
+
+```yaml
+auth:
+  cliLoopbackPort: 8899
+```
+
+REANA then advertises the port to `reana-client` and `reana-client-go`,
+which use it automatically, so users do not have to configure anything.
+Choose a port of 1024 or above. The trade-off: login then fails outright
+if something else on the user's machine is already using the port,
+instead of the ephemeral default always finding a free one. Users who hit
+this can free the port or, if the provider and the CLI client
+registration support the device-code grant, log in with `--headless`.
+
+Users can override the callback port for one login with the
+`--callback-port` option of `reana-client login` and `reana-client-go
+login`, for example to forward the callback through SSH. The option takes
+precedence over the advertised port, and `--callback-port 0` forces an
+OS-assigned port. The override changes only the port: the provider must
+still accept the resulting redirect URI, so a strict provider refuses any
+port that is not registered.
+
+Client versions older than this feature ignore the advertised port. If
+they support the `REANA_CLIENT_LOGIN_LOOPBACK_PORT` environment variable,
+they still need it when the provider is strict. Current clients no longer
+use this variable to select the callback port. Browser login stops with an
+error while the variable is set. Unset the variable, and use
+`--callback-port` to choose a port.
 
 ## Bundled Keycloak
 

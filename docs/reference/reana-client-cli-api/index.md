@@ -579,6 +579,17 @@ Use the URL supplied by your administrator. On machines without a local
 browser, add `--headless`. Subsequent commands use the saved server;
 `login` without `--server` authenticates with the current selection.
 
+The browser login receives its result on a local callback port. By default,
+the client uses the port advertised by the REANA server, if any, or else a
+free port selected by the operating system. Use `--callback-port PORT` to
+choose the port for one login, for example to forward the callback through
+SSH; `--callback-port 0` forces a free port. The choice is not saved, the
+identity provider must accept the resulting redirect URI, and the option
+cannot be combined with `--headless`. Clients no longer use
+`REANA_CLIENT_LOGIN_LOOPBACK_PORT` to select the callback port. Browser
+login stops with an error while the variable is set. Unset the variable, and
+use `--callback-port` to choose a port.
+
 TLS verification is enabled by default. For local self-signed HTTPS, use
 `login --server URL --no-tls-verify`. The choice is saved for that server;
 re-login without a TLS flag keeps it, and `--tls-verify` re-enables verification.
