@@ -3,6 +3,7 @@
 - [Configuring compute backends](configuring-compute-backends)
 - [Configuring interactive sessions](configuring-interactive-sessions)
 - [Configuring storage volumes](configuring-storage-volumes)
+- [Configuring read-only root filesystem](configuring-read-only-root-filesystem)
 - [Configuring private Docker registries](configuring-private-docker-registries)
 - [Configuring user access](configuring-access)
 - [Configuring user quotas](configuring-user-quotas)
