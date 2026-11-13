@@ -234,11 +234,18 @@ Examples:
 Restart previously run workflow.
 
 The ``restart`` command allows to restart a previous workflow on the same
-workspace.
+workspace. It reloads and validates the current workspace workflow sources
+and parameter files. Upload changed files before restarting; an unchanged
+reana.yaml does not need to be resubmitted.
 
 Note that workflow restarting can be used in a combination with operational
 options ``FROM`` and ``TARGET``. You can also pass a modified workflow
 specification with ``-f`` or ``--file`` flag.
+
+Changing ``workflow.type`` or ``workflow.file`` requires ``-f``, even after
+uploading a changed reana.yaml. Workspaces missing raw YAML also need ``-f``
+to restore source reloading; self-contained Serial workflows can reuse their
+stored steps with a warning.
 
 The ``-f``/``--file`` flag replaces only the *specification* (input
 parameters, operational options, and workflow type/definition metadata).
@@ -248,10 +255,11 @@ replacement specification references new or changed workflow source, upload
 those files to the workspace first; otherwise validation fails naming the
 missing file.
 
-You can furthermore use modified input prameters using ``-p`` or
-``--parameters`` flag and by setting additional operational options using
-``-o`` or ``--options``.  The input parameters and operational options can be
-repetitive.
+Explicit input parameters (``-p``/``--parameter``) and operational options
+(``-o``/``--option``) override values loaded from the workspace. These flags
+can be repeated and apply only to this run. Unknown parameter names are
+rejected by the server. Parameter-file values are overlaid by inline
+``inputs.parameters``, then by ``-p`` values.
 
 Examples:
 
