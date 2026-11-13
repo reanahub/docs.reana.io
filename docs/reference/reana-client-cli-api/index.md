@@ -337,7 +337,9 @@ Examples:
 Share a workflow with other users (read-only).
 
 The `share-add` command allows sharing a workflow with other users. The
-users will be able to view the workflow but not modify it.
+users will be able to view the workflow but not modify it. With
+`--valid-until`, the users keep access until the end of the given day
+(UTC).
 
 Examples:
 
