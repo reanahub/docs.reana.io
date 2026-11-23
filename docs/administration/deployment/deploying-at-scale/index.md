@@ -6,7 +6,7 @@ concurrent jobs.
 
 ## Pre-requisites
 
-- A Kubernetes cluster with version greater than v1.21;
+- A Kubernetes cluster with version 1.30 or later (since REANA 0.95);
 - Helm v3;
 - A shared POSIX file system volume (such as CephFS, NFS) to host the REANA
   infrastructure volumes and the user runtime workspaces. The shared file system
@@ -26,14 +26,14 @@ We recommend to start with at least six worker nodes:
 
 ```console
 $ kubectl get nodes
-NAME       STATUS   ROLES    AGE   VERSION
-master-0   Ready    master   97m   v1.18.2
-node-0     Ready    <none>   97m   v1.18.2
-node-1     Ready    <none>   97m   v1.18.2
-node-2     Ready    <none>   97m   v1.18.2
-node-3     Ready    <none>   97m   v1.18.2
-node-4     Ready    <none>   97m   v1.18.2
-node-5     Ready    <none>   97m   v1.18.2
+NAME       STATUS   ROLES    AGE
+master-0   Ready    master   97m
+node-0     Ready    <none>   97m
+node-1     Ready    <none>   97m
+node-2     Ready    <none>   97m
+node-3     Ready    <none>   97m
+node-4     Ready    <none>   97m
+node-5     Ready    <none>   97m
 ```
 
 The worker node roles are ensured by means of labelling the nodes:
