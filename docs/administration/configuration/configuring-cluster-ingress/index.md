@@ -41,7 +41,9 @@ ingress:
 ## Setting up manual Ingresses
 
 If you would like to manually manage Ingresses, you should set `ingress.enabled` to false to disable the automatic creation of the Ingresses mentioned above.
-You may also want to disable the internal Traefik instance by setting `traefik.enabled` to false.
+You may also want to disable the internal Traefik instance by setting `traefik.enabled` to `false`.
+If you use an external Traefik instance, please also set `traefik.external` to `true`, so that REANA creates the Traefik resources needed by interactive sessions and Dask dashboards.
+Please do not enable the `safeNaming` option of Traefik's Kubernetes CRD provider, because REANA does not support it.
 Note that, when users open interactive sessions, REANA also creates dynamic Ingresses whose annotations can be customized with the `ingress.annotations` Helm value.
 
 Your custom Ingress must redirect all the requests to `/api` and `/oauth` to the `<helm-release-prefix>-server` Service, while all the rest should be sent to `<helm-release-prefix>-ui`.
