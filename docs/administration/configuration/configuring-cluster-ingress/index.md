@@ -127,3 +127,42 @@ traefik:
     - "--entryPoints.web.forwardedHeaders.trustedIPs=127.0.0.1/32,192.168.1.7"
     - "--entryPoints.websecure.forwardedHeaders.trustedIPs=127.0.0.1/32,192.168.1.7"
 ```
+
+## Upgrading bundled Traefik
+
+If you use the Traefik instance that is bundled with REANA, which is mostly useful for local deployments, please check the following when upgrading to the REANA 0.95 release series.
+You can skip this section if you use an external Traefik instance.
+
+The bundled Traefik Helm chart rejects the values that it does not know.
+If you have customised any of the `traefik` values, please compare them with the values of the bundled Traefik chart, whose version is declared in the `Chart.yaml` of the REANA chart release that you are deploying.
+For example, `traefik.service.type` and `traefik.ports.websecure.tls` were renamed as follows:
+
+```{ .yaml .copy-to-clipboard }
+traefik:
+  ports:
+    websecure:
+      http:
+        tls:
+          enabled: true
+  service:
+    spec:
+      type: NodePort
+```
+
+Please also remove `traefik.external`, since it can be set only if `traefik.enabled` is `false`, and `traefik.image.tag`, if you have pinned Traefik to a version older than 3.7.11.
+
+When upgrading, pass all your values by means of `--values`.
+Do not use `--reuse-values`, because it also reuses the default values of the previous chart, which would be rejected.
+
+Since `helm upgrade` does not update custom resource definitions, please update the Traefik ones before upgrading REANA, using the same Traefik chart version.
+
+!!! warning
+
+    The custom resource definitions are shared by all the Traefik instances running in the cluster.
+    The following command takes over their ownership, so please check with the administrators of the other instances first.
+
+```{ .console .copy-to-clipboard }
+$ helm show crds --repo https://traefik.github.io/charts --version <traefik-chart-version> traefik | kubectl apply --server-side --force-conflicts -f -
+```
+
+If you are upgrading from REANA 0.9 and have created your own Traefik resources, please also follow the [Traefik v2 to v3 migration guide](https://doc.traefik.io/traefik/migrate/v2-to-v3-details/).
