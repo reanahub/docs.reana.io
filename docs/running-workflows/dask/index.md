@@ -83,6 +83,18 @@ client = Client(DASK_SCHEDULER_URI)
 
 If `DASK_SCHEDULER_URI` is not set, the code uses the provided default value instead. You can also consult the [Dask demo workflow](https://github.com/reanahub/reana-demo-dask-coffea) for a full example combining the analysis code and `reana.yaml`.
 
+## Restarted Dask workers
+
+Kubernetes can stop a Dask worker, for example when the worker writes more data to `/tmp` than the REANA administrators allow. Dask can then run the task again on a new worker. The workflow logs show the reason:
+
+```console
+$ reana-client logs -w my-dask-analysis
+==> Workflow engine logs
+The Dask pod reana-run-dask-e4d3ccba-default-worker-54c9589080-78f9fcbc7s8pg was evicted: Usage of EmptyDir volume "dask-worker-tmp" exceeds the limit "5Gi".
+```
+
+Kubernetes keeps the reason for a limited time, by default one hour. If a worker was stopped earlier, the logs can show only that the worker pod stopped, or nothing.
+
 ## Consulting the Dask dashboard
 
 You can inspect your analysis and Dask cluster via Dask dashboard by clicking the following icon under your workflow.

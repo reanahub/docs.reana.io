@@ -117,13 +117,18 @@ The result of an eviction depends on the type of pod:
   much data to its scratch space.
 - **Interactive session:** Kubernetes starts a new session pod with an empty
   home directory. The user loses the connection to the session and the
-  packages installed with `pip install --user`. REANA does not show the reason
-  to the user. Note that the `pip` cache is also in the home directory.
+  packages installed with `pip install --user`. Note that the `pip` cache is
+  also in the home directory.
 - **Dask worker:** Kubernetes starts a new worker, and Dask can run the task
-  again. REANA does not show the reason to the user. A Dask worker can write
-  more data to `/tmp` than its memory size when it moves data from memory to
-  disk. Select a limit that is larger than the memory of the Dask workers, or
-  configure Dask to keep this data in the workspace.
+  again. A Dask worker can write more data to `/tmp` than its memory size when
+  it moves data from memory to disk. Select a limit that is larger than the
+  memory of the Dask workers, or configure Dask to keep this data in the
+  workspace.
+
+For interactive sessions and Dask workers, the workflow logs show the reason
+of the eviction. Kubernetes keeps this reason in an event for a limited time,
+by default one hour (the `--event-ttl` option of the Kubernetes API server).
+After this time, the logs can show only that the pod stopped.
 
 Select a limit that agrees with the local disk size of your nodes and with the
 number of pods that run on one node at the same time. To remove the limit, set
