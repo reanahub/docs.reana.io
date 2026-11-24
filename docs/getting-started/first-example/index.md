@@ -1,62 +1,53 @@
 # First example
 
-First, obtain your REANA command-line access token from your profile page.
-The following steps use the REANA 0.9 authentication method used by current
-production deployments. For example, at CERN, open:
-
-```{ .console .copy-to-clipboard }
-$ firefox https://reana.cern.ch
-```
-
-Second, install and activate the REANA command-line client [reana-client](https://pypi.org/project/reana-client/). For example, at CERN, login to LXPLUS and activate it as follows:
+First, install the REANA command-line client. See [installation](../installation)
+for how to install the Python client `reana-client` or the Go client
+`reana-client-go`. For example, at CERN, login to LXPLUS and activate it as
+follows:
 
 ```{ .console .copy-to-clipboard }
 $ source /afs/cern.ch/user/r/reana/public/reana/bin/activate
 ```
 
-Alternatively, you can install it via [pip](https://pip.pypa.io/en/stable/), ideally in a new virtual environment:
+Second, log in to your REANA server and test your connection. For example, at
+CERN:
 
 ```{ .console .copy-to-clipboard }
-$ # create new virtual environment
-$ virtualenv ~/.virtualenvs/reana
-$ source ~/.virtualenvs/reana/bin/activate
-$ # upgrade pip
-$ pip install --upgrade pip
-$ # install reana-client
-$ pip install reana-client
-```
-
-Third, set REANA environment variables for the client (using the access token obtained in the first step) and test your connection:
-
-```{ .console .copy-to-clipboard }
-$ export REANA_SERVER_URL=https://reana.cern.ch
-$ export REANA_ACCESS_TOKEN=xxxxxxxxxxxxxxxxxxx
+$ reana-client login --server https://reana.cern.ch
 $ reana-client ping
 ```
 
-!!! note "REANA 0.95"
-    As of REANA 0.95 release series, use `reana-client login --server URL`
-    instead of obtaining and exporting a REANA access token. Use a client
-    that matches your server; for an unreleased server, use the corresponding
-    development client checkout. The environment-variable setup in the third
-    step is not needed. Clear any old exports your shell profile may already
-    set, then log in:
+Login opens your browser to authenticate, then saves the server and your
+credentials for later commands. On an SSH host such as LXPLUS, add
+`--headless` to authenticate through the device flow instead. For a local
+development server with a self-signed certificate, add `--no-tls-verify` to
+save that choice. See
+[authentication and saved connections](../../reference/reana-client-cli-api/#authentication-in-reana-095)
+for TLS settings, switching servers and migration from the old environment
+variables.
+
+!!! note "REANA 0.9"
+    If your server still runs REANA 0.9, install a
+    [matching 0.9 client](../installation/#matching-an-older-server), which
+    does not have the `login` command. Instead, obtain your REANA access token
+    from your profile page on the REANA web interface, then set REANA
+    environment variables for the client and test your connection:
 
     ```{ .console .copy-to-clipboard }
-    $ unset REANA_SERVER_URL REANA_SERVER_TLS_VERIFY REANA_ACCESS_TOKEN
-    $ reana-client login --server https://reana.example.org
+    $ export REANA_SERVER_URL=https://reana.cern.ch
+    $ export REANA_ACCESS_TOKEN=xxxxxxxxxxxxxxxxxxx
     $ reana-client ping
     ```
 
-    Use your REANA 0.95 server's URL. Login saves the server and credentials
-    for later commands. On an SSH host such as LXPLUS, add `--headless` to
-    authenticate through the device flow. For a local development server
-    with a self-signed certificate, add `--no-tls-verify` to save that choice.
-    See [authentication and saved connections](../../reference/reana-client-cli-api/#authentication-in-reana-095)
-    for TLS settings, switching servers and migration from the old exports.
-    Continue with the same workflow commands below after login.
+    Use your REANA 0.9 server's URL. Make sure to unset these variables when
+    you move to a REANA 0.95 client. If your shell profile exports them,
+    clear them with:
 
-Fourth, clone a simple [analysis example](https://github.com/reanahub/reana-demo-root6-roofit/tree/master#reana-example---root6-and-roofit) and run it on the REANA platform:
+    ```{ .console .copy-to-clipboard }
+    $ unset REANA_SERVER_URL REANA_SERVER_TLS_VERIFY REANA_ACCESS_TOKEN
+    ```
+
+Third, clone a simple [analysis example](https://github.com/reanahub/reana-demo-root6-roofit/tree/master#reana-example---root6-and-roofit) and run it on the REANA platform:
 
 ```console
 $ git clone https://github.com/reanahub/reana-demo-root6-roofit
