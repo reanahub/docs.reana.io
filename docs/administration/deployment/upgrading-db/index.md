@@ -176,3 +176,36 @@ INFO  [alembic.runtime.migration] Will assume transactional DDL.
 For more information about these commands, please refer to the
 command-line tool help by adding `--help` to any of the aforementioned
 commands.
+
+## Upgrading PostgreSQL or PgBouncer
+
+If you upgrade the PostgreSQL database server or the PgBouncer connection
+pooler without upgrading REANA itself, the running REANA components may
+keep using connections to the previous instances. This can lead to errors
+such as `server closed the connection unexpectedly`.
+
+Please proceed as follows, adjusting the namespace and the deployment names
+for your installation:
+
+1. Announce a maintenance window and make sure that users do not submit
+   or restart any workflows.
+2. Wait until all the queued and running workflows have finished.
+3. Upgrade PostgreSQL or PgBouncer.
+4. If you use PgBouncer, restart it so that it connects to the upgraded
+   database server:
+
+    ```{ .console .copy-to-clipboard }
+    $ kubectl rollout restart deployment/reana-pgbouncer
+    $ kubectl rollout status deployment/reana-pgbouncer
+    ```
+
+5. Restart the REANA components:
+
+    ```{ .console .copy-to-clipboard }
+    $ kubectl rollout restart deployment/reana-server deployment/reana-workflow-controller
+    $ kubectl rollout status deployment/reana-server
+    $ kubectl rollout status deployment/reana-workflow-controller
+    ```
+
+6. Check that REANA can access the database, for example by means of
+   `reana-client list`, before ending the maintenance window.

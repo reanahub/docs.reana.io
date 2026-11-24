@@ -4,7 +4,7 @@
 
 - [Deploying locally](deployment/deploying-locally) on your laptop using _Kubernetes in Docker_
 - [Deploying at scale](deployment/deploying-at-scale) on your premises using Kubernetes and Helm
-- [Upgrading database](deployment/upgrading-db) schema
+- [Upgrading database](deployment/upgrading-db) schema and server
 
 **Configuring REANA platform?**
 
