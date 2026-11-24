@@ -3,3 +3,4 @@ arrange:
     - deploying-locally
     - deploying-at-scale
     - upgrading-db
+    - upgrading-message-broker
